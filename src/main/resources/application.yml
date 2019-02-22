@@ -1,0 +1,23 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  mvc:
+    locale: es_MX
+
+authentication:
+  firebase:
+    databaseUrl: ${FIREBASE_DATABASE_URL:}
+    configObject: ${FIREBASE_CONFIG:}
+  client:
+    clientId: ${CLIENT_ID:}
+    secret: ${CLIENT_SECRET:}
+    scopes:
+      - "read"
+      - "write"
+  whitelist: ${AUTHENTICATION_WHITELIST:}
+  jwt:
+    privateKey: ${JWT_PRIVATE_KEY:}
+    publicKey: ${JWT_PUBLIC_KEY:}
+
+
