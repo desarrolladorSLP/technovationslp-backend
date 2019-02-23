@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 public class FirebaseTokenGranter extends AbstractTokenGranter {
 
     private static final String GRANT_TYPE = "firebase";
+    private static final String FIREBASE_TOKEN_ID = "firebase-token-id";
 
     private FirebaseService firebaseService;
 
@@ -38,7 +39,7 @@ public class FirebaseTokenGranter extends AbstractTokenGranter {
 
     protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
         Map<String, String> parameters = new HashMap<>(tokenRequest.getRequestParameters());
-        String firebaseTokenId = parameters.get("firebase-token-id");
+        String firebaseTokenId = parameters.get(FIREBASE_TOKEN_ID);
         FirebaseTokenHolder holder = firebaseService.parseToken(firebaseTokenId);
 
         String userName = holder.getUid();

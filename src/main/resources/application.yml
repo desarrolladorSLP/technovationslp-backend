@@ -12,6 +12,8 @@ authentication:
   client:
     clientId: ${CLIENT_ID:}
     secret: ${CLIENT_SECRET:}
+    accessTokenValiditySeconds: ${ACCESS_TOKEN_VALIDITY_SECONDS:3600}
+    refreshTokenValiditySeconds: ${REFRESH_TOKEN_VALIDITY_SECONDS:3600}
     scopes:
       - "read"
       - "write"

@@ -12,13 +12,14 @@
     <groupId>org.desarrolladorslp</groupId>
     <artifactId>technovationslp-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend-technovationslp</name>
+    <name>Backend TechnovationSLP</name>
     <description>Backend for app for Technovation slp</description>
 
     <properties>
         <java.version>11</java.version>
         <spring-security-oauth2.version>2.3.4.RELEASE</spring-security-oauth2.version>
         <spring-security-jwt.version>1.0.9.RELEASE</spring-security-jwt.version>
+        <firebase-admin.version>6.7.0</firebase-admin.version>
     </properties>
 
     <dependencies>
@@ -42,7 +43,7 @@
         <dependency>
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
-            <version>6.7.0</version>
+            <version>${firebase-admin.version}</version>
         </dependency>
 
         <dependency>

@@ -9,6 +9,8 @@ public class ClientConfig {
 
     private String clientId;
     private String secret;
+    private int accessTokenValiditySeconds;
+    private int refreshTokenValiditySeconds;
     private String[] scopes;
 
     public String getClientId() {
@@ -25,6 +27,22 @@ public class ClientConfig {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public int getAccessTokenValiditySeconds() {
+        return accessTokenValiditySeconds;
+    }
+
+    public void setAccessTokenValiditySeconds(int accessTokenValiditySeconds) {
+        this.accessTokenValiditySeconds = accessTokenValiditySeconds;
+    }
+
+    public int getRefreshTokenValiditySeconds() {
+        return refreshTokenValiditySeconds;
+    }
+
+    public void setRefreshTokenValiditySeconds(int refreshTokenValiditySeconds) {
+        this.refreshTokenValiditySeconds = refreshTokenValiditySeconds;
     }
 
     public String[] getScopes() {

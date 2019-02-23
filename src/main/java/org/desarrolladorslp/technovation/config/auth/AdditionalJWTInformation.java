@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdditionalJWTInformation implements TokenEnhancer {
 
+    private static final String EMAIL_KEY = "email";
+    private static final String NAME_KEY = "name";
     private IUserService userService;
 
     @Override
@@ -22,8 +24,8 @@ public class AdditionalJWTInformation implements TokenEnhancer {
         Map<String, Object> info = new HashMap<>();
         User user = userService.findByUsername(oAuth2Authentication.getName());
 
-        info.put("email", user.getEmail());
-        info.put("name", user.getName());
+        info.put(EMAIL_KEY, user.getEmail());
+        info.put(NAME_KEY, user.getName());
 
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);
 

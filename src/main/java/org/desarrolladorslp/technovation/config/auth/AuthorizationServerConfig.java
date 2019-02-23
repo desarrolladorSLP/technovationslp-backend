@@ -22,6 +22,9 @@ import org.springframework.util.StringUtils;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    private static final String FIREBASE_GRANT_TYPE = "firebase";
+    private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
+
     private FirebaseAuthenticationManager authenticationManager;
 
     private PasswordEncoder passwordEncoder;
@@ -45,9 +48,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory().withClient(clientConfig.getClientId())
                 .secret(passwordEncoder.encode(clientConfig.getSecret()))
                 .scopes(clientConfig.getScopes())
-                .authorizedGrantTypes("firebase", "refresh_token")
-                .accessTokenValiditySeconds(3600)
-                .refreshTokenValiditySeconds(3600);
+                .authorizedGrantTypes(FIREBASE_GRANT_TYPE, REFRESH_TOKEN_GRANT_TYPE)
+                .accessTokenValiditySeconds(clientConfig.getAccessTokenValiditySeconds())
+                .refreshTokenValiditySeconds(clientConfig.getAccessTokenValiditySeconds());
     }
 
     @Override
