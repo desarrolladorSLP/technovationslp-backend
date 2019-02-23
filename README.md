@@ -54,7 +54,7 @@ security risks
 
 # Testing
 
-To test the application you can use the [postman collection provided](./test/postman-collection)    
+To test the application you can use the [postman collection provided](src/test/postman-collection)    
 
 
 
