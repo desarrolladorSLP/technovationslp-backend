@@ -1,13 +1,13 @@
 # technovationslp-backend
 Backend for Technovation app for San Luis Potosí, México community
 
-#Build
+## Build
 
 To build the application it is required to have maven installed then execute:
 
 `mvn clean package`
 
-#Run
+## Run
 
 To run the application execute:
 ```
@@ -29,7 +29,7 @@ It is recommend to add (anywhere between `java` and `-jar`)
 
 To save some resources when it is run locally 
 
-## JWT configuration
+### JWT configuration
 
 To generate pair of keys for JWT you can follow the steps bellow:
 
@@ -37,7 +37,7 @@ To generate pair of keys for JWT you can follow the steps bellow:
 2. `openssl rsa -in jwt.pem ` will show the private key
 3. `openssl rsa -in jwt.pem -pubout` will show the public key
 
-## Firebase configuration
+### Firebase configuration
 
 In order to fill the parameters `FIREBASE_DATABASE_URL` and `FIREBASE_CONFIG` you'll need to create 
 a firebase project under https://console.firebase.google.com 
@@ -52,7 +52,7 @@ token for dev tests locally
 > Note: The real configuration is provided vía environment variables and can't be shared due to 
 security risks
 
-# Testing
+## Testing
 
 To test the application you can use the [postman collection provided](src/test/postman-collection)    
 
