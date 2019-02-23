@@ -1,7 +1,9 @@
-package com.iuresti.learning.backendclients.config.auth;
+package org.desarrolladorslp.technovation.config.auth;
 
 import java.util.List;
 
+import org.desarrolladorslp.technovation.models.User;
+import org.desarrolladorslp.technovation.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,9 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.iuresti.learning.backendclients.models.User;
-import com.iuresti.learning.backendclients.services.IUserService;
 
 @Service
 public class FirebaseAuthenticationManager implements AuthenticationManager {

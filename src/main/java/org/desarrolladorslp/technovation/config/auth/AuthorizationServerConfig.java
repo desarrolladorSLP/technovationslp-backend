@@ -1,7 +1,8 @@
-package com.iuresti.learning.backendclients.config.auth;
+package org.desarrolladorslp.technovation.config.auth;
 
 import java.util.Arrays;
 
+import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +16,6 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
-
-import com.iuresti.learning.backendclients.services.FirebaseService;
 
 
 @Configuration

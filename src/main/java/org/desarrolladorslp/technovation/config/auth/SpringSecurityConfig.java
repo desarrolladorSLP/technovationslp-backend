@@ -1,5 +1,6 @@
-package com.iuresti.learning.backendclients.config.auth;
+package org.desarrolladorslp.technovation.config.auth;
 
+import org.desarrolladorslp.technovation.services.IUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.iuresti.learning.backendclients.services.IUserService;
 
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration

@@ -1,8 +1,9 @@
-package com.iuresti.learning.backendclients.config.auth;
+package org.desarrolladorslp.technovation.config.auth;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,8 +17,6 @@ import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-
-import com.iuresti.learning.backendclients.services.FirebaseService;
 
 public class FirebaseTokenGranter extends AbstractTokenGranter {
 

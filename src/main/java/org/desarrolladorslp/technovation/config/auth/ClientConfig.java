@@ -1,4 +1,4 @@
-package com.iuresti.learning.backendclients.config.auth;
+package org.desarrolladorslp.technovation.config.auth;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

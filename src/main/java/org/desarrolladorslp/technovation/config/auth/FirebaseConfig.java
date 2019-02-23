@@ -1,4 +1,4 @@
-package com.iuresti.learning.backendclients.config.auth;
+package org.desarrolladorslp.technovation.config.auth;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

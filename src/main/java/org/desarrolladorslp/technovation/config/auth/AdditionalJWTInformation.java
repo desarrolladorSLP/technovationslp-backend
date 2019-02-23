@@ -1,17 +1,16 @@
-package com.iuresti.learning.backendclients.config.auth;
+package org.desarrolladorslp.technovation.config.auth;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.desarrolladorslp.technovation.models.User;
+import org.desarrolladorslp.technovation.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
-
-import com.iuresti.learning.backendclients.models.User;
-import com.iuresti.learning.backendclients.services.IUserService;
 
 @Component
 public class AdditionalJWTInformation implements TokenEnhancer {
