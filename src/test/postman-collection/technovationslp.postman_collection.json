@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "9b540163-d911-42bd-a16a-b305658718dc",
+		"name": "technovationslp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login Heroku",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2c6f8a4d-cff3-4a73-8ba8-0cc132e11f5a",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"app-technovation-access-token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "technovationslp-app",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "<set a secret here>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "firebase",
+							"type": "text"
+						},
+						{
+							"key": "firebase-token-id",
+							"value": "<set firebase token id here>",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://technovationslp-backend.herokuapp.com/oauth/token",
+					"protocol": "http",
+					"host": [
+						"technovationslp-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
