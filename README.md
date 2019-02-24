@@ -72,7 +72,7 @@ Use those tokens for the parameter `firebase-token-id` during login to the endpo
 
 # Collaboration
 
-First, thanks to be interested in collaborate on this project
+First, thanks to be interested in collaborate on this project. In order to have an idea of the big picture of the project we highly recommend to take a look first to our [wiki](/desarrolladorSLP/technovationslp-backend/wiki) 
 
 This project is divided in backend (this repo), an iOS app, an android app and an angular front end your collaboration on
 any of them will be greatly appreciated
