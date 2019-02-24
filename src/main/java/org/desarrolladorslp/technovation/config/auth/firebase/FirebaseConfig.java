@@ -1,4 +1,4 @@
-package org.desarrolladorslp.technovation.config.auth;
+package org.desarrolladorslp.technovation.config.auth.firebase;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 @Configuration
+@Profile("!fake-token-granter")
 public class FirebaseConfig {
 
     @Value("${authentication.firebase.databaseUrl}")

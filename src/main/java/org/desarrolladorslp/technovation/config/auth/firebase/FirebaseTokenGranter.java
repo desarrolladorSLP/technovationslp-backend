@@ -1,8 +1,11 @@
-package org.desarrolladorslp.technovation.config.auth;
+package org.desarrolladorslp.technovation.config.auth.firebase;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.desarrolladorslp.technovation.config.auth.TechnovationSlpAuthenticationManager;
+import org.desarrolladorslp.technovation.config.auth.TechnovationSlpAuthenticationToken;
+import org.desarrolladorslp.technovation.config.auth.TokenInfo;
 import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
@@ -25,13 +28,13 @@ public class FirebaseTokenGranter extends AbstractTokenGranter {
 
     private FirebaseService firebaseService;
 
-    private FirebaseAuthenticationManager authenticationManager;
+    private TechnovationSlpAuthenticationManager authenticationManager;
 
-    FirebaseTokenGranter(AuthorizationServerTokenServices tokenServices,
-                         ClientDetailsService clientDetailsService,
-                         OAuth2RequestFactory requestFactory,
-                         FirebaseService firebaseService,
-                         FirebaseAuthenticationManager authenticationManager) {
+    public FirebaseTokenGranter(AuthorizationServerTokenServices tokenServices,
+                                ClientDetailsService clientDetailsService,
+                                OAuth2RequestFactory requestFactory,
+                                FirebaseService firebaseService,
+                                TechnovationSlpAuthenticationManager authenticationManager) {
         super(tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
         this.firebaseService = firebaseService;
         this.authenticationManager = authenticationManager;
@@ -40,11 +43,11 @@ public class FirebaseTokenGranter extends AbstractTokenGranter {
     protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
         Map<String, String> parameters = new HashMap<>(tokenRequest.getRequestParameters());
         String firebaseTokenId = parameters.get(FIREBASE_TOKEN_ID);
-        FirebaseTokenHolder holder = firebaseService.parseToken(firebaseTokenId);
+        TokenInfo holder = firebaseService.parseToken(firebaseTokenId);
 
         String userName = holder.getUid();
 
-        Authentication userAuth = new FirebaseAuthenticationToken(userName, holder);
+        Authentication userAuth = new TechnovationSlpAuthenticationToken(userName, holder);
         ((AbstractAuthenticationToken) userAuth).setDetails(holder);
 
         try {

@@ -1,10 +1,10 @@
 package org.desarrolladorslp.technovation.services;
 
 
-import org.desarrolladorslp.technovation.config.auth.FirebaseTokenHolder;
+import org.desarrolladorslp.technovation.config.auth.TokenInfo;
 
 public interface FirebaseService {
 
-    FirebaseTokenHolder parseToken(String idToken);
+    TokenInfo parseToken(String idToken);
 
 }

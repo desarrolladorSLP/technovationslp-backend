@@ -1,0 +1,11 @@
+fake-authentication:
+  fake-tokens:
+    qxQGQdXonygfPdlXwOBFfEToCxLQXD0S:
+      Uid: qxQGQdXonygfPdlXwOBFfEToCxLQXD0S
+      email: user1@mail.com
+      name: user1
+    TW1N4bM7fRpiFLPxaYK6aRvYQohfXy27:
+      Uid: TW1N4bM7fRpiFLPxaYK6aRvYQohfXy27
+      email: user2@mail.com
+      name: user2
+

@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FirebaseAuthenticationManager implements AuthenticationManager {
+public class TechnovationSlpAuthenticationManager implements AuthenticationManager {
 
     private IUserService userService;
 
@@ -27,13 +27,13 @@ public class FirebaseAuthenticationManager implements AuthenticationManager {
         try {
             userDetails = userService.loadUserByUsername(authentication.getName());
         } catch (UsernameNotFoundException ex) {
-            userDetails = tryToRegister((FirebaseTokenHolder) authentication.getDetails());
+            userDetails = tryToRegister((TokenInfo) authentication.getDetails());
         }
 
-        return new FirebaseAuthenticationToken(authentication, userDetails.getAuthorities(), true);
+        return new TechnovationSlpAuthenticationToken(authentication, userDetails.getAuthorities(), true);
     }
 
-    private UserDetails tryToRegister(FirebaseTokenHolder details) {
+    private UserDetails tryToRegister(TokenInfo details) {
 
         validateEmail(details.getEmail());
 
@@ -41,6 +41,7 @@ public class FirebaseAuthenticationManager implements AuthenticationManager {
 
         user.setUsername(details.getUid());
         user.setEmail(details.getEmail());
+        user.setEnabled(true);
         user.setEnabled(true);
         user.setName(details.getName());
 

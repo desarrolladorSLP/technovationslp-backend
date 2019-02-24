@@ -2,6 +2,7 @@ package org.desarrolladorslp.technovation.config.auth;
 
 import java.util.Arrays;
 
+import org.desarrolladorslp.technovation.config.auth.firebase.FirebaseTokenGranter;
 import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private static final String FIREBASE_GRANT_TYPE = "firebase";
     private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
 
-    private FirebaseAuthenticationManager authenticationManager;
+    private TechnovationSlpAuthenticationManager authenticationManager;
 
     private PasswordEncoder passwordEncoder;
 
@@ -84,7 +85,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Autowired
-    public void setAuthenticationManager(FirebaseAuthenticationManager authenticationManager) {
+    public void setAuthenticationManager(TechnovationSlpAuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
