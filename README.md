@@ -1,6 +1,8 @@
 # technovationslp-backend
 Backend for Technovation app for San Luis Potosí, México community
 
+To know more about the project take a look to our [wiki](/desarrolladorSLP/technovationslp-backend/wiki)
+
 ## Build
 
 To build the application it is required to have maven installed then execute:
@@ -46,16 +48,27 @@ To get `FIREBASE_CONFIG` value go to `Project configuration`/`Service accounts` 
 `Generate new private key`. You'll get a json file, copy the content and encoded it as base64. Use the
 encoded value for the parameter.
 
-> Note: Once issue #4 is done we'll be able to use a profile to use a fixed 
-token for dev tests locally
+> Note: Read first the section `Dev environment` on this document before create any firebase project 
+it can be not needed at all
 
 > Note: The real configuration is provided vía environment variables and can't be shared due to 
-security risks
+security reasons
 
 ## Testing
 
 To test the application you can use the [postman collection provided](src/test/postman-collection)    
 
+### Dev environment
+
+It has been created a spring profile so devs don't need to worry about a real firebase token to authenticate
+requests. In order to use this feature run the application
+adding
+
+```--spring.profiles.active=fake-token-granter```
+
+The values that can be used as the tokenId are described in the file [application-fake-token-granter.yml](src/main/resources/application-fake-token-granter.yml)
+
+Use those tokens for the parameter `firebase-token-id` during login to the endpoint `oauth/token`
 
 
 
