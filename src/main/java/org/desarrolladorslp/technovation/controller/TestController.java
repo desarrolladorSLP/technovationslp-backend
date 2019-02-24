@@ -1,10 +1,12 @@
 package org.desarrolladorslp.technovation.controller;
 
+import org.desarrolladorslp.technovation.config.auth.TokenInfo;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,6 +33,9 @@ public class TestController {
 
     @PutMapping("/hello")
     public OAuth2Authentication helloWorldPut(OAuth2Authentication authentication) {
+
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
+        TokenInfo tokenInfo = (TokenInfo) details.getDecodedDetails();
 
         return authentication;
     }

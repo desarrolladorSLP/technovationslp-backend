@@ -74,7 +74,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             return null;
         }
 
-        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
+        JwtAccessTokenConverter accessTokenConverter = new CustomJwtAccessTokenConverter();
         byte[] privateKey = Base64Utils.decodeFromString(jwtConfig.getPrivateKey());
         byte[] publicKey = Base64Utils.decodeFromString(jwtConfig.getPublicKey());
 
