@@ -3,7 +3,6 @@ package org.desarrolladorslp.technovation.config.auth;
 import java.util.Arrays;
 
 import org.desarrolladorslp.technovation.config.auth.firebase.FirebaseTokenGranter;
-import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -3,10 +3,10 @@ package org.desarrolladorslp.technovation.config.auth.firebase;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.desarrolladorslp.technovation.config.auth.FirebaseService;
 import org.desarrolladorslp.technovation.config.auth.TechnovationSlpAuthenticationManager;
 import org.desarrolladorslp.technovation.config.auth.TechnovationSlpAuthenticationToken;
 import org.desarrolladorslp.technovation.config.auth.TokenInfo;
-import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;

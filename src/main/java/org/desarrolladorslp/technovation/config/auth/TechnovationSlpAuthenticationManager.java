@@ -1,11 +1,11 @@
 package org.desarrolladorslp.technovation.config.auth;
 
-import java.util.List;
+import java.util.UUID;
 
+import org.desarrolladorslp.technovation.models.FirebaseUser;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,9 +17,6 @@ import org.springframework.stereotype.Service;
 public class TechnovationSlpAuthenticationManager implements AuthenticationManager {
 
     private IUserService userService;
-
-    @Value("${authentication.whitelist}")
-    private List<String> whitelist;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -35,23 +32,21 @@ public class TechnovationSlpAuthenticationManager implements AuthenticationManag
 
     private UserDetails tryToRegister(TokenInfo details) {
 
-        validateEmail(details.getEmail());
-
         User user = new User();
 
-        user.setUsername(details.getUid());
-        user.setEmail(details.getEmail());
-        user.setEnabled(true);
-        user.setEnabled(true);
+        user.setId(UUID.randomUUID());
         user.setName(details.getName());
+        user.setPreferredEmail(details.getEmail());
+        user.setEnabled(false);
+        user.setValidated(false);
 
-        return userService.tryToRegister(user, "ROLE_TECKER", "ROLE_USER");
-    }
+        FirebaseUser firebaseUser = new FirebaseUser();
 
-    private void validateEmail(String email) {
-        if (!whitelist.contains(email)) {
-            throw new UsernameNotFoundException("User not allowed");
-        }
+        firebaseUser.setUid(details.getUid());
+        firebaseUser.setEmail(details.getEmail());
+        firebaseUser.setUser(user);
+
+        return userService.register(firebaseUser);
     }
 
     @Autowired

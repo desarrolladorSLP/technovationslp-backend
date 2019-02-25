@@ -2,8 +2,8 @@ package org.desarrolladorslp.technovation.config.auth.fake;
 
 import java.util.Map;
 
+import org.desarrolladorslp.technovation.config.auth.FirebaseService;
 import org.desarrolladorslp.technovation.config.auth.TokenInfo;
-import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 

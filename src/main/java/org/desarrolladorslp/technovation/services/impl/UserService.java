@@ -1,63 +1,81 @@
 package org.desarrolladorslp.technovation.services.impl;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.desarrolladorslp.technovation.models.FirebaseUser;
 import org.desarrolladorslp.technovation.models.User;
-import org.desarrolladorslp.technovation.repository.MemoryUserRepository;
+import org.desarrolladorslp.technovation.repository.FirebaseUserRepository;
+import org.desarrolladorslp.technovation.repository.UserRepository;
 import org.desarrolladorslp.technovation.services.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService implements IUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    private MemoryUserRepository userDAO;
+    private UserRepository userRepository;
 
-
-    public UserService(MemoryUserRepository userDAO) {
-        this.userDAO = userDAO;
-    }
+    private FirebaseUserRepository firebaseUserRepository;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userDAO.findByUsername(username);
-
-        if (user == null) {
+        FirebaseUser firebaseUser = firebaseUserRepository.findById(username).orElseThrow(() -> {
             logger.warn("Username with id {} was not found", username);
-            throw new UsernameNotFoundException("User doesn't exist: " + username);
-        }
+            return new UsernameNotFoundException("User doesn't exist: " + username);
+        });
 
-        return buildUserDetails(user);
+        return buildUserDetails(firebaseUser.getUser());
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userDAO.findByUsername(username);
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public Optional<User> findByUsername(String username) {
+        Optional<FirebaseUser> firebaseUser = firebaseUserRepository.findById(username);
+
+        return firebaseUser.map(FirebaseUser::getUser);
     }
 
     @Override
-    public UserDetails tryToRegister(User user, String... roleNames) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public UserDetails register(FirebaseUser firebaseUser) {
 
-        user.setRoles(Arrays.asList(roleNames));
-        userDAO.save(user);
+        User user = firebaseUser.getUser();
+
+        userRepository.save(user);
+
+        firebaseUserRepository.save(firebaseUser);
 
         return buildUserDetails(user);
     }
 
     private UserDetails buildUserDetails(User user) {
         List<GrantedAuthority> authorities = user.getRoles()
-                .stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+                .stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), "", authorities);
+        return new org.springframework.security.core.userdetails.User(user.getName(), "", authorities);
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setFirebaseUserRepository(FirebaseUserRepository firebaseUserRepository) {
+        this.firebaseUserRepository = firebaseUserRepository;
     }
 }

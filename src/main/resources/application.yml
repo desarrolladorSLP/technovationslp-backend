@@ -4,6 +4,24 @@ server:
 spring:
   mvc:
     locale: es_MX
+  datasource:
+    url: jdbc:postgresql://localhost:5432/technovationslp
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    tomcat:
+      max-active: 2
+      max-idle: 1
+      min-idle: 1
+      initial-size: 1
+      test-while-idle: true
+      min-evictable-idle-time-millis: 10000
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
 
 authentication:
   firebase:
@@ -17,7 +35,6 @@ authentication:
     scopes:
       - "read"
       - "write"
-  whitelist: ${AUTHENTICATION_WHITELIST:}
   jwt:
     privateKey: ${JWT_PRIVATE_KEY:}
     publicKey: ${JWT_PUBLIC_KEY:}

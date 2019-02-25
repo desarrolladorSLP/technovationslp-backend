@@ -1,11 +1,11 @@
 fake-authentication:
   fake-tokens:
     qxQGQdXonygfPdlXwOBFfEToCxLQXD0S:
-      Uid: qxQGQdXonygfPdlXwOBFfEToCxLQXD0S
+      Uid: 6ABA9AD15BE8E8CD
       email: user1@mail.com
       name: user1
     TW1N4bM7fRpiFLPxaYK6aRvYQohfXy27:
-      Uid: TW1N4bM7fRpiFLPxaYK6aRvYQohfXy27
+      Uid: B8DEEA4FEE42AD9D
       email: user2@mail.com
       name: user2
 

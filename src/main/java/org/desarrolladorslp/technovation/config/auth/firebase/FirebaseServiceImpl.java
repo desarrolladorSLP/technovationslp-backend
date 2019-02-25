@@ -1,8 +1,8 @@
-package org.desarrolladorslp.technovation.services.impl;
+package org.desarrolladorslp.technovation.config.auth.firebase;
 
+import org.desarrolladorslp.technovation.config.auth.FirebaseService;
 import org.desarrolladorslp.technovation.config.auth.TokenInfo;
 import org.desarrolladorslp.technovation.exception.FirebaseTokenInvalidException;
-import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

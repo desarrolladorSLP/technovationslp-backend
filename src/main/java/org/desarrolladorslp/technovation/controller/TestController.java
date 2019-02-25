@@ -28,7 +28,7 @@ public class TestController {
 
     @PostMapping("/hello")
     public User helloWorldPost() {
-        return userService.findByUsername((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return userService.findByUsername((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).orElseThrow();
     }
 
     @PutMapping("/hello")

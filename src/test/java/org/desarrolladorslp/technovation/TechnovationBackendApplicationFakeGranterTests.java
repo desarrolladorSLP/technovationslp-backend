@@ -2,8 +2,8 @@ package org.desarrolladorslp.technovation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.desarrolladorslp.technovation.config.auth.FirebaseService;
 import org.desarrolladorslp.technovation.config.auth.fake.FakeFirebaseService;
-import org.desarrolladorslp.technovation.services.FirebaseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

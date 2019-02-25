@@ -13,8 +13,7 @@ To build the application it is required to have maven installed then execute:
 
 To run the application execute:
 ```
-java -DAUTHENTICATION_WHITELIST=<comma separated list of accepted emails> \
-     -DCLIENT_ID=<any string to use as client id for the application authentication> \
+java -DCLIENT_ID=<any string to use as client id for the application authentication> \
      -DCLIENT_SECRET=<any string to use as password for the application authentication> \
      -DJWT_PUBLIC_KEY=<public key for JWT encoded as base64> \
      -DJWT_PRIVATE_KEY=<private key for JWT encoded as base64> \

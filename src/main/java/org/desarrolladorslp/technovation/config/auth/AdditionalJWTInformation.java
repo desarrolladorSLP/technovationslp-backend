@@ -22,9 +22,9 @@ public class AdditionalJWTInformation implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
         Map<String, Object> info = new HashMap<>();
-        User user = userService.findByUsername(oAuth2Authentication.getName());
+        User user = userService.findByUsername(oAuth2Authentication.getName()).orElseThrow();
 
-        info.put(EMAIL_KEY, user.getEmail());
+        info.put(EMAIL_KEY, user.getPreferredEmail());
         info.put(NAME_KEY, user.getName());
 
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);
