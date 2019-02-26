@@ -17,6 +17,8 @@ public class AdditionalJWTInformation implements TokenEnhancer {
 
     private static final String EMAIL_KEY = "email";
     private static final String NAME_KEY = "name";
+    private static final String ENABLED_KEY = "enabled";
+    private static final String VALIDATED_KEY = "validated";
     private IUserService userService;
 
     @Override
@@ -26,6 +28,8 @@ public class AdditionalJWTInformation implements TokenEnhancer {
 
         info.put(EMAIL_KEY, user.getPreferredEmail());
         info.put(NAME_KEY, user.getName());
+        info.put(ENABLED_KEY, user.isEnabled());
+        info.put(VALIDATED_KEY, user.isValidated());
 
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);
 
