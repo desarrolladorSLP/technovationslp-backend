@@ -17,6 +17,13 @@ public class Program {
     private String description;
     private String responsible;
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

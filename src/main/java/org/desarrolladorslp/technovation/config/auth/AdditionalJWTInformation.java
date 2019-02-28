@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.desarrolladorslp.technovation.models.User;
-import org.desarrolladorslp.technovation.services.IUserService;
+import org.desarrolladorslp.technovation.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -19,7 +19,7 @@ public class AdditionalJWTInformation implements TokenEnhancer {
     private static final String NAME_KEY = "name";
     private static final String ENABLED_KEY = "enabled";
     private static final String VALIDATED_KEY = "validated";
-    private IUserService userService;
+    private UserService userService;
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
@@ -37,7 +37,7 @@ public class AdditionalJWTInformation implements TokenEnhancer {
     }
 
     @Autowired
-    public void setUserService(IUserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 }
