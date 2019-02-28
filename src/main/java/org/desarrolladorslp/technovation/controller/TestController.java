@@ -2,7 +2,7 @@ package org.desarrolladorslp.technovation.controller;
 
 import org.desarrolladorslp.technovation.config.auth.TokenInfo;
 import org.desarrolladorslp.technovation.models.User;
-import org.desarrolladorslp.technovation.services.impl.UserService;
+import org.desarrolladorslp.technovation.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @GetMapping("/hello")
     public String helloWorldGet() {
@@ -41,7 +41,7 @@ public class TestController {
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public void setUserService(UserServiceImpl userService) {
         this.userService = userService;
     }
 }

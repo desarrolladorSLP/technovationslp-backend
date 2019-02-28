@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.desarrolladorslp.technovation.models.FirebaseUser;
 import org.desarrolladorslp.technovation.models.User;
-import org.desarrolladorslp.technovation.services.IUserService;
+import org.desarrolladorslp.technovation.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TechnovationSlpAuthenticationManager implements AuthenticationManager {
 
-    private IUserService userService;
+    private UserService userService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -50,7 +50,7 @@ public class TechnovationSlpAuthenticationManager implements AuthenticationManag
     }
 
     @Autowired
-    public void setUserService(IUserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 }
