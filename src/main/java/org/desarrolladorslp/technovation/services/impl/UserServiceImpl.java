@@ -67,6 +67,23 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByValidated(isValidated);
     }
 
+    @Override
+    public User activate(User user) {
+
+        if (user.isValidated() && user.getRoles().isEmpty()) {
+            throw new IllegalArgumentException("At least one role is required");
+        }
+
+        User storedUser = userRepository.findById(user.getId()).orElseThrow();
+
+        storedUser.setValidated(user.isValidated());
+        storedUser.setEnabled(user.isEnabled());
+
+        storedUser.setRoles(user.getRoles());
+
+        return userRepository.save(storedUser);
+    }
+
     private UserDetails buildUserDetails(User user) {
         List<GrantedAuthority> authorities = user.getRoles()
                 .stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());

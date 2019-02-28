@@ -14,4 +14,6 @@ public interface UserService extends UserDetailsService {
     UserDetails register(FirebaseUser firebaseUser);
 
     List<User> findByValidated(boolean b);
+
+    User activate(User user);
 }

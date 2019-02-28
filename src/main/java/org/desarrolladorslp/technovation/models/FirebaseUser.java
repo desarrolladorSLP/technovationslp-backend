@@ -1,6 +1,8 @@
 package org.desarrolladorslp.technovation.models;
 
 import java.io.Serializable;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,5 +48,29 @@ public class FirebaseUser implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FirebaseUser that = (FirebaseUser) o;
+        return uid.equals(that.uid) &&
+                email.equals(that.email) &&
+                Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uid, email, user);
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", FirebaseUser.class.getSimpleName() + "[", "]")
+                .add("uid='" + uid + "'")
+                .add("email='" + email + "'")
+                .add("user=" + user)
+                .toString();
     }
 }

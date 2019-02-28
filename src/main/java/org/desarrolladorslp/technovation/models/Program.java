@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.models;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -47,5 +48,19 @@ public class Program {
 
     public void setResponsible(String responsible) {
         this.responsible = responsible;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Program program = (Program) o;
+        return id.equals(program.id) &&
+                name.equals(program.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

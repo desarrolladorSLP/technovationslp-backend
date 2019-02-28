@@ -12,4 +12,16 @@ fake-authentication:
       Uid: DDEEEA4E4432BF6E
       email: user3@mail.com
       name: user3
+    sT5IqVRT0BENw6eFQ0pyjo4t7rwpMzLa:
+      Uid: 26C4158B71C6CBE9
+      email: user4@mail.com
+      name: user4
+    qnZpC7Y1P5liJgJ1PwX9axDLGdSgBUgB:
+      Uid: 2B4A8E9FFF232BED
+      email: user5@mail.com
+      name: user5
+    zB28n6s5LCapemdkSGTB0zdoSgdLfHeV:
+      Uid: 34D8BB35832DFEF3
+      email: user6@mail.com
+      name: user6
 
