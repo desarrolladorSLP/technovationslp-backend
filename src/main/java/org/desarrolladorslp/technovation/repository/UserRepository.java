@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.repository;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.desarrolladorslp.technovation.models.User;
@@ -8,4 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
+    List<User> findByValidated(boolean isValidated);
 }

@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.desarrolladorslp.technovation.models.FirebaseUser;
@@ -11,4 +12,6 @@ public interface UserService extends UserDetailsService {
     Optional<User> findByUsername(String username);
 
     UserDetails register(FirebaseUser firebaseUser);
+
+    List<User> findByValidated(boolean b);
 }

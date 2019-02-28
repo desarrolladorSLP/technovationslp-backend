@@ -4,6 +4,8 @@ public class TokenInfo {
     private String email;
     private String name;
     private String uid;
+    private boolean enabled;
+    private boolean validated;
 
     public String getEmail() {
         return email;
@@ -27,5 +29,21 @@ public class TokenInfo {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isValidated() {
+        return validated;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 }

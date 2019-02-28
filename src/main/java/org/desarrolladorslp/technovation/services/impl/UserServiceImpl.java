@@ -62,6 +62,11 @@ public class UserServiceImpl implements UserService {
         return buildUserDetails(user);
     }
 
+    @Override
+    public List<User> findByValidated(boolean isValidated) {
+        return userRepository.findByValidated(isValidated);
+    }
+
     private UserDetails buildUserDetails(User user) {
         List<GrantedAuthority> authorities = user.getRoles()
                 .stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
