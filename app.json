@@ -1,0 +1,46 @@
+{
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/java"
+    }
+  ],
+  "description": "",
+  "env": {
+    "AUTHENTICATION_WHITELIST": {
+      "required": true
+    },
+    "CLIENT_ID": {
+      "required": true
+    },
+    "CLIENT_SECRET": {
+      "required": true
+    },
+    "FIREBASE_CONFIG": {
+      "required": true
+    },
+    "FIREBASE_DATABASE_URL": {
+      "required": true
+    },
+    "java.runtime.version": {
+      "required": true
+    },
+    "JWT_PRIVATE_KEY": {
+      "required": true
+    },
+    "JWT_PUBLIC_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "technovationslp-backend",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
