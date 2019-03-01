@@ -12,6 +12,7 @@ import org.desarrolladorslp.technovation.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -82,6 +83,11 @@ public class UserServiceImpl implements UserService {
         storedUser.setRoles(user.getRoles());
 
         return userRepository.save(storedUser);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll(Sort.by("name"));
     }
 
     private UserDetails buildUserDetails(User user) {

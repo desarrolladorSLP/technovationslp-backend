@@ -16,4 +16,6 @@ public interface UserService extends UserDetailsService {
     List<User> findByValidated(boolean b);
 
     User activate(User user);
+
+    List<User> findAll();
 }

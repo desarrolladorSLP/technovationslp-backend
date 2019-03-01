@@ -25,7 +25,7 @@ CREATE TABLE firebase_users
 (
   uid     varchar(200) PRIMARY KEY,
   user_id UUID REFERENCES users NOT NULL,
-  email   varchar(200) UNIQUE
+  email   varchar(200)
 );
 
 INSERT INTO roles (name, description)
