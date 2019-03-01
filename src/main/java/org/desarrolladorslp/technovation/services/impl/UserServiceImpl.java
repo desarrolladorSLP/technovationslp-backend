@@ -1,6 +1,7 @@
 package org.desarrolladorslp.technovation.services.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -54,10 +55,12 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public UserDetails register(FirebaseUser firebaseUser) {
 
-        User user = firebaseUser.getUser();
+        FirebaseUser existentFirebaseUser = firebaseUserRepository.findByEmail(firebaseUser.getEmail());
+
+        User user = Objects.isNull(existentFirebaseUser) ? firebaseUser.getUser() : existentFirebaseUser.getUser();
 
         userRepository.save(user);
-
+        firebaseUser.setUser(user);
         firebaseUserRepository.save(firebaseUser);
 
         return buildUserDetails(user);
