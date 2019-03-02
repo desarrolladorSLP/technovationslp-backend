@@ -53,8 +53,14 @@ public class BatchController {
     @GetMapping
     @RequestMapping("/{batchId}")
     public ResponseEntity<Batch> getBatch(@PathVariable String batchId) {
-
         return new ResponseEntity<>(batchService.findById(UUID.fromString(batchId)).orElseThrow(), HttpStatus.OK);
+    }
+
+    @GetMapping
+    @RequestMapping("/program/{programId}")
+    public ResponseEntity<List<Batch>> getBatchByProgram(@PathVariable String programId) {
+
+        return new ResponseEntity<>(batchService.findByProgram(UUID.fromString(programId)), HttpStatus.OK);
     }
 
     @Autowired
