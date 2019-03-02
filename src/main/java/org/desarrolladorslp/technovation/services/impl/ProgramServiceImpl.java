@@ -1,6 +1,7 @@
 package org.desarrolladorslp.technovation.services.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,6 +18,9 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public Program save(Program program) {
+        if (Objects.isNull(program.getId())) {
+            program.setId(UUID.randomUUID());
+        }
         return programRepository.save(program);
     }
 
