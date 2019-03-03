@@ -13,5 +13,5 @@ public interface SessionService {
 
     Optional<Session> findById(UUID id);
 
-    List<Session> findBySession(UUID sessionId);
+    List<Session> findByBatch(UUID batchId);
 }

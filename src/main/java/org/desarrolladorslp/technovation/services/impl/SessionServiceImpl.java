@@ -10,8 +10,10 @@ import org.desarrolladorslp.technovation.models.Session;
 import org.desarrolladorslp.technovation.repository.SessionRepository;
 import org.desarrolladorslp.technovation.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class SessionServiceImpl implements SessionService {
     private SessionRepository sessionRepository;
 
@@ -38,10 +40,10 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Session> findBySession(UUID sessionId) {
+    public List<Session> findByBatch(UUID batchId) {
         Batch batch = new Batch();
 
-        batch.setId(sessionId);
+        batch.setId(batchId);
 
         return sessionRepository.findByBatch(batch);
     }
