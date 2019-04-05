@@ -14,5 +14,5 @@ public interface BatchService {
 
     Optional<Batch> findById(UUID id);
 
-    List<Batch> findByProgram(UUID fromString);
+    List<Batch> findByProgram(UUID programId);
 }
