@@ -6,6 +6,7 @@ import org.desarrolladorslp.technovation.config.auth.firebase.FirebaseTokenGrant
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -81,6 +82,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         accessTokenConverter.setVerifierKey(new String(publicKey));
 
         return accessTokenConverter;
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Autowired
