@@ -6,7 +6,580 @@
   },
   "item": [
     {
-      "name": "Login Heroku",
+      "name": "program",
+      "item": [
+        {
+          "name": "List programs",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/program",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "program"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add program",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\":\"Technovation\",\n\t\"description\":\"Technovation\",\n\t\"responsible\": \"Lia, Mirna, Mariana\"\n}"
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/program",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "program"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "batch",
+      "item": [
+        {
+          "name": "List batches",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/batch",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "batch"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get batche",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/batch/054379af-dde2-41ca-b395-6ae74a23ad98",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "batch",
+                "054379af-dde2-41ca-b395-6ae74a23ad98"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List batches by program",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/batch/program/4618cf1c-4ff6-42de-a7bc-ba7953278e2c",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "batch",
+                "program",
+                "4618cf1c-4ff6-42de-a7bc-ba7953278e2c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Batch",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\":\"Technovation\",\n\t\"description\":\"Technovation SLP\",\n\t\"responsible\": \"Lia, Mirna, Mariana\"\n}"
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/program",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "program"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "batch Copy",
+      "item": [
+        {
+          "name": "List batches",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/batch",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "batch"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get batche",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/batch/054379af-dde2-41ca-b395-6ae74a23ad98",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "batch",
+                "054379af-dde2-41ca-b395-6ae74a23ad98"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List batches by program",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/batch/program/4618cf1c-4ff6-42de-a7bc-ba7953278e2c",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "batch",
+                "program",
+                "4618cf1c-4ff6-42de-a7bc-ba7953278e2c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Batch",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\":\"Technovation\",\n\t\"description\":\"Technovation SLP\",\n\t\"responsible\": \"Lia, Mirna, Mariana\"\n}"
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/program",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "program"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "Inactive users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/user/inactive",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "inactive"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Activate users",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"id\": \"2c1928f7-1cba-4a07-8a73-17b8aaa090e0\",\n        \"enabled\": true,\n        \"validated\": true,\n        \"roles\": [\n            {\n                \"name\": \"ROLE_ADMINISTRATOR\"\n            }\n        ]\n    }"
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/user/activate",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "activate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "list users",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{app-technovation-access-token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"id\": \"2c1928f7-1cba-4a07-8a73-17b8aaa090e0\",\n        \"enabled\": true,\n        \"validated\": true,\n        \"roles\": [\n            {\n                \"name\": \"ROLE_ADMINISTRATOR\"\n            }\n        ]\n    }"
+            },
+            "url": {
+              "raw": "http://{{TECHNOVATIONSLP_URL}}/api/user/activate",
+              "protocol": "http",
+              "host": [
+                "{{TECHNOVATIONSLP_URL}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "activate"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Login",
       "event": [
         {
           "listen": "test",
@@ -32,7 +605,7 @@
             },
             {
               "key": "password",
-              "value": "<set a secret here>",
+              "value": "12345",
               "type": "string"
             }
           ]
@@ -56,18 +629,22 @@
             },
             {
               "key": "firebase-token-id",
-              "value": "<set firebase token id here>",
+              "value": "qxQGQdXonygfPdlXwOBFfEToCxLQXD0S",
               "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "12345",
+              "type": "text",
+              "disabled": true
             }
           ]
         },
         "url": {
-          "raw": "http://technovationslp-backend.herokuapp.com/oauth/token",
+          "raw": "http://{{TECHNOVATIONSLP_URL}}/oauth/token",
           "protocol": "http",
           "host": [
-            "technovationslp-backend",
-            "herokuapp",
-            "com"
+            "{{TECHNOVATIONSLP_URL}}"
           ],
           "path": [
             "oauth",
