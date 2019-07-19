@@ -5,9 +5,9 @@ spring:
   mvc:
     locale: es_MX
   datasource:
-    url: jdbc:postgresql://localhost:5432/technovationslp
+    url: ${DATABASE_URL:'jdbc:postgresql://localhost:5432/technovationslp'}
     username: postgres
-    password: postgres
+    password: ${DATABASE_PASSWORD:'postgres'}
     driver-class-name: org.postgresql.Driver
     tomcat:
       max-active: 2
