@@ -74,11 +74,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User activate(User user) {
 
-        if (user.isValidated() && user.getRoles().isEmpty()) {
+        if (user.getRoles().isEmpty()) {
             throw new IllegalArgumentException("At least one role is required");
         }
 
-        User storedUser = userRepository.findById(user.getId()).orElseThrow();
+        User storedUser = userRepository.findById(user.getId()).orElseThrow(() -> {
+            logger.warn("Username with id {} was not found", user.getId());
+
+            return new UsernameNotFoundException("User doesn't exist: " + user.getId());
+        });
 
         storedUser.setValidated(true);
         storedUser.setEnabled(user.isEnabled());
