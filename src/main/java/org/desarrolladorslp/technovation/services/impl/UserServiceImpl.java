@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
         User storedUser = userRepository.findById(user.getId()).orElseThrow();
 
-        storedUser.setValidated(user.isValidated());
+        storedUser.setValidated(true);
         storedUser.setEnabled(user.isEnabled());
 
         storedUser.setRoles(user.getRoles());
