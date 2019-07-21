@@ -75,7 +75,7 @@ public class BatchControllerTest {
     @Test
     public void givenValidBatch_whenCreateBatch_thenAcceptAnd201Status() throws Exception {
         // given
-        ArgumentCaptor<Batch> peopleCaptor = ArgumentCaptor.forClass(Batch.class);
+        ArgumentCaptor<Batch> batchCaptor = ArgumentCaptor.forClass(Batch.class);
 
         String request = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-id-null-01.json");
         Batch batch = gson.fromJson(request, Batch.class);
@@ -89,10 +89,10 @@ public class BatchControllerTest {
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
-        verify(batchService).save(peopleCaptor.capture());
+        verify(batchService).save(batchCaptor.capture());
         verifyNoMoreInteractions(batchService);
 
-        Batch batchToInsert = peopleCaptor.getValue();
+        Batch batchToInsert = batchCaptor.getValue();
         assertThat(batchToInsert.getId()).isNull();
         assertThat(batchToInsert.getEndDate()).isEqualTo(batch.getEndDate());
         assertThat(batchToInsert.getStartDate()).isEqualTo(batch.getStartDate());
@@ -105,7 +105,7 @@ public class BatchControllerTest {
     @Test
     public void givenValidBatchWithNonNullId_whenCreateBatch_thenAcceptAnd201Status() throws Exception {
         // given
-        ArgumentCaptor<Batch> peopleCaptor = ArgumentCaptor.forClass(Batch.class);
+        ArgumentCaptor<Batch> batchCaptor = ArgumentCaptor.forClass(Batch.class);
 
         String request = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-non-null-id-01.json");
         Batch batch = gson.fromJson(request, Batch.class);
@@ -119,10 +119,10 @@ public class BatchControllerTest {
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
-        verify(batchService).save(peopleCaptor.capture());
+        verify(batchService).save(batchCaptor.capture());
         verifyNoMoreInteractions(batchService);
 
-        Batch batchToInsert = peopleCaptor.getValue();
+        Batch batchToInsert = batchCaptor.getValue();
         assertThat(batchToInsert.getId()).isNull(); //Id is forced to be null
         assertThat(batchToInsert.getEndDate()).isEqualTo(batch.getEndDate());
         assertThat(batchToInsert.getStartDate()).isEqualTo(batch.getStartDate());
@@ -170,7 +170,7 @@ public class BatchControllerTest {
     @Test
     public void givenValidBatchWithNonNullId_whenUpdateBatch_thenAcceptAnd200Status() throws Exception {
         // given
-        ArgumentCaptor<Batch> peopleCaptor = ArgumentCaptor.forClass(Batch.class);
+        ArgumentCaptor<Batch> batchCaptor = ArgumentCaptor.forClass(Batch.class);
 
         String request = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-non-null-id-01.json");
         Batch batch = gson.fromJson(request, Batch.class);
@@ -184,10 +184,10 @@ public class BatchControllerTest {
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        verify(batchService).save(peopleCaptor.capture());
+        verify(batchService).save(batchCaptor.capture());
         verifyNoMoreInteractions(batchService);
 
-        Batch batchToInsert = peopleCaptor.getValue();
+        Batch batchToInsert = batchCaptor.getValue();
         assertThat(batchToInsert.getId()).isEqualTo(batch.getId());
         assertThat(batchToInsert.getEndDate()).isEqualTo(batch.getEndDate());
         assertThat(batchToInsert.getStartDate()).isEqualTo(batch.getStartDate());
