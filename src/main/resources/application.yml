@@ -4,10 +4,13 @@ server:
 spring:
   mvc:
     locale: es_MX
+  http:
+    converters:
+      preferred-json-mapper: gson
   datasource:
-    url: ${DATABASE_URL:'jdbc:postgresql://localhost:5432/technovationslp'}
-    username: postgres
-    password: ${DATABASE_PASSWORD:'postgres'}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/technovationslp}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     tomcat:
       max-active: 2

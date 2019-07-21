@@ -1,4 +1,4 @@
-package org.desarrolladorslp.technovation.controller;
+package org.desarrolladorslp.technovation.config.controller;
 
 import java.util.NoSuchElementException;
 
