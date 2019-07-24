@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.services.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User activate(User user) {
 
-        if (user.getRoles().isEmpty()) {
+        if (CollectionUtils.isEmpty(user.getRoles())) {
             throw new IllegalArgumentException("At least one role is required");
         }
 
@@ -98,8 +100,9 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDetails buildUserDetails(User user) {
-        List<GrantedAuthority> authorities = user.getRoles()
-                .stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        List<GrantedAuthority> authorities = CollectionUtils.isEmpty(user.getRoles()) ?
+                Collections.emptyList() :
+                user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 
         return new org.springframework.security.core.userdetails.User(user.getName(), "", authorities);
     }

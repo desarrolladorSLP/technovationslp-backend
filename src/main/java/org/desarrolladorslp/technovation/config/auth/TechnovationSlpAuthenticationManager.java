@@ -32,19 +32,19 @@ public class TechnovationSlpAuthenticationManager implements AuthenticationManag
 
     private UserDetails tryToRegister(TokenInfo details) {
 
-        User user = new User();
+        User user = User.builder()
+                .id(UUID.randomUUID())
+                .name(details.getName())
+                .preferredEmail(details.getEmail())
+                .enabled(false)
+                .validated(false)
+                .build();
 
-        user.setId(UUID.randomUUID());
-        user.setName(details.getName());
-        user.setPreferredEmail(details.getEmail());
-        user.setEnabled(false);
-        user.setValidated(false);
-
-        FirebaseUser firebaseUser = new FirebaseUser();
-
-        firebaseUser.setUid(details.getUid());
-        firebaseUser.setEmail(details.getEmail());
-        firebaseUser.setUser(user);
+        FirebaseUser firebaseUser = FirebaseUser.builder()
+                .uid(details.getUid())
+                .email(details.getEmail())
+                .user(user)
+                .build();
 
         return userService.register(firebaseUser);
     }
