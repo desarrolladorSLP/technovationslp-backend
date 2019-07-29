@@ -1,0 +1,32 @@
+[
+  {
+    "id": "57f676a7-09d1-49c1-bf6a-7fc3e097b773",
+    "date":"2019-06-20",
+    "startTime": {
+      "hour": 0,
+      "minute": 0,
+      "nano": 0,
+      "second": 0
+    },
+    "endTime":  {
+      "hour": 0,
+      "minute": 0,
+      "nano": 0,
+      "second": 0
+    },
+    "title":"" ,
+    "notes": "",
+    "location":"" ,
+    "batch": {
+      "id": "20a4f4e7-1ec0-4108-bdfd-ffe45182e75a",
+      "name": "9fc24052-60ed-403f-97d7-f5b47c83aa1c",
+      "startDate": "2019-06-20",
+      "endDate": "2019-07-20",
+      "notes": "0f87612a-1739-4c8a-92b4-89b3cf49884b",
+      "program": {
+        "id": "ebf738ee-b050-40cf-8dd8-e15b77fb8428"
+      }
+    }
+  }
+
+]

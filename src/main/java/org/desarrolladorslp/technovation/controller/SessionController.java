@@ -63,8 +63,8 @@ public class SessionController {
     }
 
     @GetMapping
-    @RequestMapping("/program/{programId}")
-    public ResponseEntity<List<Session>> getBatchByProgram(@PathVariable String batchId) {
+    @RequestMapping("batch/{batchId}")
+    public ResponseEntity<List<Session>> getSessionsByBatch(@PathVariable String batchId) {
 
         return new ResponseEntity<>(sessionService.findByBatch(UUID.fromString(batchId)), HttpStatus.OK);
     }
