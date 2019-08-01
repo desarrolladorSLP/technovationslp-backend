@@ -4,13 +4,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 
 public class LocalDateAdapter implements JsonDeserializer<LocalDate>, JsonSerializer<LocalDate> {
 
@@ -24,6 +18,6 @@ public class LocalDateAdapter implements JsonDeserializer<LocalDate>, JsonSerial
 
     @Override
     public JsonElement serialize(LocalDate localDate, Type type, JsonSerializationContext jsonSerializationContext) {
-        return jsonParser.parse(localDate.format(formatter));
+        return new JsonPrimitive(localDate.format(formatter));
     }
 }

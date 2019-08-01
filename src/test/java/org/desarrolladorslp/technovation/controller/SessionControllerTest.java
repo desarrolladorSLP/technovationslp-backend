@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.desarrolladorslp.technovation.config.controller.LocalDateAdapter;
+import org.desarrolladorslp.technovation.config.controller.LocalTimeAdapter;
 import org.desarrolladorslp.technovation.models.Session;
 import org.desarrolladorslp.technovation.services.SessionService;
 import org.junit.Before;
@@ -33,6 +34,7 @@ import org.springframework.web.util.NestedServletException;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -60,6 +62,7 @@ public class SessionControllerTest {
     public void setup() {
         gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
                 .create();
 
         List<? extends GrantedAuthority> authorities = Collections.singletonList(() -> "ROLE_ADMINISTRATOR");
@@ -98,7 +101,7 @@ public class SessionControllerTest {
         // given
         ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
 
-        String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-non-null-id-01.json");
+        String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-id-null-01.json");
         Session session = gson.fromJson(request, Session.class);
 
         // when
@@ -132,7 +135,7 @@ public class SessionControllerTest {
         // given
         ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
 
-        String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-id-null-01.json");
+        String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-non-null-id-01.json");
         Session session = gson.fromJson(request, Session.class);
 
         // when
