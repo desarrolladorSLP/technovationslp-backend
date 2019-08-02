@@ -74,7 +74,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenNonAdministratorRole_whenCreateSession_thenRejectAnd403Status() throws Exception{
+    public void givenNonAdministratorRole_whenCreateSession_thenRejectAnd403Status() throws Exception {
         // given
         String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-id-null-01.json");
 
@@ -97,7 +97,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenValidSession_whenCreateSession_thenAcceptAnd201Status() throws Exception{
+    public void givenValidSession_whenCreateSession_thenAcceptAnd201Status() throws Exception {
         // given
         ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
 
@@ -131,7 +131,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenValidSessionWithNonNullId_whenCreateSession_thenAcceptAnd201Status() throws Exception{
+    public void givenValidSessionWithNonNullId_whenCreateSession_thenAcceptAnd201Status() throws Exception {
         // given
         ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
 
@@ -165,7 +165,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenBadFormattedRequest_whenCreateSession_thenRejectWith400Status() throws Exception{
+    public void givenBadFormattedRequest_whenCreateSession_thenRejectWith400Status() throws Exception {
 
         //given
         String request = MessageLoader.loadExampleRequest("requests/session/invalid-session-01.json");
@@ -183,7 +183,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenInvalidSession_whenCreateSession_thenRejectWith400Status() throws Exception{
+    public void givenInvalidSession_whenCreateSession_thenRejectWith400Status() throws Exception {
         // given
         String request = MessageLoader.loadExampleRequest("requests/session/invalid-session-01.json");
 
@@ -200,7 +200,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenValidSessionWithIdNull_whenUpdateSession_thenRejectAnd400Status() throws Exception{
+    public void givenValidSessionWithIdNull_whenUpdateSession_thenRejectAnd400Status() throws Exception {
         // given
         String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-id-null-01.json");
 
@@ -250,7 +250,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenInvalidSession_whenUpdateSession_thenRejectWith400Status() throws Exception{
+    public void givenInvalidSession_whenUpdateSession_thenRejectWith400Status() throws Exception {
         // given
         String request = MessageLoader.loadExampleRequest("requests/session/invalid-session-01.json");
 
@@ -267,7 +267,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void whenListSessions_thenReturnListAnd200Status() throws Exception{
+    public void whenListSessions_thenReturnListAnd200Status() throws Exception {
         // given
         Type sessionListType = new TypeToken<ArrayList<Session>>() {
         }.getType();
@@ -338,7 +338,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenAnExistentBatchIdWithAssociatedSessions_whenListSessions_thenReturnListAnd200Status() throws Exception{
+    public void givenAnExistentBatchIdWithAssociatedSessions_whenListSessions_thenReturnListAnd200Status() throws Exception {
         // given
         Type sessionListType = new TypeToken<ArrayList<Session>>() {
         }.getType();
@@ -363,9 +363,9 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void givenAnExistentBatchIdWitNoAssociatedSessions_whenListSessions_thenReturnEmptyListAnd200Status() throws Exception{
+    public void givenAnExistentBatchIdWitNoAssociatedSessions_whenListSessions_thenReturnEmptyListAnd200Status() throws Exception {
         // given
-        Type sessionListType = new TypeToken<ArrayList<Session>>(){
+        Type sessionListType = new TypeToken<ArrayList<Session>>() {
         }.getType();
 
         List<Session> expectedList = Collections.emptyList();
@@ -379,7 +379,6 @@ public class SessionControllerTest {
                 .andReturn().getResponse();
 
         // then
-
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         verify(sessionService).findByBatch(batchId);
         verifyNoMoreInteractions(sessionService);
@@ -388,15 +387,6 @@ public class SessionControllerTest {
         assertThat(receivedSessions).isEqualTo(expectedList);
 
     }
-
-
-
-
-
-
-
-
-
 
 
 }

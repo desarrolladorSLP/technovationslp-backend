@@ -49,13 +49,12 @@ public class Session {
     private Batch batch;
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Session session = (Session) o;
-        return Objects.equals(id,session.id) &&
+        return Objects.equals(id, session.id) &&
                 Objects.equals(date, session.date) &&
                 Objects.equals(startTime, session.startTime) &&
                 Objects.equals(endTime, session.endTime) &&
@@ -67,7 +66,8 @@ public class Session {
     }
 
     @Override
-    public int hashCode() { return Objects.hash(id, date, startTime, endTime, title, notes, location, batch.getId());
+    public int hashCode() {
+        return Objects.hash(id, date, startTime, endTime, title, notes, location, batch.getId());
     }
 
 }
