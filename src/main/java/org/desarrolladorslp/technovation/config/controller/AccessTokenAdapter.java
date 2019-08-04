@@ -2,17 +2,17 @@ package org.desarrolladorslp.technovation.config.controller;
 
 import java.lang.reflect.Type;
 
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class AccessTokenAdapter implements JsonSerializer<OAuth2AccessToken> {
+public class AccessTokenAdapter implements JsonSerializer<DefaultOAuth2AccessToken> {
 
     @Override
-    public JsonElement serialize(OAuth2AccessToken accessToken, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(DefaultOAuth2AccessToken accessToken, Type type, JsonSerializationContext jsonSerializationContext) {
         JsonObject tokenInfo = new JsonObject();
 
         tokenInfo.addProperty("access_token", accessToken.getValue());
