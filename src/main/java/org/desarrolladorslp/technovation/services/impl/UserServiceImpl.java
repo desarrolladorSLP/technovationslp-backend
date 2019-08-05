@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User activate(User user) {
 
-        if (CollectionUtils.isEmpty(user.getRoles())) {
+        if (CollectionUtils.isEmpty(user.getRoles()) || user.getId() == null) {
             throw new IllegalArgumentException("At least one role is required");
         }
 
