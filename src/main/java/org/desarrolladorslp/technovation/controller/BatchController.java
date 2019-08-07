@@ -3,9 +3,13 @@ package org.desarrolladorslp.technovation.controller;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.desarrolladorslp.technovation.controller.dto.BatchDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.services.BatchService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,49 +26,86 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/batch")
 public class BatchController {
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     private BatchService batchService;
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping
-    public ResponseEntity<Batch> save(@RequestBody Batch batch) {
+    public ResponseEntity<BatchDTO> save(@RequestBody BatchDTO batchDTO) {
 
+        Batch batch = convertToEntity(batchDTO);
         batch.setId(null);
 
-        return new ResponseEntity<>(batchService.save(batch), HttpStatus.CREATED);
+        return new ResponseEntity<>(convertToDTO(batchService.save(batch)), HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @PutMapping
-    public ResponseEntity<Batch> update(@RequestBody Batch batch) {
+    public ResponseEntity<BatchDTO> update(@RequestBody BatchDTO batchDTO) {
 
+        Batch batch = convertToEntity(batchDTO);
         if (Objects.isNull(batch.getId())) {
             throw new IllegalArgumentException("id must not be null");
         }
 
-        return new ResponseEntity<>(batchService.save(batch), HttpStatus.OK);
+        return new ResponseEntity<>(convertToDTO(batchService.save(batch)), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Batch>> listBatches() {
+    public ResponseEntity<List<BatchDTO>> listBatches() {
 
-        return new ResponseEntity<>(batchService.list(), HttpStatus.OK);
+        List<Batch> batches = batchService.list();
+
+        return new ResponseEntity<>(batches.stream().map(batch -> convertToDTO(batch)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping
     @RequestMapping("/{batchId}")
-    public ResponseEntity<Batch> getBatch(@PathVariable String batchId) {
-        return new ResponseEntity<>(batchService.findById(UUID.fromString(batchId)).orElseThrow(), HttpStatus.OK);
+    public ResponseEntity<BatchDTO> getBatch(@PathVariable String batchId) {
+        return new ResponseEntity<>(convertToDTO(batchService.findById(UUID.fromString(batchId)).orElseThrow()), HttpStatus.OK);
     }
 
     @GetMapping
     @RequestMapping("/program/{programId}")
-    public ResponseEntity<List<Batch>> getBatchByProgram(@PathVariable String programId) {
+    public ResponseEntity<List<BatchDTO>> getBatchByProgram(@PathVariable String programId) {
 
-        return new ResponseEntity<>(batchService.findByProgram(UUID.fromString(programId)), HttpStatus.OK);
+        List<Batch> batches = batchService.findByProgram(UUID.fromString(programId));
+
+        return new ResponseEntity<>(batches.stream().map(batch -> convertToDTO(batch)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @Autowired
     public void setBatchService(BatchService batchService) {
         this.batchService = batchService;
+    }
+
+    public Batch convertToEntity(BatchDTO batchDTO) {
+
+        if(modelMapper.getTypeMap(BatchDTO.class, Batch.class) == null) {
+            modelMapper.addMappings(new PropertyMap<BatchDTO, Batch>() {
+                @Override
+                protected void configure() {
+                    map().getProgram().setId(source.getProgramId());
+                }
+            });
+        }
+
+        return (modelMapper.map(batchDTO, Batch.class));
+    }
+
+    public BatchDTO convertToDTO(Batch batch) {
+
+        if(modelMapper.getTypeMap(Batch.class, BatchDTO.class) == null) {
+            modelMapper.addMappings(new PropertyMap<Batch, BatchDTO>() {
+                @Override
+                protected void configure() {
+                    map().setProgramId(source.getProgram().getId());
+                }
+            });
+        }
+
+        return (modelMapper.map(batch, BatchDTO.class));
     }
 }
