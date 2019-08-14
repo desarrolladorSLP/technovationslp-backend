@@ -34,16 +34,18 @@ public class UserController {
 
         List<User> users = userService.findByValidated(false);
 
-        return new ResponseEntity<>(users.stream().map(user->convertToDTO(user)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(users.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @Secured("ROLE_ADMINISTRATOR")
     @PostMapping("/activate")
-    public ResponseEntity<UserDTO> activate(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<Void> activate(@RequestBody UserDTO userDTO) {
 
         User user = convertToEntity(userDTO);
 
-        return new ResponseEntity<>(convertToDTO(userService.activate(user)), HttpStatus.OK);
+        userService.activate(user);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Secured("ROLE_ADMINISTRATOR")
@@ -52,7 +54,7 @@ public class UserController {
 
         List<User> users = userService.findAll();
 
-        List<UserDTO> userDTOS = users.stream().map(user->convertToDTO(user)).collect(Collectors.toList());
+        List<UserDTO> userDTOS = users.stream().map(this::convertToDTO).collect(Collectors.toList());
         return new ResponseEntity<>(userDTOS, HttpStatus.OK);
     }
 
@@ -67,10 +69,10 @@ public class UserController {
 
             User user = new User();
             List<Role> roles = new ArrayList<>();
-            String[] commaSeparatedArr = mappingContext.getSource().getRoles().split("\\s*,\\s*");
-            for(int i = 0; i < commaSeparatedArr.length; i++){
+
+            for (String s : mappingContext.getSource().getRoles()) {
                 Role role = new Role();
-                role.setName(commaSeparatedArr[i]);
+                role.setName(s);
                 roles.add(role);
             }
 
@@ -94,15 +96,15 @@ public class UserController {
     public UserDTO convertToDTO(User user){
 
         Converter<User, UserDTO> converter = mappingContext ->{
+
             UserDTO userDTO = new UserDTO();
-            String roles = mappingContext.getSource().getRoles().stream().map(Role::getName).collect(Collectors.joining(","));
 
             userDTO.setId(mappingContext.getSource().getId());
             userDTO.setName(mappingContext.getSource().getName());
             userDTO.setPreferredEmail(mappingContext.getSource().getPreferredEmail());
             userDTO.setEnabled(mappingContext.getSource().isEnabled());
             userDTO.setValidated(mappingContext.getSource().isValidated());
-            userDTO.setRoles(roles);
+            userDTO.setRoles(mappingContext.getSource().getRoles().stream().map(Role::getName).collect(Collectors.toList()));
 
             return userDTO;
 

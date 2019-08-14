@@ -5,11 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 import java.util.UUID;
 
-@Entity
 @Builder
 @Data
 @NoArgsConstructor
@@ -27,6 +26,6 @@ public class UserDTO {
 
     private boolean validated;
 
-    private String roles;
+    private List<String> roles;
 
 }
