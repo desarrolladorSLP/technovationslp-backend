@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/batch")
 public class BatchController {
 
-    @Autowired
     private ModelMapper modelMapper;
 
     private BatchService batchService;
@@ -58,7 +57,7 @@ public class BatchController {
 
         List<Batch> batches = batchService.list();
 
-        return new ResponseEntity<>(batches.stream().map(batch -> convertToDTO(batch)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(batches.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping
@@ -73,7 +72,7 @@ public class BatchController {
 
         List<Batch> batches = batchService.findByProgram(UUID.fromString(programId));
 
-        return new ResponseEntity<>(batches.stream().map(batch -> convertToDTO(batch)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(batches.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @Autowired
@@ -107,5 +106,10 @@ public class BatchController {
         }
 
         return (modelMapper.map(batch, BatchDTO.class));
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 }

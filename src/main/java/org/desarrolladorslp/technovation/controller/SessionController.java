@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/session")
 public class SessionController {
 
-    @Autowired
     private ModelMapper modelMapper;
 
     private SessionService sessionService;
@@ -56,7 +55,7 @@ public class SessionController {
 
         List<Session> sessions = sessionService.list();
 
-        return new ResponseEntity<>(sessions.stream().map(session -> convertToDTO(session)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(sessions.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping
@@ -77,7 +76,7 @@ public class SessionController {
 
         List<Session> sessions = sessionService.findByBatch(UUID.fromString(batchId));
 
-        return new ResponseEntity<>(sessions.stream().map(session -> convertToDTO(session)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(sessions.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     public Session convertToEntity(SessionDTO sessionDTO) {
@@ -109,4 +108,8 @@ public class SessionController {
         return (modelMapper.map(session, SessionDTO.class));
     }
 
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 }
