@@ -91,7 +91,7 @@ public class BatchController {
             });
         }
 
-        return (modelMapper.map(batchDTO, Batch.class));
+        return modelMapper.map(batchDTO, Batch.class);
     }
 
     public BatchDTO convertToDTO(Batch batch) {
@@ -105,7 +105,7 @@ public class BatchController {
             });
         }
 
-        return (modelMapper.map(batch, BatchDTO.class));
+        return modelMapper.map(batch, BatchDTO.class);
     }
 
     @Autowired

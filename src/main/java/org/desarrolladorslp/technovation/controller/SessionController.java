@@ -90,7 +90,7 @@ public class SessionController {
             });
         }
 
-        return (modelMapper.map(sessionDTO, Session.class));
+        return modelMapper.map(sessionDTO, Session.class);
     }
 
     public SessionDTO convertToDTO(Session session) {
@@ -105,7 +105,7 @@ public class SessionController {
             });
         }
 
-        return (modelMapper.map(session, SessionDTO.class));
+        return modelMapper.map(session, SessionDTO.class);
     }
 
     @Autowired
