@@ -82,7 +82,7 @@ public class BatchController {
 
     public Batch convertToEntity(BatchDTO batchDTO) {
 
-        if(modelMapper.getTypeMap(BatchDTO.class, Batch.class) == null) {
+        if (modelMapper.getTypeMap(BatchDTO.class, Batch.class) == null) {
             modelMapper.addMappings(new PropertyMap<BatchDTO, Batch>() {
                 @Override
                 protected void configure() {
@@ -96,7 +96,7 @@ public class BatchController {
 
     public BatchDTO convertToDTO(Batch batch) {
 
-        if(modelMapper.getTypeMap(Batch.class, BatchDTO.class) == null) {
+        if (modelMapper.getTypeMap(Batch.class, BatchDTO.class) == null) {
             modelMapper.addMappings(new PropertyMap<Batch, BatchDTO>() {
                 @Override
                 protected void configure() {

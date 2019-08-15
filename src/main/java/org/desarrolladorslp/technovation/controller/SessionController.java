@@ -81,7 +81,7 @@ public class SessionController {
 
     public Session convertToEntity(SessionDTO sessionDTO) {
 
-        if(modelMapper.getTypeMap(SessionDTO.class, Session.class) == null) {
+        if (modelMapper.getTypeMap(SessionDTO.class, Session.class) == null) {
             modelMapper.addMappings(new PropertyMap<SessionDTO, Session>() {
                 @Override
                 protected void configure() {
@@ -95,7 +95,7 @@ public class SessionController {
 
     public SessionDTO convertToDTO(Session session) {
 
-        if(modelMapper.getTypeMap(Session.class, SessionDTO.class) == null) {
+        if (modelMapper.getTypeMap(Session.class, SessionDTO.class) == null) {
             modelMapper.addMappings(new PropertyMap<Session, SessionDTO>() {
                 @Override
                 protected void configure() {
