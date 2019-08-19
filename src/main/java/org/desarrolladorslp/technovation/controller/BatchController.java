@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 @RequestMapping("/api/batch")
 public class BatchController {
@@ -80,30 +82,30 @@ public class BatchController {
         this.batchService = batchService;
     }
 
-    public Batch convertToEntity(BatchDTO batchDTO) {
+    @PostConstruct
+    public void prepareMappings(){
 
-        if (modelMapper.getTypeMap(BatchDTO.class, Batch.class) == null) {
-            modelMapper.addMappings(new PropertyMap<BatchDTO, Batch>() {
-                @Override
-                protected void configure() {
-                    map().getProgram().setId(source.getProgramId());
-                }
-            });
-        }
+        modelMapper.addMappings(new PropertyMap<BatchDTO, Batch>() {
+            @Override
+            protected void configure() {
+                map().getProgram().setId(source.getProgramId());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<Batch, BatchDTO>() {
+            @Override
+            protected void configure() {
+                map().setProgramId(source.getProgram().getId());
+            }
+        });
+    }
+
+    public Batch convertToEntity(BatchDTO batchDTO) {
 
         return modelMapper.map(batchDTO, Batch.class);
     }
 
     public BatchDTO convertToDTO(Batch batch) {
-
-        if (modelMapper.getTypeMap(Batch.class, BatchDTO.class) == null) {
-            modelMapper.addMappings(new PropertyMap<Batch, BatchDTO>() {
-                @Override
-                protected void configure() {
-                    map().setProgramId(source.getProgram().getId());
-                }
-            });
-        }
 
         return modelMapper.map(batch, BatchDTO.class);
     }

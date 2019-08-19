@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 @RequestMapping("/api/session")
 public class SessionController {
@@ -81,29 +83,10 @@ public class SessionController {
 
     public Session convertToEntity(SessionDTO sessionDTO) {
 
-        if (modelMapper.getTypeMap(SessionDTO.class, Session.class) == null) {
-            modelMapper.addMappings(new PropertyMap<SessionDTO, Session>() {
-                @Override
-                protected void configure() {
-                    map().getBatch().setId(source.getBatchId());
-                }
-            });
-        }
-
         return modelMapper.map(sessionDTO, Session.class);
     }
 
     public SessionDTO convertToDTO(Session session) {
-
-        if (modelMapper.getTypeMap(Session.class, SessionDTO.class) == null) {
-            modelMapper.addMappings(new PropertyMap<Session, SessionDTO>() {
-                @Override
-                protected void configure() {
-                    map().setBatchId(source.getBatch().getId());
-
-                }
-            });
-        }
 
         return modelMapper.map(session, SessionDTO.class);
     }
@@ -111,5 +94,23 @@ public class SessionController {
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+    }
+
+    @PostConstruct
+    public void prepareMappings(){
+
+        modelMapper.addMappings(new PropertyMap<SessionDTO, Session>() {
+            @Override
+            protected void configure() {
+                map().getBatch().setId(source.getBatchId());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<Session, SessionDTO>() {
+            @Override
+            protected void configure() {
+                map().setBatchId(source.getBatch().getId());
+            }
+        });
     }
 }
