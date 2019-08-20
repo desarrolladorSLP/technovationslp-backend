@@ -1,11 +1,13 @@
 package org.desarrolladorslp.technovation.controller;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import org.desarrolladorslp.technovation.controller.dto.SessionDTO;
 import org.desarrolladorslp.technovation.models.Session;
 import org.desarrolladorslp.technovation.services.SessionService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,43 +20,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 @RequestMapping("/api/session")
 public class SessionController {
+
+    private ModelMapper modelMapper;
 
     private SessionService sessionService;
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping
-    public ResponseEntity<Session> save(@RequestBody Session session) {
+    public ResponseEntity<SessionDTO> save(@RequestBody SessionDTO sessionDTO) {
 
+        Session session = convertToEntity(sessionDTO);
         session.setId(null);
 
-        return new ResponseEntity<>(sessionService.save(session), HttpStatus.CREATED);
+        return new ResponseEntity<>(convertToDTO(sessionService.save(session)), HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @PutMapping
-    public ResponseEntity<Session> update(@RequestBody Session session) {
+    public ResponseEntity<SessionDTO> update(@RequestBody SessionDTO sessionDTO) {
 
+        Session session = convertToEntity(sessionDTO);
         if (Objects.isNull(session.getId())) {
             throw new IllegalArgumentException("id must not be null");
         }
 
-        return new ResponseEntity<>(sessionService.save(session), HttpStatus.OK);
+        return new ResponseEntity<>(convertToDTO(sessionService.save(session)), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Session>> listSessions() {
+    public ResponseEntity<List<SessionDTO>> listSessions() {
 
-        return new ResponseEntity<>(sessionService.list(), HttpStatus.OK);
+        List<Session> sessions = sessionService.list();
+
+        return new ResponseEntity<>(sessions.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping
     @RequestMapping("/{sessionId}")
-    public ResponseEntity<Session> getSession(@PathVariable String sessionId) {
+    public ResponseEntity<SessionDTO> getSession(@PathVariable String sessionId) {
 
-        return new ResponseEntity<>(sessionService.findById(UUID.fromString(sessionId)).orElseThrow(), HttpStatus.OK);
+        return new ResponseEntity<>(convertToDTO(sessionService.findById(UUID.fromString(sessionId)).orElseThrow()), HttpStatus.OK);
     }
 
     @Autowired
@@ -64,8 +74,43 @@ public class SessionController {
 
     @GetMapping
     @RequestMapping("batch/{batchId}")
-    public ResponseEntity<List<Session>> getSessionsByBatch(@PathVariable String batchId) {
+    public ResponseEntity<List<SessionDTO>> getSessionsByBatch(@PathVariable String batchId) {
 
-        return new ResponseEntity<>(sessionService.findByBatch(UUID.fromString(batchId)), HttpStatus.OK);
+        List<Session> sessions = sessionService.findByBatch(UUID.fromString(batchId));
+
+        return new ResponseEntity<>(sessions.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    public Session convertToEntity(SessionDTO sessionDTO) {
+
+        return modelMapper.map(sessionDTO, Session.class);
+    }
+
+    public SessionDTO convertToDTO(Session session) {
+
+        return modelMapper.map(session, SessionDTO.class);
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    @PostConstruct
+    public void prepareMappings(){
+
+        modelMapper.addMappings(new PropertyMap<SessionDTO, Session>() {
+            @Override
+            protected void configure() {
+                map().getBatch().setId(source.getBatchId());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<Session, SessionDTO>() {
+            @Override
+            protected void configure() {
+                map().setBatchId(source.getBatch().getId());
+            }
+        });
     }
 }
