@@ -1,15 +1,20 @@
 package org.desarrolladorslp.technovation.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.desarrolladorslp.technovation.config.auth.TokenInfo;
 import org.desarrolladorslp.technovation.models.Session;
+import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +36,27 @@ public class SessionController {
         session.setId(null);
 
         return new ResponseEntity<>(sessionService.save(session), HttpStatus.CREATED);
+    }
+
+    @Secured({"ROLE_TECKER", "ROLE_STAFF", "ROLE_MENTOR"})
+    @PostMapping
+    @RequestMapping("/confirm/{sessionId}")
+    public ResponseEntity confirmAttendance(@PathVariable String sessionId, Principal principal) {
+        OAuth2Authentication auth = (OAuth2Authentication) principal;
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
+        TokenInfo tokenInfo = (TokenInfo) details.getDecodedDetails();
+        String id = tokenInfo.getUserId();
+        sessionService.confirmAttendance(UUID.fromString(sessionId), UUID.fromString(id));
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    @Secured({"ROLE_PARENT"})
+    @PostMapping
+    @RequestMapping("/confirmParent/{sessionId}")
+    public ResponseEntity confirmParentAttendanceByTecker(@PathVariable String sessionId, @RequestBody User userTecker) {
+        sessionService.confirmAttendance(UUID.fromString(sessionId), userTecker.getId());
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMINISTRATOR"})

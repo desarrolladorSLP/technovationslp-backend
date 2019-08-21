@@ -16,6 +16,7 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
         tokenInfo.setUid((String) map.get("user_name"));
         tokenInfo.setEnabled((Boolean) map.get("enabled"));
         tokenInfo.setValidated((Boolean) map.get("validated"));
+        tokenInfo.setUserId((String)map.get("userId"));
 
         authentication.setDetails(tokenInfo);
 
