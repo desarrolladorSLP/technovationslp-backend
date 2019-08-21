@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "users")
@@ -30,6 +31,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 6589898843278314546L;
 
     @Id
+    @Type(type="pg-uuid")
     private UUID id;
 
     private String name;

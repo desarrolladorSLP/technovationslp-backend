@@ -50,7 +50,6 @@ public class SessionController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
     @Secured({"ROLE_PARENT"})
     @PostMapping
     @RequestMapping("/confirmParent/{sessionId}")
@@ -58,6 +57,21 @@ public class SessionController {
         sessionService.confirmAttendance(UUID.fromString(sessionId), userTecker.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Secured({"ROLE_ADMINISTRATOR", "ROLE_STAFF", "ROLE_MENTOR"})
+    @GetMapping
+    @RequestMapping("/people/{sessionId}")
+    public ResponseEntity<List<User>> listAllBySession(@PathVariable String sessionId){
+        return new ResponseEntity<>(sessionService.allPeople(UUID.fromString(sessionId)),HttpStatus.OK);
+    }
+
+    @Secured({"ROLE_PARENT", "ROLE_TECKER"})
+    @GetMapping
+    @RequestMapping("/staff/{sessionId}")
+    public ResponseEntity<List<User>> listStaffBySession(@PathVariable String sessionId){
+        return new ResponseEntity<>(sessionService.staff(UUID.fromString(sessionId)), HttpStatus.OK);
+    }
+
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @PutMapping

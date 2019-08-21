@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Session;
+import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.repository.SessionRepository;
 import org.desarrolladorslp.technovation.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,18 @@ public class SessionServiceImpl implements SessionService {
             session.setId(UUID.randomUUID());
         }
         return sessionRepository.save(session);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> allPeople(UUID sessionId){
+        return sessionRepository.allPeople(sessionId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> staff(UUID sessionId){
+        return sessionRepository.staff(sessionId);
     }
 
     @Override
