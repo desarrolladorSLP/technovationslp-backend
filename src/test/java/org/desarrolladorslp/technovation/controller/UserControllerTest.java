@@ -48,8 +48,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 @RunWith(Parameterized.class)
-/*@RunWith(SpringRunner.class)
-@SpringBootTest*/
 @ContextConfiguration(classes = TechnovationBackendApplication.class)
 @WebAppConfiguration
 @AutoConfigureMockMvc
@@ -89,11 +87,6 @@ public class UserControllerTest {
     @Before
     public void setup(){
         gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
-
-        /*List<? extends GrantedAuthority> authorities = Collections.singletonList(() -> "ROLE_ADMINISTRATOR");
-        Authentication auth = new UsernamePasswordAuthenticationToken("user1@example.com", "user1", authorities);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(auth);*/
 
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
     }
@@ -216,7 +209,6 @@ public class UserControllerTest {
     public void givenAnUserWithIdNull_whenActivate_thenRejectWith404Status() throws Exception{
 
         //then
-        //String request = MessageLoader.loadExampleRequest("requests/user/user-with-id-empty.json");
         String request = MessageLoader.loadExampleRequest("requests/user/user-with-id-null.json");
         User user = gson.fromJson(request, User.class);
         when(userService.activate(any(User.class))).thenThrow(new UsernameNotFoundException(""));
