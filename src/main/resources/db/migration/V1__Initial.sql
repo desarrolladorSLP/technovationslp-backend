@@ -77,6 +77,13 @@ CREATE TABLE sessions
     CONSTRAINT session_title UNIQUE (batch_id, title)
 );
 
+CREATE TABLE confirm_attendance
+(
+    session_id  UUID REFERENCES sessions,
+    user_id     UUID REFERENCES users,
+    PRIMARY KEY (session_id, user_id)
+);
+
 INSERT INTO roles (name, description)
 VALUES ('ROLE_TECKER',
         'Main consumers of the programs provided by the organization, for many of the programs they are supposed to be kids'),
