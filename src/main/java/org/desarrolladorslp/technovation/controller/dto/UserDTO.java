@@ -1,13 +1,12 @@
 package org.desarrolladorslp.technovation.controller.dto;
 
+import java.util.List;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Id;
-import java.util.List;
-import java.util.UUID;
 
 @Builder
 @Data
@@ -15,10 +14,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserDTO {
 
-    @Id
     private UUID id;
 
     private String name;
+
+    private String phoneNumber;
 
     private String preferredEmail;
 
