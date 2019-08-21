@@ -28,6 +28,55 @@ CREATE TABLE firebase_users
   email   varchar(200)
 );
 
+CREATE TABLE oauth_client_details
+(
+    client_id               VARCHAR(256) PRIMARY KEY,
+    resource_ids            VARCHAR(256),
+    client_secret           VARCHAR(256),
+    scope                   VARCHAR(256),
+    authorized_grant_types  VARCHAR(256),
+    web_server_redirect_uri VARCHAR(256),
+    authorities             VARCHAR(256),
+    access_token_validity   INTEGER,
+    refresh_token_validity  INTEGER,
+    additional_information  VARCHAR(4096),
+    autoapprove             VARCHAR(256)
+);
+
+CREATE TABLE programs
+(
+    id          UUID PRIMARY KEY,
+    name        varchar(200) UNIQUE  NOT NULL,
+    description varchar(500)  NOT NULL,
+    responsible varchar(2000) NOT NULL
+);
+
+CREATE TABLE batches
+(
+    id         UUID PRIMARY KEY,
+    program_id UUID REFERENCES programs,
+    name       varchar(200) NOT NULL,
+    start_date DATE         NOT NULL,
+    end_date   DATE         NOT NULL,
+    notes      varchar(2000),
+
+    CONSTRAINT batch_name_by_program UNIQUE (program_id, name)
+);
+
+CREATE TABLE sessions
+(
+    id         UUID PRIMARY KEY,
+    batch_id   UUID REFERENCES batches,
+    title      varchar(200) NOT NULL,
+    notes      TEXT         NOT NULL,
+    location   varchar(500),
+    date       DATE         NOT NULL,
+    start_time TIME,
+    end_time   TIME,
+
+    CONSTRAINT session_title UNIQUE (batch_id, title)
+);
+
 INSERT INTO roles (name, description)
 VALUES ('ROLE_TECKER',
         'Main consumers of the programs provided by the organization, for many of the programs they are supposed to be kids'),
@@ -36,3 +85,24 @@ VALUES ('ROLE_TECKER',
        ('ROLE_STAFF', 'People helping to achieve success in any of the programs'),
        ('ROLE_ADMINISTRATOR',
         'People guiding the programs. An administrator belongs to staff as well');
+
+INSERT INTO oauth_client_details
+(client_id, client_secret, scope, authorized_grant_types,
+ web_server_redirect_uri, authorities, access_token_validity,
+ refresh_token_validity, additional_information, autoapprove)
+VALUES
+('iOSApp', '$2a$10$7rdl7jOe.LW1Db05XkPhneoAFXryHC0qGhmDdsmSbLYjMpZPTrBZ2', 'read,write','firebase', null, null, 5184000, 0, null, true);
+
+INSERT INTO oauth_client_details
+(client_id, client_secret, scope, authorized_grant_types,
+ web_server_redirect_uri, authorities, access_token_validity,
+ refresh_token_validity, additional_information, autoapprove)
+VALUES
+('AndroidApp', '$2a$10$SK3CdCpS2ui543vb4dMS4ev1F5NanWS.wxzlSFRa/huWBZkKIWwe6', 'read,write','firebase', null, null, 5184000, 0, null, true);
+
+INSERT INTO oauth_client_details
+(client_id, client_secret, scope, authorized_grant_types,
+ web_server_redirect_uri, authorities, access_token_validity,
+ refresh_token_validity, additional_information, autoapprove)
+VALUES
+('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC', 'read,write','firebase', null, null, 5184000, 0, null, true);
