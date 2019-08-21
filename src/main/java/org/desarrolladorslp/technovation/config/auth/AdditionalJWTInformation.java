@@ -33,6 +33,7 @@ public class AdditionalJWTInformation implements TokenEnhancer {
         info.put(NAME_KEY, user.getName());
         info.put(ENABLED_KEY, user.isEnabled());
         info.put(VALIDATED_KEY, user.isValidated());
+        info.put("userId", user.getId());
         info.put(ROLES, oAuth2Authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);

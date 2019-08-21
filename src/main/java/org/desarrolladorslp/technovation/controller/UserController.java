@@ -74,7 +74,7 @@ public class UserController {
         return new ResponseEntity<>(convertToDTO(user), HttpStatus.OK);
     }
 
-    @PutMapping("/me")
+    @PostMapping("/me")
     public ResponseEntity<UserDTO> updateProfileInfo(@RequestBody UserDTO userDTO, Principal principal) {
         User user = userService.findById(tokenInfoService.getIdFromPrincipal(principal));
 
