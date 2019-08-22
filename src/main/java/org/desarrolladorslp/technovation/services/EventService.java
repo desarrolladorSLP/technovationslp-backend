@@ -1,4 +1,10 @@
 package org.desarrolladorslp.technovation.services;
 
-public class EventService {
+import org.desarrolladorslp.technovation.controller.dto.EventDTO;
+
+import java.util.List;
+
+public interface EventService {
+
+    List<EventDTO> list(int month);
 }
