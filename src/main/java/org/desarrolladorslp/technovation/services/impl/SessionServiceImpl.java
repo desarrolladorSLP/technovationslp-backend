@@ -11,6 +11,7 @@ import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.repository.SessionRepository;
 import org.desarrolladorslp.technovation.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +49,12 @@ public class SessionServiceImpl implements SessionService {
     @Override
     @Transactional
     public void confirmAttendance(UUID sessionId, UUID userId){
+        List<User> usersBySession = sessionRepository.allPeople(sessionId);
+        for (User u:usersBySession) {
+            if(u.getId().equals(userId)) {
+                throw new UsernameNotFoundException("User confirmed for this session");
+            }
+        }
         sessionRepository.confirmAttendance(sessionId, userId);
     }
 
