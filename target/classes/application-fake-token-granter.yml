@@ -1,0 +1,31 @@
+fake-authentication:
+  fake-tokens:
+    qxQGQdXonygfPdlXwOBFfEToCxLQXD0S:
+      Uid: 6ABA9AD15BE8E8CD
+      email: user1@mail.com
+      name: user1
+    TW1N4bM7fRpiFLPxaYK6aRvYQohfXy27:
+      Uid: B8DEEA4FEE42AD9D
+      email: user2@mail.com
+      name: user2
+    HFRE4bM7eR4HfGe4aPoI8RvYQohfTffR:
+      Uid: DDEEEA4E4432BF6E
+      email: user3@mail.com
+      name: user3
+    sT5IqVRT0BENw6eFQ0pyjo4t7rwpMzLa:
+      Uid: 26C4158B71C6CBE9
+      email: user4@mail.com
+      name: user4
+    qnZpC7Y1P5liJgJ1PwX9axDLGdSgBUgB:
+      Uid: 2B4A8E9FFF232BED
+      email: user5@mail.com
+      name: user5
+    zB28n6s5LCapemdkSGTB0zdoSgdLfHeV:
+      Uid: 34D8BB35832DFEF3
+      email: user6@mail.com
+      name: user6
+    VREelZomZVgwwXXSbzbNDhxzl0P6UlgP:
+      Uid: E596D39ACE5A238C
+      email: user1@mail.com
+      name: user1
+
