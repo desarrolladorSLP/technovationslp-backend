@@ -1,18 +1,18 @@
 package org.desarrolladorslp.technovation.controller;
 
-import com.google.common.base.Verify;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.desarrolladorslp.technovation.config.controller.LocalDateAdapter;
 import org.desarrolladorslp.technovation.config.controller.LocalTimeAdapter;
+import org.desarrolladorslp.technovation.controller.dto.SessionDTO;
 import org.desarrolladorslp.technovation.models.Session;
 import org.desarrolladorslp.technovation.services.SessionService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -102,8 +102,9 @@ public class SessionControllerTest {
         ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
 
         String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-id-null-01.json");
-        Session session = gson.fromJson(request, Session.class);
+        SessionDTO sessionDTO = gson.fromJson(request, SessionDTO.class);
 
+        when(sessionService.save(any(Session.class))).thenReturn(new Session());
         // when
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.post(BASE_SESSION_URL)
@@ -118,15 +119,14 @@ public class SessionControllerTest {
 
         Session sessionToInsert = sessionCaptor.getValue();
         assertThat(sessionToInsert.getId()).isNull();
-        assertThat(sessionToInsert.getDate()).isEqualTo(session.getDate());
-        assertThat(sessionToInsert.getStartTime()).isEqualTo(session.getStartTime());
-        assertThat(sessionToInsert.getEndTime()).isEqualTo(session.getEndTime());
-        assertThat(sessionToInsert.getTitle()).isEqualTo(session.getTitle());
-        assertThat(sessionToInsert.getNotes()).isEqualTo(session.getNotes());
-        assertThat(sessionToInsert.getLocation()).isEqualTo(session.getLocation());
-        assertThat(sessionToInsert.getBatch()).isNotNull();
-        assertThat(sessionToInsert.getBatch().getId()).isEqualTo(session.getBatch().getId());
-
+        assertThat(sessionToInsert.getDate()).isEqualTo(sessionDTO.getDate());
+        assertThat(sessionToInsert.getStartTime()).isEqualTo(sessionDTO.getStartTime());
+        assertThat(sessionToInsert.getEndTime()).isEqualTo(sessionDTO.getEndTime());
+        assertThat(sessionToInsert.getTitle()).isEqualTo(sessionDTO.getTitle());
+        assertThat(sessionToInsert.getNotes()).isEqualTo(sessionDTO.getNotes());
+        assertThat(sessionToInsert.getLocation()).isEqualTo(sessionDTO.getLocation());
+        assertThat(sessionToInsert.getBatch().getId()).isNotNull();
+        assertThat(sessionToInsert.getBatch().getId()).isEqualTo(sessionDTO.getBatchId());
 
     }
 
@@ -135,8 +135,10 @@ public class SessionControllerTest {
         // given
         ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
 
-        String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-non-null-id-01.json");
-        Session session = gson.fromJson(request, Session.class);
+        String request = MessageLoader.loadExampleRequest("requests/session/valid-sessionDTO-with-non-null-id-01.json");
+        SessionDTO sessionDTO = gson.fromJson(request, SessionDTO.class);
+
+        when(sessionService.save(any(Session.class))).thenReturn(new Session());
 
         // when
         MockHttpServletResponse response = mockMvc.perform(
@@ -152,14 +154,14 @@ public class SessionControllerTest {
 
         Session sessionToInsert = sessionCaptor.getValue();
         assertThat(sessionToInsert.getId()).isNull();
-        assertThat(sessionToInsert.getDate()).isEqualTo(session.getDate());
-        assertThat(sessionToInsert.getStartTime()).isEqualTo(session.getStartTime());
-        assertThat(sessionToInsert.getEndTime()).isEqualTo(session.getEndTime());
-        assertThat(sessionToInsert.getTitle()).isEqualTo(session.getTitle());
-        assertThat(sessionToInsert.getNotes()).isEqualTo(session.getNotes());
-        assertThat(sessionToInsert.getLocation()).isEqualTo(session.getLocation());
+        assertThat(sessionToInsert.getDate()).isEqualTo(sessionDTO.getDate());
+        assertThat(sessionToInsert.getStartTime()).isEqualTo(sessionDTO.getStartTime());
+        assertThat(sessionToInsert.getEndTime()).isEqualTo(sessionDTO.getEndTime());
+        assertThat(sessionToInsert.getTitle()).isEqualTo(sessionDTO.getTitle());
+        assertThat(sessionToInsert.getNotes()).isEqualTo(sessionDTO.getNotes());
+        assertThat(sessionToInsert.getLocation()).isEqualTo(sessionDTO.getLocation());
         assertThat(sessionToInsert.getBatch()).isNotNull();
-        assertThat(sessionToInsert.getBatch().getId()).isEqualTo(session.getBatch().getId());
+        assertThat(sessionToInsert.getBatch().getId()).isEqualTo(sessionDTO.getBatchId());
 
 
     }
@@ -221,8 +223,10 @@ public class SessionControllerTest {
         // given
         ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
 
-        String request = MessageLoader.loadExampleRequest("requests/session/valid-session-with-non-null-id-01.json");
-        Session session = gson.fromJson(request, Session.class);
+        String request = MessageLoader.loadExampleRequest("requests/session/valid-sessionDTO-with-non-null-id-01.json");
+        SessionDTO sessionDTO = gson.fromJson(request, SessionDTO.class);
+
+        when(sessionService.save(any(Session.class))).thenReturn(new Session());
 
         // when
         MockHttpServletResponse response = mockMvc.perform(
@@ -237,15 +241,15 @@ public class SessionControllerTest {
         verifyNoMoreInteractions(sessionService);
 
         Session sessionToInsert = sessionCaptor.getValue();
-        assertThat(sessionToInsert.getId()).isEqualTo(session.getId());
-        assertThat(sessionToInsert.getDate()).isEqualTo(session.getDate());
-        assertThat(sessionToInsert.getStartTime()).isEqualTo(session.getStartTime());
-        assertThat(sessionToInsert.getEndTime()).isEqualTo(session.getEndTime());
-        assertThat(sessionToInsert.getTitle()).isEqualTo(session.getTitle());
-        assertThat(sessionToInsert.getNotes()).isEqualTo(session.getNotes());
-        assertThat(sessionToInsert.getLocation()).isEqualTo(session.getLocation());
+        assertThat(sessionToInsert.getId()).isEqualTo(sessionDTO.getId());
+        assertThat(sessionToInsert.getDate()).isEqualTo(sessionDTO.getDate());
+        assertThat(sessionToInsert.getStartTime()).isEqualTo(sessionDTO.getStartTime());
+        assertThat(sessionToInsert.getEndTime()).isEqualTo(sessionDTO.getEndTime());
+        assertThat(sessionToInsert.getTitle()).isEqualTo(sessionDTO.getTitle());
+        assertThat(sessionToInsert.getNotes()).isEqualTo(sessionDTO.getNotes());
+        assertThat(sessionToInsert.getLocation()).isEqualTo(sessionDTO.getLocation());
         assertThat(sessionToInsert.getBatch()).isNotNull();
-        assertThat(sessionToInsert.getBatch().getId()).isEqualTo(session.getBatch().getId());
+        assertThat(sessionToInsert.getBatch().getId()).isEqualTo(sessionDTO.getBatchId());
 
     }
 
@@ -269,12 +273,21 @@ public class SessionControllerTest {
     @Test
     public void whenListSessions_thenReturnListAnd200Status() throws Exception {
         // given
+        Type sessionDTOListType = new TypeToken<ArrayList<SessionDTO>>() {
+        }.getType();
+        String retrievedSessionsDTOs = MessageLoader.loadExampleRequest("requests/session/list-existent-sessionsDTOs.json");
+        List<SessionDTO> expectedListDTO = gson.fromJson(retrievedSessionsDTOs, sessionDTOListType);
+
         Type sessionListType = new TypeToken<ArrayList<Session>>() {
         }.getType();
         String retrievedSessions = MessageLoader.loadExampleRequest("requests/session/list-existent-sessions.json");
-        List<Session> expectedList = gson.fromJson(retrievedSessions, sessionListType);
+        List<Session> expectedListSession = gson.fromJson(retrievedSessions, sessionListType);
 
-        when(sessionService.list()).thenReturn(expectedList);
+        for (int i = 0; i < expectedListDTO.size(); i++) {
+            assertThat(expectedListSession.get(i).getId()).isEqualTo(expectedListDTO.get(i).getId());
+        }
+
+        when(sessionService.list()).thenReturn(expectedListSession);
 
         // when
         MockHttpServletResponse response = mockMvc.perform(
@@ -287,8 +300,9 @@ public class SessionControllerTest {
         verifyNoMoreInteractions(sessionService);
 
         String responseBody = response.getContentAsString();
-        List<Session> receivedSessions = gson.fromJson(responseBody, sessionListType);
-        assertThat(receivedSessions).isEqualTo(expectedList);
+        List<SessionDTO> receivedSessions = gson.fromJson(responseBody, sessionDTOListType);
+        assertThat(receivedSessions.size()).isEqualTo(expectedListDTO.size());
+
 
     }
 
@@ -296,9 +310,22 @@ public class SessionControllerTest {
     public void givenAnExistentSessionId_whenQuerySessionById_thenReturnBatchAnd200Status() throws Exception {
 
         // given
+        String sessionDTOToRetrieve = MessageLoader.loadExampleRequest("requests/session/valid-sessionDTO-with-non-null-id-01.json");
+        SessionDTO expectedSessionDTO = gson.fromJson(sessionDTOToRetrieve, SessionDTO.class);
+
+
         String sessionToRetrieve = MessageLoader.loadExampleRequest("requests/session/valid-session-with-non-null-id-01.json");
         Session expectedSession = gson.fromJson(sessionToRetrieve, Session.class);
         UUID sessionId = expectedSession.getId();
+
+        assertThat(expectedSession.getId()).isEqualTo(expectedSessionDTO.getId());
+        assertThat(expectedSession.getDate()).isEqualTo(expectedSessionDTO.getDate());
+        assertThat(expectedSession.getStartTime()).isEqualTo(expectedSessionDTO.getStartTime());
+        assertThat(expectedSession.getEndTime()).isEqualTo(expectedSessionDTO.getEndTime());
+        assertThat(expectedSession.getTitle()).isEqualTo(expectedSessionDTO.getTitle());
+        assertThat(expectedSession.getNotes()).isEqualTo(expectedSessionDTO.getNotes());
+        assertThat(expectedSession.getLocation()).isEqualTo(expectedSessionDTO.getLocation());
+        assertThat(expectedSession.getBatch().getId()).isEqualTo(expectedSessionDTO.getBatchId());
 
         when(sessionService.findById(sessionId)).thenReturn(Optional.of(expectedSession));
 
@@ -313,8 +340,16 @@ public class SessionControllerTest {
         verifyNoMoreInteractions(sessionService);
 
         String responseBody = response.getContentAsString();
-        Session receivedSession = gson.fromJson(responseBody, Session.class);
-        assertThat(receivedSession).isEqualTo(expectedSession);
+        SessionDTO receivedSessionDTO = gson.fromJson(responseBody, SessionDTO.class);
+
+        assertThat(receivedSessionDTO.getId()).isEqualTo(expectedSessionDTO.getId());
+        assertThat(receivedSessionDTO.getDate()).isEqualTo(expectedSessionDTO.getDate());
+        assertThat(receivedSessionDTO.getStartTime()).isEqualTo(expectedSessionDTO.getStartTime());
+        assertThat(receivedSessionDTO.getEndTime()).isEqualTo(expectedSessionDTO.getEndTime());
+        assertThat(receivedSessionDTO.getTitle()).isEqualTo(expectedSessionDTO.getTitle());
+        assertThat(receivedSessionDTO.getNotes()).isEqualTo(expectedSessionDTO.getNotes());
+        assertThat(receivedSessionDTO.getLocation()).isEqualTo(expectedSessionDTO.getLocation());
+        assertThat(receivedSessionDTO.getBatchId()).isEqualTo(expectedSessionDTO.getBatchId());
 
     }
 
@@ -340,13 +375,22 @@ public class SessionControllerTest {
     @Test
     public void givenAnExistentBatchIdWithAssociatedSessions_whenListSessions_thenReturnListAnd200Status() throws Exception {
         // given
+        Type sessionDTOListType = new TypeToken<ArrayList<SessionDTO>>() {
+        }.getType();
+        String retrievedSessionsDTOs = MessageLoader.loadExampleRequest("requests/session/list-existent-sessionsDTOs.json");
+        List<SessionDTO> expectedListDTO = gson.fromJson(retrievedSessionsDTOs, sessionDTOListType);
+
         Type sessionListType = new TypeToken<ArrayList<Session>>() {
         }.getType();
         String retrievedSessions = MessageLoader.loadExampleRequest("requests/session/list-existent-sessions.json");
-        List<Session> expectedList = gson.fromJson(retrievedSessions, sessionListType);
-        UUID batchId = expectedList.get(0).getId();
+        List<Session> expectedListSession = gson.fromJson(retrievedSessions, sessionListType);
+        UUID batchId = expectedListSession.get(0).getId();
 
-        when(sessionService.findByBatch(batchId)).thenReturn(expectedList);
+        for (int i = 0; i < expectedListDTO.size(); i++) {
+            assertThat(expectedListSession.get(i).getId()).isEqualTo(expectedListDTO.get(i).getId());
+        }
+
+        when(sessionService.findByBatch(batchId)).thenReturn(expectedListSession);
 
         // when
         MockHttpServletResponse response = mockMvc.perform(
@@ -358,8 +402,8 @@ public class SessionControllerTest {
         verify(sessionService).findByBatch(batchId);
 
         String responseBody = response.getContentAsString();
-        List<Session> receivedSessions = gson.fromJson(responseBody, sessionListType);
-        assertThat(receivedSessions).isEqualTo(expectedList);
+        List<SessionDTO> receivedSessionsDTO = gson.fromJson(responseBody, sessionDTOListType);
+        Assert.assertEquals(receivedSessionsDTO, expectedListDTO);
     }
 
     @Test
