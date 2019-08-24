@@ -5,9 +5,7 @@
     "startDate": "2019-06-20",
     "endDate": "2019-07-20",
     "notes": "0f87612a-1739-4c8a-92b4-89b3cf49884b",
-    "program": {
-      "id": "abf738ee-b050-40cf-8dd8-e15b77fb8428"
-    }
+    "programId": "abf738ee-b050-40cf-8dd8-e15b77fb8428"
   },
   {
     "id": "634485c0-7fee-43fe-a455-a076258c4fdb",
@@ -15,9 +13,7 @@
     "startDate": "2020-01-31",
     "endDate": "2020-06-30",
     "notes": "e7b1b6c3-5616-4a43-889a-a80f642d2e3e",
-    "program": {
-      "id": "ebf738ee-b050-40cf-8dd8-e15b77fb8428"
-    }
+    "programId": "ebf738ee-b050-40cf-8dd8-e15b77fb8428"
   },
   {
     "id": "607cc70e-af0c-44f8-825c-23b2a0e12e7b",
@@ -25,8 +21,6 @@
     "startDate": "2020-06-30",
     "endDate": "2020-12-31",
     "notes": "5cbd71df-ef11-4d3c-8a7c-6e49276ac0e6",
-    "program": {
-      "id": "ebf738ee-b050-40cf-8dd8-e15b77fb8428"
-    }
+    "programId": "ebf738ee-b050-40cf-8dd8-e15b77fb8428"
   }
 ]

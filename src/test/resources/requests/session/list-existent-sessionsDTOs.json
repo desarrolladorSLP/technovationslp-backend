@@ -1,16 +1,13 @@
 [
   {
     "id": "57f676a7-09d1-49c1-bf6a-7fc3e097b773",
-    "date":"2019-06-20",
-    "startTime":"11:00",
-    "endTime":"12:00",
-    "title":"" ,
+    "date": "2019-06-20",
+    "startTime": "11:00",
+    "endTime": "12:00",
+    "title": "",
     "notes": "",
-    "location":"" ,
-    "batch":{
-      "id": "20a4f4e7-1ec0-4108-bdfd-ffe45182e75a"
-    }
-
+    "location": "",
+    "batchId": "20a4f4e7-1ec0-4108-bdfd-ffe45182e75a"
   },
   {
     "id": "57f676a7-09d1-49c1-bf6a-7fc3e097b773",
@@ -20,9 +17,6 @@
     "title": "Teckers",
     "notes": "",
     "location": "",
-    "batch":{
-      "id": "20a4f4e7-1ec0-4108-bdfd-ffe45182e75a"
-    }
+    "batchId": "20a4f4e7-1ec0-4108-bdfd-ffe45182e75a"
   }
 ]
-

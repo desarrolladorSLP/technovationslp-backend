@@ -1,6 +1,7 @@
 package org.desarrolladorslp.technovation.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.desarrolladorslp.technovation.config.controller.LocalDateAdapter;
+import org.desarrolladorslp.technovation.controller.dto.BatchDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.services.BatchService;
 import org.junit.Before;
@@ -77,9 +79,21 @@ public class BatchControllerTest {
         // given
         ArgumentCaptor<Batch> batchCaptor = ArgumentCaptor.forClass(Batch.class);
 
-        String request = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-id-null-01.json");
-        Batch batch = gson.fromJson(request, Batch.class);
+        String request = MessageLoader.loadExampleRequest("requests/batch/valid-batchDTO-with-id-null-01.json");
+        BatchDTO batchDTO = gson.fromJson(request, BatchDTO.class);
 
+        String requestBatch = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-id-null-01.json");
+        Batch batch = gson.fromJson(requestBatch, Batch.class);
+
+        assertThat(batchDTO.getId()).isNull();
+        assertThat(batch.getEndDate()).isEqualTo(batchDTO.getEndDate());
+        assertThat(batch.getStartDate()).isEqualTo(batchDTO.getStartDate());
+        assertThat(batch.getName()).isEqualTo(batchDTO.getName());
+        assertThat(batch.getNotes()).isEqualTo(batchDTO.getNotes());
+        assertThat(batch.getProgram().getId()).isNotNull();
+        assertThat(batch.getProgram().getId()).isEqualTo(batchDTO.getProgramId());
+
+        when(batchService.save(any(Batch.class))).thenReturn(batch);
         // when
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.post(BASE_BATCH_URL)
@@ -94,12 +108,12 @@ public class BatchControllerTest {
 
         Batch batchToInsert = batchCaptor.getValue();
         assertThat(batchToInsert.getId()).isNull();
-        assertThat(batchToInsert.getEndDate()).isEqualTo(batch.getEndDate());
-        assertThat(batchToInsert.getStartDate()).isEqualTo(batch.getStartDate());
-        assertThat(batchToInsert.getName()).isEqualTo(batch.getName());
-        assertThat(batchToInsert.getNotes()).isEqualTo(batch.getNotes());
-        assertThat(batchToInsert.getProgram()).isNotNull();
-        assertThat(batchToInsert.getProgram().getId()).isEqualTo(batch.getProgram().getId());
+        assertThat(batchToInsert.getEndDate()).isEqualTo(batchDTO.getEndDate());
+        assertThat(batchToInsert.getStartDate()).isEqualTo(batchDTO.getStartDate());
+        assertThat(batchToInsert.getName()).isEqualTo(batchDTO.getName());
+        assertThat(batchToInsert.getNotes()).isEqualTo(batchDTO.getNotes());
+        assertThat(batchToInsert.getProgram().getId()).isNotNull();
+        assertThat(batchToInsert.getProgram().getId()).isEqualTo(batchDTO.getProgramId());
     }
 
     @Test
@@ -107,8 +121,10 @@ public class BatchControllerTest {
         // given
         ArgumentCaptor<Batch> batchCaptor = ArgumentCaptor.forClass(Batch.class);
 
-        String request = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-non-null-id-01.json");
-        Batch batch = gson.fromJson(request, Batch.class);
+        String request = MessageLoader.loadExampleRequest("requests/batch/valid-batchDTO-with-non-null-id-01.json");
+        BatchDTO batchDTO = gson.fromJson(request, BatchDTO.class);
+
+        when(batchService.save(any(Batch.class))).thenReturn(new Batch());
 
         // when
         MockHttpServletResponse response = mockMvc.perform(
@@ -124,12 +140,12 @@ public class BatchControllerTest {
 
         Batch batchToInsert = batchCaptor.getValue();
         assertThat(batchToInsert.getId()).isNull(); //Id is forced to be null
-        assertThat(batchToInsert.getEndDate()).isEqualTo(batch.getEndDate());
-        assertThat(batchToInsert.getStartDate()).isEqualTo(batch.getStartDate());
-        assertThat(batchToInsert.getName()).isEqualTo(batch.getName());
-        assertThat(batchToInsert.getNotes()).isEqualTo(batch.getNotes());
-        assertThat(batchToInsert.getProgram()).isNotNull();
-        assertThat(batchToInsert.getProgram().getId()).isEqualTo(batch.getProgram().getId());
+        assertThat(batchToInsert.getEndDate()).isEqualTo(batchDTO.getEndDate());
+        assertThat(batchToInsert.getStartDate()).isEqualTo(batchDTO.getStartDate());
+        assertThat(batchToInsert.getName()).isEqualTo(batchDTO.getName());
+        assertThat(batchToInsert.getNotes()).isEqualTo(batchDTO.getNotes());
+        assertThat(batchToInsert.getProgram().getId()).isNotNull();
+        assertThat(batchToInsert.getProgram().getId()).isEqualTo(batchDTO.getProgramId());
     }
 
     @Test
@@ -153,7 +169,7 @@ public class BatchControllerTest {
     @Test
     public void givenValidBatchWithIdNull_whenUpdateBatch_thenRejectAnd400Status() throws Exception {
         // given
-        String request = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-id-null-01.json");
+        String request = MessageLoader.loadExampleRequest("requests/batch/valid-batchDTO-with-id-null-01.json");
 
         // when
         MockHttpServletResponse response = mockMvc.perform(
@@ -172,8 +188,10 @@ public class BatchControllerTest {
         // given
         ArgumentCaptor<Batch> batchCaptor = ArgumentCaptor.forClass(Batch.class);
 
-        String request = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-non-null-id-01.json");
-        Batch batch = gson.fromJson(request, Batch.class);
+        String request = MessageLoader.loadExampleRequest("requests/batch/valid-batchDTO-with-non-null-id-01.json");
+        BatchDTO batchDTO = gson.fromJson(request, BatchDTO.class);
+
+        when(batchService.save(any(Batch.class))).thenReturn(new Batch());
 
         // when
         MockHttpServletResponse response = mockMvc.perform(
@@ -188,13 +206,13 @@ public class BatchControllerTest {
         verifyNoMoreInteractions(batchService);
 
         Batch batchToInsert = batchCaptor.getValue();
-        assertThat(batchToInsert.getId()).isEqualTo(batch.getId());
-        assertThat(batchToInsert.getEndDate()).isEqualTo(batch.getEndDate());
-        assertThat(batchToInsert.getStartDate()).isEqualTo(batch.getStartDate());
-        assertThat(batchToInsert.getName()).isEqualTo(batch.getName());
-        assertThat(batchToInsert.getNotes()).isEqualTo(batch.getNotes());
+        assertThat(batchToInsert.getId()).isEqualTo(batchDTO.getId());
+        assertThat(batchToInsert.getEndDate()).isEqualTo(batchDTO.getEndDate());
+        assertThat(batchToInsert.getStartDate()).isEqualTo(batchDTO.getStartDate());
+        assertThat(batchToInsert.getName()).isEqualTo(batchDTO.getName());
+        assertThat(batchToInsert.getNotes()).isEqualTo(batchDTO.getNotes());
         assertThat(batchToInsert.getProgram()).isNotNull();
-        assertThat(batchToInsert.getProgram().getId()).isEqualTo(batch.getProgram().getId());
+        assertThat(batchToInsert.getProgram().getId()).isEqualTo(batchDTO.getProgramId());
     }
 
     @Test
@@ -217,10 +235,19 @@ public class BatchControllerTest {
     @Test
     public void whenListBatches_thenReturnListAnd200Status() throws Exception {
         // given
+        Type batchDTOListType = new TypeToken<ArrayList<BatchDTO>>() {
+        }.getType();
+        String retrievedBatchesDTO = MessageLoader.loadExampleRequest("requests/batch/list-existent-batchesDTOs.json");
+        List<BatchDTO> expectedListDTO = gson.fromJson(retrievedBatchesDTO, batchDTOListType);
+
         Type batchListType = new TypeToken<ArrayList<Batch>>() {
         }.getType();
         String retrievedBatches = MessageLoader.loadExampleRequest("requests/batch/list-existent-batches.json");
         List<Batch> expectedList = gson.fromJson(retrievedBatches, batchListType);
+
+        for (int i = 0; i < expectedListDTO.size(); i++) {
+            assertThat(expectedList.get(i).getId()).isEqualTo(expectedListDTO.get(i).getId());
+        }
 
         when(batchService.list()).thenReturn(expectedList);
 
@@ -235,18 +262,30 @@ public class BatchControllerTest {
         verifyNoMoreInteractions(batchService);
 
         String responseBody = response.getContentAsString();
-        List<Batch> receivedBatches = gson.fromJson(responseBody, batchListType);
-        assertThat(receivedBatches).isEqualTo(expectedList);
+        List<BatchDTO> receivedBatchesDTO = gson.fromJson(responseBody, batchDTOListType);
+        assertThat(receivedBatchesDTO).isEqualTo(expectedListDTO);
     }
 
     @Test
     public void givenAnExistentBatchId_whenQueryBatchById_thenReturnBatchAnd200Status() throws Exception {
         // given
+        String batchDTOToRetrieve = MessageLoader.loadExampleRequest("requests/batch/valid-batchDTO-with-non-null-id-01.json");
+        BatchDTO expectedBatchDTO = gson.fromJson(batchDTOToRetrieve, BatchDTO.class);
+
         String batchToRetrieve = MessageLoader.loadExampleRequest("requests/batch/valid-batch-with-non-null-id-01.json");
         Batch expectedBatch = gson.fromJson(batchToRetrieve, Batch.class);
         UUID batchId = expectedBatch.getId();
 
+        assertThat(expectedBatch.getId()).isEqualTo(expectedBatchDTO.getId());
+        assertThat(expectedBatch.getEndDate()).isEqualTo(expectedBatchDTO.getEndDate());
+        assertThat(expectedBatch.getStartDate()).isEqualTo(expectedBatchDTO.getStartDate());
+        assertThat(expectedBatch.getName()).isEqualTo(expectedBatchDTO.getName());
+        assertThat(expectedBatch.getNotes()).isEqualTo(expectedBatchDTO.getNotes());
+        assertThat(expectedBatch.getProgram().getId()).isNotNull();
+        assertThat(expectedBatch.getProgram().getId()).isEqualTo(expectedBatchDTO.getProgramId());
+
         when(batchService.findById(batchId)).thenReturn(Optional.of(expectedBatch));
+
 
         // when
         MockHttpServletResponse response = mockMvc.perform(
@@ -259,8 +298,16 @@ public class BatchControllerTest {
         verifyNoMoreInteractions(batchService);
 
         String responseBody = response.getContentAsString();
-        Batch receivedBatch = gson.fromJson(responseBody, Batch.class);
-        assertThat(receivedBatch).isEqualTo(expectedBatch);
+        BatchDTO receivedBatchDTO = gson.fromJson(responseBody, BatchDTO.class);
+        assertThat(receivedBatchDTO).isEqualTo(expectedBatchDTO);
+
+        assertThat(receivedBatchDTO.getId()).isEqualTo(expectedBatchDTO.getId());
+        assertThat(receivedBatchDTO.getEndDate()).isEqualTo(expectedBatchDTO.getEndDate());
+        assertThat(receivedBatchDTO.getStartDate()).isEqualTo(expectedBatchDTO.getStartDate());
+        assertThat(receivedBatchDTO.getName()).isEqualTo(expectedBatchDTO.getName());
+        assertThat(receivedBatchDTO.getNotes()).isEqualTo(expectedBatchDTO.getNotes());
+        assertThat(receivedBatchDTO.getProgramId()).isNotNull();
+        assertThat(receivedBatchDTO.getProgramId()).isEqualTo(expectedBatchDTO.getProgramId());
     }
 
     @Test
@@ -284,11 +331,20 @@ public class BatchControllerTest {
     @Test
     public void givenAnExistentProgramIdWithAssociatedBatches_whenListBatches_thenReturnListAnd200Status() throws Exception {
         // given
+        Type batchDTOListType = new TypeToken<ArrayList<BatchDTO>>() {
+        }.getType();
+        String retrievedBatchesDTOs = MessageLoader.loadExampleRequest("requests/batch/list-existent-batchesDTOs.json");
+        List<BatchDTO> expectedListDTO = gson.fromJson(retrievedBatchesDTOs, batchDTOListType);
+
         Type batchListType = new TypeToken<ArrayList<Batch>>() {
         }.getType();
         String retrievedBatches = MessageLoader.loadExampleRequest("requests/batch/list-existent-batches.json");
         List<Batch> expectedList = gson.fromJson(retrievedBatches, batchListType);
         UUID programId = expectedList.get(0).getId();
+
+        for (int i = 0; i < expectedListDTO.size(); i++) {
+            assertThat(expectedList.get(i).getId()).isEqualTo(expectedListDTO.get(i).getId());
+        }
 
         when(batchService.findByProgram(programId)).thenReturn(expectedList);
 
@@ -303,8 +359,8 @@ public class BatchControllerTest {
         verifyNoMoreInteractions(batchService);
 
         String responseBody = response.getContentAsString();
-        List<Batch> receivedBatches = gson.fromJson(responseBody, batchListType);
-        assertThat(receivedBatches).isEqualTo(expectedList);
+        List<BatchDTO> receivedBatchesDTO = gson.fromJson(responseBody, batchDTOListType);
+        assertThat(receivedBatchesDTO).isEqualTo(expectedListDTO);
     }
 
     @Test
