@@ -17,11 +17,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdditionalJWTInformation implements TokenEnhancer {
 
-    private static final String EMAIL_KEY = "email";
-    private static final String NAME_KEY = "name";
-    private static final String ENABLED_KEY = "enabled";
-    private static final String VALIDATED_KEY = "validated";
-    private static final String ROLES = "roles";
+    static final String EMAIL_KEY = "email";
+    static final String NAME_KEY = "name";
+    static final String ENABLED_KEY = "enabled";
+    static final String VALIDATED_KEY = "validated";
+    static final String USER_ID_KEY = "userId";
+    static final String USER_NAME_KEY = "user_name";
+    static final String CLIENT_ID_KEY = "client_id";
+    private static final String ROLES_KEY = "roles";
     private UserService userService;
 
     @Override
@@ -33,8 +36,8 @@ public class AdditionalJWTInformation implements TokenEnhancer {
         info.put(NAME_KEY, user.getName());
         info.put(ENABLED_KEY, user.isEnabled());
         info.put(VALIDATED_KEY, user.isValidated());
-        info.put("userId", user.getId());
-        info.put(ROLES, oAuth2Authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        info.put(USER_ID_KEY, user.getId());
+        info.put(ROLES_KEY, oAuth2Authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);
 
