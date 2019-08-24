@@ -19,6 +19,11 @@ public class DevConfig implements WebMvcConfigurer {
                         .allowedOrigins("http://localhost:4200")
                         .allowedMethods("POST", "PUT", "DELETE", "GET", "OPTIONS")
                         .allowCredentials(true);
+
+                registry.addMapping("/oauth/**")
+                        .allowedOrigins("http://localhost:4200")
+                        .allowedMethods("POST", "OPTIONS")
+                        .allowCredentials(true);
             }
         };
     }
