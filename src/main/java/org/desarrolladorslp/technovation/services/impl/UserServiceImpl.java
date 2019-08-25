@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.models.FirebaseUser;
@@ -97,6 +98,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll(Sort.by("name"));
+    }
+
+    @Override
+    public User findById(UUID uuid) {
+        return userRepository.findById(uuid).orElseThrow();
+    }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     private UserDetails buildUserDetails(User user) {
