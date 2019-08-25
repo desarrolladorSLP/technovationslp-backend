@@ -28,6 +28,6 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
     @Query("SELECT u FROM User u JOIN UserBySession us ON u.id = us.userId WHERE us.sessionId = :sessionId AND us.userId = :userId")
     Optional<User> getUserBySession(UUID sessionId, UUID userId);
 
-    @Query(value = "SELECT u.* FROM users AS u INNER JOIN confirm_attendance AS ca ON u.id = ca.user_id INNER JOIN users_roles AS ur ON u.id = ur.user_id WHERE ca.session_id = :id AND ur.role_name in('ROLE_STAFF','ROLE_MENTOR', 'ROLE_ADMINISTRATOR')", nativeQuery = true)
+    @Query(value = "SELECT u FROM User u JOIN UserBySession ca ON u.id = ca.userId JOIN UsersByRole ur ON u.id = ur.userId WHERE ca.sessionId = :id AND ur.roleName in('ROLE_STAFF','ROLE_MENTOR', 'ROLE_ADMINISTRATOR')")
     List<User> staff(@Param("id") UUID sessionId);
 }
