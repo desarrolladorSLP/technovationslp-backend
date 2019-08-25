@@ -5,6 +5,7 @@ import java.util.Map;
 import org.desarrolladorslp.technovation.config.auth.FirebaseService;
 import org.desarrolladorslp.technovation.config.auth.TokenInfo;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,8 +22,9 @@ public class FakeFirebaseService implements FirebaseService {
     public TokenInfo parseToken(String idToken) {
         Map<String, FakeToken> tokens = fakeTokenProperties.getFakeTokens();
 
-        if (!tokens.containsKey(idToken))
-            return null;
+        if (!tokens.containsKey(idToken)) {
+            throw new InvalidTokenException("Invalid token. See application-fake-token-granter.yml");
+        }
 
         FakeToken fakeToken = tokens.get(idToken);
         TokenInfo token = new TokenInfo();
