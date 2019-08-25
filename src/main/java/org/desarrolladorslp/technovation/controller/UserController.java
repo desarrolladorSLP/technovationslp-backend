@@ -1,8 +1,10 @@
 package org.desarrolladorslp.technovation.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.controller.dto.UserDTO;
 import org.desarrolladorslp.technovation.models.Role;
 import org.desarrolladorslp.technovation.models.User;
@@ -23,11 +25,22 @@ public class UserController {
 
     private UserService userService;
 
+    private TokenInfoService tokenInfoService;
+
     @Secured("ROLE_ADMINISTRATOR")
     @GetMapping("/inactive")
-    public ResponseEntity<List<UserDTO>> listInvalidUsers() {
+    public ResponseEntity<List<UserDTO>> listInactiveUsers() {
 
         List<User> users = userService.findByValidated(false);
+
+        return new ResponseEntity<>(users.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @Secured("ROLE_ADMINISTRATOR")
+    @GetMapping("/active")
+    public ResponseEntity<List<UserDTO>> listActiveUsers() {
+
+        List<User> users = userService.findByValidated(true);
 
         return new ResponseEntity<>(users.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
@@ -53,38 +66,58 @@ public class UserController {
         return new ResponseEntity<>(userDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getProfileInfo(Principal principal) {
+        User user = userService.findById(tokenInfoService.getIdFromPrincipal(principal));
+
+        return new ResponseEntity<>(convertToDTO(user), HttpStatus.OK);
+    }
+
+    @PostMapping("/me")
+    public ResponseEntity<UserDTO> updateProfileInfo(@RequestBody UserDTO userDTO, Principal principal) {
+        User user = userService.findById(tokenInfoService.getIdFromPrincipal(principal));
+
+        user.setName(userDTO.getName());
+        user.setPreferredEmail(userDTO.getPreferredEmail());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+
+        return new ResponseEntity<>(convertToDTO(userService.save(user)), HttpStatus.OK);
+    }
+
+    private User convertToEntity(UserDTO userDTO) {
+
+        return User.builder()
+                .id(userDTO.getId())
+                .name(userDTO.getName())
+                .phoneNumber(userDTO.getPhoneNumber())
+                .enabled(userDTO.isEnabled())
+                .validated(userDTO.isValidated())
+                .preferredEmail(userDTO.getPreferredEmail())
+                .roles(userDTO.getRoles().stream().map(roleName -> Role.builder().name(roleName).build()).collect(Collectors.toList()))
+                .build();
+
+    }
+
+    private UserDTO convertToDTO(User user) {
+
+        return UserDTO.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .phoneNumber(user.getPhoneNumber())
+                .enabled(user.isEnabled())
+                .validated(user.isValidated())
+                .preferredEmail(user.getPreferredEmail())
+                .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                .build();
+    }
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    public User convertToEntity(UserDTO userDTO) {
-
-        User user = new User();
-
-        user.setId(userDTO.getId());
-        user.setName(userDTO.getName());
-        user.setEnabled(userDTO.isEnabled());
-        user.setValidated(userDTO.isValidated());
-        user.setPreferredEmail(userDTO.getPreferredEmail());
-        user.setRoles(userDTO.getRoles().stream().map(roleName -> Role.builder().name(roleName).build()).collect(Collectors.toList()));
-
-        return user;
-
+    @Autowired
+    public void setTokenInfoService(TokenInfoService tokenInfoService) {
+        this.tokenInfoService = tokenInfoService;
     }
-
-    public UserDTO convertToDTO(User user) {
-
-        UserDTO userDTO = new UserDTO();
-
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setPreferredEmail(user.getPreferredEmail());
-        userDTO.setEnabled(user.isEnabled());
-        userDTO.setValidated(user.isValidated());
-        userDTO.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
-
-        return userDTO;
-    }
-
 }

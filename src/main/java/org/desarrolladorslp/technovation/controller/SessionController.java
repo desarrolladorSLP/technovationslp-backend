@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
-import org.desarrolladorslp.technovation.config.auth.TokenInfo;
+import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.controller.dto.SessionDTO;
 import org.desarrolladorslp.technovation.models.Session;
 import org.desarrolladorslp.technovation.models.User;
@@ -19,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +35,8 @@ public class SessionController {
 
     private SessionService sessionService;
 
+    private TokenInfoService tokenInfoService;
+
     @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping
     public ResponseEntity<SessionDTO> save(@RequestBody SessionDTO sessionDTO) {
@@ -51,11 +51,8 @@ public class SessionController {
     @PostMapping
     @RequestMapping("/confirm/{sessionId}")
     public ResponseEntity confirmAttendance(@PathVariable String sessionId, Principal principal) {
-        OAuth2Authentication auth = (OAuth2Authentication) principal;
-        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
-        TokenInfo tokenInfo = (TokenInfo) details.getDecodedDetails();
-        String id = tokenInfo.getUserId();
-        sessionService.confirmAttendance(UUID.fromString(sessionId), UUID.fromString(id));
+        sessionService.confirmAttendance(UUID.fromString(sessionId), tokenInfoService.getIdFromPrincipal(principal));
+
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -93,11 +90,6 @@ public class SessionController {
     public ResponseEntity<SessionDTO> getSession(@PathVariable String sessionId) {
 
         return new ResponseEntity<>(convertToDTO(sessionService.findById(UUID.fromString(sessionId)).orElseThrow()), HttpStatus.OK);
-    }
-
-    @Autowired
-    public void setSessionService(SessionService sessionService) {
-        this.sessionService = sessionService;
     }
 
     @GetMapping
@@ -140,5 +132,15 @@ public class SessionController {
                 map().setBatchId(source.getBatch().getId());
             }
         });
+    }
+
+    @Autowired
+    public void setSessionService(SessionService sessionService) {
+        this.sessionService = sessionService;
+    }
+
+    @Autowired
+    public void setTokenInfoService(TokenInfoService tokenInfoService) {
+        this.tokenInfoService = tokenInfoService;
     }
 }
