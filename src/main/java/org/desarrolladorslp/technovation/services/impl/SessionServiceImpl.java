@@ -33,6 +33,12 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
+    @Transactional
+    public void confirmAttendance(UUID sessionId, UUID userId){
+        sessionRepository.confirmAttendance(sessionId, userId);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<Session> findById(UUID id) {
         return sessionRepository.findById(id);

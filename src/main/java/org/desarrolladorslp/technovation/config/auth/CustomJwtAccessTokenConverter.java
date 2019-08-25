@@ -11,12 +11,13 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
 
         TokenInfo tokenInfo = new TokenInfo();
 
-        tokenInfo.setEmail((String) map.get("email"));
-        tokenInfo.setName((String) map.get("name"));
-        tokenInfo.setUid((String) map.get("user_name"));
-        tokenInfo.setEnabled((Boolean) map.get("enabled"));
-        tokenInfo.setValidated((Boolean) map.get("validated"));
-        tokenInfo.setClientId((String) map.get("client_id"));
+        tokenInfo.setEmail((String) map.get(AdditionalJWTInformation.EMAIL_KEY));
+        tokenInfo.setName((String) map.get(AdditionalJWTInformation.NAME_KEY));
+        tokenInfo.setUid((String) map.get(AdditionalJWTInformation.USER_NAME_KEY));
+        tokenInfo.setEnabled((Boolean) map.get(AdditionalJWTInformation.ENABLED_KEY));
+        tokenInfo.setValidated((Boolean) map.get(AdditionalJWTInformation.VALIDATED_KEY));
+        tokenInfo.setClientId((String) map.get(AdditionalJWTInformation.CLIENT_ID_KEY));
+        tokenInfo.setUserId((String) map.get(AdditionalJWTInformation.USER_ID_KEY));
 
         authentication.setDetails(tokenInfo);
 

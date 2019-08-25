@@ -1,0 +1,44 @@
+[
+  {
+    "id": "6529ef53-3551-4811-bc88-d755abad5531",
+    "name": "user1",
+    "preferredEmail": "user1@mail.com",
+    "enabled": false,
+    "validated": false,
+    "roles": [
+      {
+        "name": "ROLE_ADMINISTRATOR",
+        "description": "People guiding the programs. An administrator belongs to staff as well"
+      }
+    ]
+  },
+  {
+    "id": "c0926e7b-26fd-4789-a9ee-686109ef5c71",
+    "name": "user2",
+    "preferredEmail": "user2@mail.com",
+    "enabled": true,
+    "validated": true,
+    "roles": [
+      {
+        "name": "ROLE_TECKER",
+        "description": "Main consumers of the programs provided by the organization, for many of the programs they are supposed to be kids"
+      }
+    ]
+  },
+  {
+    "id": "8f5b93c0-4d39-4ea1-af8c-173c5f9fac7d",
+    "name": "user3",
+    "preferredEmail": "user3@mail.com",
+    "enabled": false,
+    "validated": false,
+    "roles": []
+  },
+  {
+    "id": "b08c249e-4e05-4b57-b2af-f9286e6888a0",
+    "name": "user4",
+    "preferredEmail": "user4@mail.com",
+    "enabled": false,
+    "validated": false,
+    "roles": []
+  }
+]

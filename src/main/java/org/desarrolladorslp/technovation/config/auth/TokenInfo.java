@@ -5,6 +5,7 @@ public class TokenInfo {
     private String email;
     private String name;
     private String uid;
+    private String userId;
     private boolean enabled;
     private boolean validated;
 
@@ -15,6 +16,10 @@ public class TokenInfo {
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
+
+    public String getUserId() { return userId; }
+
+    public void setUserId(String userId) { this.userId = userId; }
 
     public String getEmail() {
         return email;
