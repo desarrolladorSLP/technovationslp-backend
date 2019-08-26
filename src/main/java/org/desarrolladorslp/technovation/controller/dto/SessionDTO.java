@@ -34,6 +34,4 @@ public class SessionDTO {
     private String location;
 
     private UUID batchId;
-
-
 }
