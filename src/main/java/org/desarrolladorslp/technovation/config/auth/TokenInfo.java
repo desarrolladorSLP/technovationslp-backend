@@ -1,12 +1,21 @@
 package org.desarrolladorslp.technovation.config.auth;
 
 public class TokenInfo {
+    private String clientId;
     private String email;
     private String name;
     private String uid;
     private String userId;
     private boolean enabled;
     private boolean validated;
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
     public String getUserId() { return userId; }
 

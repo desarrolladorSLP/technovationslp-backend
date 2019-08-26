@@ -1,0 +1,32 @@
+[
+  {
+    "id": "20a4f4e7-1ec0-4108-bdfd-ffe45182e75a",
+    "name": "9fc24052-60ed-403f-97d7-f5b47c83aa1c",
+    "startDate": "2019-06-20",
+    "endDate": "2019-07-20",
+    "notes": "0f87612a-1739-4c8a-92b4-89b3cf49884b",
+    "program": {
+      "id": "ebf738ee-b050-40cf-8dd8-e15b77fb8428"
+    }
+  },
+  {
+    "id": "634485c0-7fee-43fe-a455-a076258c4fdb",
+    "name": "6cf06739-bda2-48c5-9b41-2004b6eccf50",
+    "startDate": "2020-01-31",
+    "endDate": "2020-06-30",
+    "notes": "e7b1b6c3-5616-4a43-889a-a80f642d2e3e",
+    "program": {
+      "id": "e323f34c-4f6b-4f0e-868b-a7bc396d078f"
+    }
+  },
+  {
+    "id": "607cc70e-af0c-44f8-825c-23b2a0e12e7b",
+    "name": "95239898-9b6f-4f97-9b30-47f518b8a719",
+    "startDate": "2020-06-30",
+    "endDate": "2020-12-31",
+    "notes": "5cbd71df-ef11-4d3c-8a7c-6e49276ac0e6",
+    "program": {
+      "id": "079cf92b-84d0-4114-8d47-9b2e33aa9c15"
+    }
+  }
+]

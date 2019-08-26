@@ -67,7 +67,7 @@ adding
 
 The values that can be used as the tokenId are described in the file [application-fake-token-granter.yml](src/main/resources/application-fake-token-granter.yml)
 
-Use those tokens for the parameter `firebase-token-id` during login to the endpoint `oauth/token`    
+Use those tokens for the parameter `firebase_token_id` during login to the endpoint `oauth/token`    
 
 
 

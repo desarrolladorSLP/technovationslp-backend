@@ -2,6 +2,8 @@ package org.desarrolladorslp.technovation.config.auth;
 
 import java.util.Arrays;
 
+import javax.sql.DataSource;
+
 import org.desarrolladorslp.technovation.config.auth.firebase.FirebaseTokenGranter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,12 +25,7 @@ import org.springframework.util.StringUtils;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private static final String FIREBASE_GRANT_TYPE = "firebase";
-    private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
-
     private TechnovationSlpAuthenticationManager authenticationManager;
-
-    private PasswordEncoder passwordEncoder;
 
     private FirebaseService firebaseService;
 
@@ -36,7 +33,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private JwtConfig jwtConfig;
 
-    private ClientConfig clientConfig;
+    private DataSource dataSource;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
@@ -46,12 +43,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient(clientConfig.getClientId())
-                .secret(passwordEncoder.encode(clientConfig.getSecret()))
-                .scopes(clientConfig.getScopes())
-                .authorizedGrantTypes(FIREBASE_GRANT_TYPE, REFRESH_TOKEN_GRANT_TYPE)
-                .accessTokenValiditySeconds(clientConfig.getAccessTokenValiditySeconds())
-                .refreshTokenValiditySeconds(clientConfig.getAccessTokenValiditySeconds());
+        clients.jdbc(dataSource).passwordEncoder(getPasswordEncoder());
     }
 
     @Override
@@ -89,14 +81,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new BCryptPasswordEncoder();
     }
 
+
     @Autowired
     public void setAuthenticationManager(TechnovationSlpAuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-    }
-
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Autowired
@@ -115,7 +103,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Autowired
-    public void setClientConfig(ClientConfig clientConfig) {
-        this.clientConfig = clientConfig;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }
