@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 public class FirebaseTokenGranter extends AbstractTokenGranter {
 
     private static final String GRANT_TYPE = "firebase";
-    private static final String FIREBASE_TOKEN_ID = "firebase-token-id";
+    private static final String FIREBASE_TOKEN_ID = "firebase_token_id";
 
     private FirebaseService firebaseService;
 

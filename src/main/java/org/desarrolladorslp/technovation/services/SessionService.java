@@ -14,4 +14,8 @@ public interface SessionService {
     Optional<Session> findById(UUID id);
 
     List<Session> findByBatch(UUID batchId);
+
+    void confirmAttendance(UUID sessionId, UUID userId);
+
+
 }
