@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -22,10 +23,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventDTO> list(int month) {
 
-        if(month > 0 && month <13){
-            //SessionService
+        if(month < 1 && month > 12){
+            throw new IllegalArgumentException("Invalid Month");
         }
-        return null;
+
+        List<Session> sessions = sessionService.list();
+        return sessions.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @PostConstruct
@@ -34,8 +37,9 @@ public class EventServiceImpl implements EventService {
         modelMapper.addMappings(new PropertyMap<Session, EventDTO>() {
             @Override
             protected void configure(){
-                map().setMonth(source.getDate().getMonthValue());
-                map().setDay(source.getDate().getDayOfMonth());
+                map().setType("SESSION");
+                //map().setMonth(source.getDate().getMonthValue());
+                //map().setDay(source.getDate().getDayOfMonth());
                 map().setSubject(source.getTitle());
                 map().setDirections(source.getNotes());
             }
@@ -50,5 +54,10 @@ public class EventServiceImpl implements EventService {
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setSessionService(SessionService sessionService){
+        this.sessionService = sessionService;
     }
 }

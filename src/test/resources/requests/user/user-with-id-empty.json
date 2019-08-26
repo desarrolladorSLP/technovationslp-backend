@@ -1,0 +1,13 @@
+{
+  "id": "",
+  "enabled": false,
+  "validated": true,
+  "roles":[
+    {
+      "name": "ROLE_TECKER"
+    },
+    {
+      "name": "ROLE_ADMINISTRATOR"
+    }
+  ]
+}

@@ -5,6 +5,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.desarrolladorslp.technovation.controller.dto.BatchDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.services.BatchService;
@@ -21,8 +23,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("/api/batch")

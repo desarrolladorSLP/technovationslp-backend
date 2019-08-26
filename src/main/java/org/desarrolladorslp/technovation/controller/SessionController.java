@@ -1,10 +1,17 @@
 package org.desarrolladorslp.technovation.controller;
 
-import java.util.*;
+import java.security.Principal;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
+import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.controller.dto.SessionDTO;
 import org.desarrolladorslp.technovation.models.Session;
+import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.SessionService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -20,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
-
 @RestController
 @RequestMapping("/api/session")
 public class SessionController {
@@ -29,6 +34,8 @@ public class SessionController {
     private ModelMapper modelMapper;
 
     private SessionService sessionService;
+
+    private TokenInfoService tokenInfoService;
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping
@@ -38,6 +45,24 @@ public class SessionController {
         session.setId(null);
 
         return new ResponseEntity<>(convertToDTO(sessionService.save(session)), HttpStatus.CREATED);
+    }
+
+    @Secured({"ROLE_TECKER", "ROLE_STAFF", "ROLE_MENTOR"})
+    @PostMapping
+    @RequestMapping("/confirm/{sessionId}")
+    public ResponseEntity confirmAttendance(@PathVariable String sessionId, Principal principal) {
+        sessionService.confirmAttendance(UUID.fromString(sessionId), tokenInfoService.getIdFromPrincipal(principal));
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    @Secured({"ROLE_PARENT"})
+    @PostMapping
+    @RequestMapping("/confirmParent/{sessionId}")
+    public ResponseEntity confirmParentAttendanceByTecker(@PathVariable String sessionId, @RequestBody User userTecker) {
+        sessionService.confirmAttendance(UUID.fromString(sessionId), userTecker.getId());
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMINISTRATOR"})
@@ -67,11 +92,6 @@ public class SessionController {
         return new ResponseEntity<>(convertToDTO(sessionService.findById(UUID.fromString(sessionId)).orElseThrow()), HttpStatus.OK);
     }
 
-    @Autowired
-    public void setSessionService(SessionService sessionService) {
-        this.sessionService = sessionService;
-    }
-
     @GetMapping
     @RequestMapping("batch/{batchId}")
     public ResponseEntity<List<SessionDTO>> getSessionsByBatch(@PathVariable String batchId) {
@@ -97,7 +117,7 @@ public class SessionController {
     }
 
     @PostConstruct
-    public void prepareMappings(){
+    public void prepareMappings() {
 
         modelMapper.addMappings(new PropertyMap<SessionDTO, Session>() {
             @Override
@@ -112,5 +132,15 @@ public class SessionController {
                 map().setBatchId(source.getBatch().getId());
             }
         });
+    }
+
+    @Autowired
+    public void setSessionService(SessionService sessionService) {
+        this.sessionService = sessionService;
+    }
+
+    @Autowired
+    public void setTokenInfoService(TokenInfoService tokenInfoService) {
+        this.tokenInfoService = tokenInfoService;
     }
 }
