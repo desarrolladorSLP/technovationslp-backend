@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface EventService {
 
-    List<EventDTO> list(int month);
+    List<EventDTO> list(int year, int month);
 }

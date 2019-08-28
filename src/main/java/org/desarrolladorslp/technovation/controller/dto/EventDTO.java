@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 
 @Builder
 @Data
@@ -18,6 +20,8 @@ public class EventDTO {
    private int month;
 
    private int day;
+
+   private LocalDate date;
 
    private String subject;
 
