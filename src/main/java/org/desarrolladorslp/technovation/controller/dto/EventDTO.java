@@ -17,10 +17,6 @@ public class EventDTO {
 
    private String type;
 
-   private int month;
-
-   private int day;
-
    private LocalDate date;
 
    private String subject;
