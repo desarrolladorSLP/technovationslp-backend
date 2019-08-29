@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.desarrolladorslp.technovation.models.Session;
+import org.desarrolladorslp.technovation.models.User;
 
 public interface SessionService {
     Session save(Session session);
@@ -16,6 +17,10 @@ public interface SessionService {
     List<Session> findByBatch(UUID batchId);
 
     void confirmAttendance(UUID sessionId, UUID userId);
+
+    List<User> allPeople(UUID sessionId);
+
+    List<User> staff(UUID sessionId);
 
 
 }
