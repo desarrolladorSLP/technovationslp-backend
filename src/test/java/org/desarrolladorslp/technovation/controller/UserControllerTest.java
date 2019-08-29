@@ -1,7 +1,6 @@
 package org.desarrolladorslp.technovation.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -13,8 +12,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.config.controller.LocalDateAdapter;
+import org.desarrolladorslp.technovation.controller.dto.UserDTO;
+import org.desarrolladorslp.technovation.models.Role;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.UserService;
 import org.junit.Before;
@@ -28,7 +30,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,7 +40,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.util.NestedServletException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -77,18 +77,19 @@ public class UserControllerTest {
     public void whenListUsers_thenReturnListAnd200Status() throws Exception {
 
         //given
+        Type UserDTOListType = new TypeToken<ArrayList<UserDTO>>() {
+        }.getType();
+        String retrievedUsersDTO = MessageLoader.loadExampleRequest("requests/user/list-existent-usersDTO.json");
+        List<UserDTO> expectedListDTO = gson.fromJson(retrievedUsersDTO, UserDTOListType);
+
         Type UserListType = new TypeToken<ArrayList<User>>() {
         }.getType();
         String retrievedUsers = MessageLoader.loadExampleRequest("requests/user/list-existent-users.json");
         List<User> expectedList = gson.fromJson(retrievedUsers, UserListType);
 
-//        SecurityContext securityContext = SecurityContextHolder.getContext();
-//        securityContext.setAuthentication(auth);
-
         when(userService.findAll()).thenReturn(expectedList);
 
         //when
-        try {
             MockHttpServletResponse response = mockMvc.perform(
                     MockMvcRequestBuilders.get(BASE_USER_URL)).andReturn().getResponse();
 
@@ -98,18 +99,47 @@ public class UserControllerTest {
             verifyNoMoreInteractions(userService);
 
             String responseBody = response.getContentAsString();
-            List<User> receivedUsers = gson.fromJson(responseBody, UserListType);
-            assertThat(receivedUsers).isEqualTo(expectedList);
+            List<UserDTO> receivedUsersDTO = gson.fromJson(responseBody, UserDTOListType);
+            assertThat(receivedUsersDTO).isEqualTo(expectedListDTO);
+    }
 
-            fail("AccessDeniedException must be thrown");
-        } catch (NestedServletException nestedServletException) {
-            assertThat(nestedServletException.getCause()).isInstanceOf(AccessDeniedException.class);
-        }
+    @Test
+    public void whenListActiveUsers_thenReturnListAnd200Status() throws Exception{
+        //given
+        Type listActiveDTOListType = new TypeToken<ArrayList<UserDTO>>() {
+        }.getType();
+        String retrievedUsersDTO = MessageLoader.loadExampleRequest("requests/user/list-existent-usersDTO.json");
+        List<UserDTO> expectedListActiveDTO = gson.fromJson(retrievedUsersDTO, listActiveDTOListType);
+
+        Type listActiveUsersType = new TypeToken<ArrayList<User>>() {
+        }.getType();
+        String retrievedUsers = MessageLoader.loadExampleRequest("requests/user/list-existent-users.json");
+        List<User> expectedListActive = gson.fromJson(retrievedUsers, listActiveUsersType);
+
+        when(userService.findByValidated(true)).thenReturn(expectedListActive);
+
+        //when
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.get(BASE_USER_URL + "/active")).andReturn().getResponse();
+
+        //then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        verify(userService).findByValidated(true);
+        verifyNoMoreInteractions(userService);
+
+        String responseBody = response.getContentAsString();
+        List<UserDTO> receivedUsersActiveDTO = gson.fromJson(responseBody, listActiveDTOListType);
+        assertThat(receivedUsersActiveDTO).isEqualTo(expectedListActiveDTO);
     }
 
     @Test
     public void whenListInactiveUsers_thenReturnListAnd200Status() throws Exception {
         //given
+        Type listInactiveDTOListType = new TypeToken<ArrayList<UserDTO>>() {
+        }.getType();
+        String retrievedUsersDTO = MessageLoader.loadExampleRequest("requests/user/list-existent-usersDTO.json");
+        List<UserDTO> expectedListInactiveDTO = gson.fromJson(retrievedUsersDTO, listInactiveDTOListType);
+
         Type listInactiveUsersType = new TypeToken<ArrayList<User>>() {
         }.getType();
         String retrievedUsers = MessageLoader.loadExampleRequest("requests/user/list-existent-users.json");
@@ -127,8 +157,8 @@ public class UserControllerTest {
         verifyNoMoreInteractions(userService);
 
         String responseBody = response.getContentAsString();
-        List<User> receivedUsersInactive = gson.fromJson(responseBody, listInactiveUsersType);
-        assertThat(receivedUsersInactive).isEqualTo(expectedListInactive);
+        List<UserDTO> receivedUsersInactiveDTO = gson.fromJson(responseBody, listInactiveDTOListType);
+        assertThat(receivedUsersInactiveDTO).isEqualTo(expectedListInactiveDTO);
     }
 
     @Test
@@ -136,8 +166,18 @@ public class UserControllerTest {
         //given
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
 
-        String request = MessageLoader.loadExampleRequest("requests/user/valid-user.json");
-        User user = gson.fromJson(request, User.class);
+        String request = MessageLoader.loadExampleRequest("requests/user/valid-user-DTOs.json");
+        UserDTO userDTO = gson.fromJson(request, UserDTO.class);
+
+        String requestUser = MessageLoader.loadExampleRequest("requests/user/valid-user.json");
+        User user = gson.fromJson(requestUser, User.class);
+
+        assertThat(userDTO.getId()).isNotNull();
+        assertThat(user.getId()).isEqualTo(userDTO.getId());
+        assertThat(user.getPreferredEmail()).isEqualTo(userDTO.getPreferredEmail());
+        assertThat(user.isEnabled()).isEqualTo(userDTO.isEnabled());
+        assertThat(user.isValidated()).isTrue();
+        assertThat(user.getRoles()).isEqualTo(userDTO.getRoles().stream().map(roleName -> Role.builder().name(roleName).build()).collect(Collectors.toList()));
 
         //when
         MockHttpServletResponse response = mockMvc.perform(
@@ -154,12 +194,12 @@ public class UserControllerTest {
         User UserActivated = userCaptor.getValue();
         assertThat(UserActivated).isNotNull();
 
-        assertThat(UserActivated.getId()).isEqualTo(user.getId());
-        assertThat(UserActivated.getName()).isEqualTo(user.getName());
-        assertThat(UserActivated.getPreferredEmail()).isEqualTo(user.getPreferredEmail());
-        assertThat(UserActivated.isEnabled()).isEqualTo(user.isEnabled());
+        assertThat(UserActivated.getId()).isEqualTo(userDTO.getId());
+        assertThat(UserActivated.getName()).isEqualTo(userDTO.getName());
+        assertThat(UserActivated.getPreferredEmail()).isEqualTo(userDTO.getPreferredEmail());
+        assertThat(UserActivated.isEnabled()).isEqualTo(userDTO.isEnabled());
         assertThat(UserActivated.isValidated()).isTrue();
-        assertThat(UserActivated.getRoles()).isEqualTo(user.getRoles());
+        assertThat(UserActivated.getRoles()).isEqualTo(userDTO.getRoles().stream().map(roleName -> Role.builder().name(roleName).build()).collect(Collectors.toList()));
     }
 
     @Test
@@ -192,11 +232,11 @@ public class UserControllerTest {
     @Test
     public void givenAnUserWithIdNull_whenActivate_thenRejectWith404Status() throws Exception {
 
-        //then
-        //String request = MessageLoader.loadExampleRequest("requests/user/user-with-id-empty.json");
-        String request = MessageLoader.loadExampleRequest("requests/user/user-with-id-null.json");
-        User user = gson.fromJson(request, User.class);
+        //given
+        String request = MessageLoader.loadExampleRequest("requests/user/user-with-id-null-DTOs.json");
+        UserDTO userDTO = gson.fromJson(request, UserDTO.class);
         when(userService.activate(any(User.class))).thenThrow(new UsernameNotFoundException(""));
+
 
         //when
         MockHttpServletResponse response = mockMvc.perform(
@@ -205,15 +245,17 @@ public class UserControllerTest {
                         .content(request))
                 .andReturn().getResponse();
 
+
         //then
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userService).activate(userCaptor.capture());
         verifyNoMoreInteractions(userService);
         assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
 
+
         User userToActivate = userCaptor.getValue();
         assertThat(userToActivate).isNotNull();
         assertThat(userToActivate.getId()).isNull();
-        assertThat(userToActivate.getRoles()).isEqualTo(user.getRoles());
+        assertThat(userToActivate.getRoles()).isEqualTo(userDTO.getRoles().stream().map(roleName -> Role.builder().name(roleName).build()).collect(Collectors.toList()));
     }
 }
