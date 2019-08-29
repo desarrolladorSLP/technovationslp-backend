@@ -77,6 +77,14 @@ public class BatchController {
         return new ResponseEntity<>(batches.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @PostMapping
+    @RequestMapping("registerUser/{batchId}/{userId}")
+    public ResponseEntity registerUserToBatch(@PathVariable String batchId, @PathVariable String userId){
+        //batchService.registerUserToBatch(UUID.fromString(batchId), UUID.fromString(userId));
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @Autowired
     public void setBatchService(BatchService batchService) {
         this.batchService = batchService;

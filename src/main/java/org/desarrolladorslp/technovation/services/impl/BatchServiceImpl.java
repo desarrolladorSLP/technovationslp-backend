@@ -49,6 +49,11 @@ public class BatchServiceImpl implements BatchService {
         return batchRepository.findByProgram(program);
     }
 
+    @Override
+    public void registerUserToBatch(UUID batchId, UUID userId) {
+
+    }
+
     @Autowired
     public void setBatchRepository(BatchRepository batchRepository) {
         this.batchRepository = batchRepository;

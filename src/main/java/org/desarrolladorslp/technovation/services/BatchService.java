@@ -15,4 +15,6 @@ public interface BatchService {
     Optional<Batch> findById(UUID id);
 
     List<Batch> findByProgram(UUID programId);
+
+    void registerUserToBatch(UUID batchId, UUID userId);
 }
