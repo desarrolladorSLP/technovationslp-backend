@@ -1,17 +1,19 @@
 package org.desarrolladorslp.technovation.services.impl;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-
+import org.desarrolladorslp.technovation.exception.UserAlreadyConfirmedException;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Session;
+import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.repository.SessionRepository;
 import org.desarrolladorslp.technovation.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SessionServiceImpl implements SessionService {
@@ -28,14 +30,30 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<User> allPeople(UUID sessionId) {
+        return sessionRepository.allPeople(sessionId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> staff(UUID sessionId) {
+        return sessionRepository.staff(sessionId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Session> list() {
         return sessionRepository.findAll();
     }
 
     @Override
     @Transactional
-    public void confirmAttendance(UUID sessionId, UUID userId){
-        sessionRepository.confirmAttendance(sessionId, userId);
+    public void confirmAttendance(UUID sessionId, UUID userId) {
+        sessionRepository.getUserBySession(sessionId, userId).ifPresentOrElse(
+                user -> {
+                    throw new UserAlreadyConfirmedException(user.getId() + " has been confirmed already");
+                },
+                () -> sessionRepository.confirmAttendance(sessionId, userId));
     }
 
     @Override
