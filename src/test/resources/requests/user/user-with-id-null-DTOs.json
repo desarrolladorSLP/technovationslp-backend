@@ -1,0 +1,5 @@
+{
+  "enabled": false,
+  "validated": true,
+  "roles":["ROLE_TECKER","ROLE_ADMINISTRATOR"]
+}
