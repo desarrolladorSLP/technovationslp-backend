@@ -13,6 +13,7 @@ import org.desarrolladorslp.technovation.config.controller.MainExceptionHandler;
 import org.desarrolladorslp.technovation.exception.InactiveUserException;
 import org.desarrolladorslp.technovation.exception.InvalidUserException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -29,8 +30,9 @@ public class UserStatusFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         try {
-            if (SecurityContextHolder.getContext().getAuthentication() instanceof OAuth2Authentication) {
-                OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication instanceof OAuth2Authentication) {
+                OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
                 TokenInfo tokenInfo = (TokenInfo) details.getDecodedDetails();
 
                 if (!tokenInfo.isValidated()) {
