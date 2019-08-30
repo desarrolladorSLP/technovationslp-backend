@@ -1,4 +1,3 @@
-
 package org.desarrolladorslp.technovation.controller.dto;
 
 import lombok.AllArgsConstructor;
@@ -18,9 +17,7 @@ public class EventDTO {
 
    private String type;
 
-   private int month;
-
-   private int day;
+   private LocalDate date;
 
    private String subject;
 

@@ -21,9 +21,9 @@ public class EventServiceImpl implements EventService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<EventDTO> list(int month) {
+    public List<EventDTO> list(int year, int month) {
 
-        if(month < 1 && month > 12){
+        if (month < 1 || month > 12) {
             throw new IllegalArgumentException("Invalid Month");
         }
 
@@ -32,32 +32,31 @@ public class EventServiceImpl implements EventService {
     }
 
     @PostConstruct
-    public void prepareMappings(){
+    public void prepareMappings() {
 
         modelMapper.addMappings(new PropertyMap<Session, EventDTO>() {
             @Override
-            protected void configure(){
+            protected void configure() {
                 map().setType("SESSION");
-                //map().setMonth(source.getDate().getMonthValue());
-                //map().setDay(source.getDate().getDayOfMonth());
                 map().setSubject(source.getTitle());
                 map().setDirections(source.getNotes());
+                map().setDate(source.getDate());
             }
         });
     }
 
-    public EventDTO convertToDTO(Session session){
+    public EventDTO convertToDTO(Session session) {
 
         return modelMapper.map(session, EventDTO.class);
     }
 
     @Autowired
-    public void setModelMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
+    public void setSessionService(SessionService sessionService) {
+        this.sessionService = sessionService;
     }
 
     @Autowired
-    public void setSessionService(SessionService sessionService){
-        this.sessionService = sessionService;
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 }
