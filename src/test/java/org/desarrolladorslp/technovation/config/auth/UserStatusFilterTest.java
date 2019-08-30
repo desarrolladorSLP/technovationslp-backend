@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.desarrolladorslp.technovation.config.controller.MainExceptionHandler;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -33,6 +35,17 @@ import com.google.gson.Gson;
 public class UserStatusFilterTest {
 
     private Gson gson = new Gson();
+    private SecurityContext realSecurityContext;
+
+    @Before
+    public void setup() {
+        realSecurityContext = SecurityContextHolder.getContext();
+    }
+
+    @After
+    public void tearDown() {
+        SecurityContextHolder.setContext(realSecurityContext);
+    }
 
     @Test
     public void whenUserInactiveReturn403() throws ServletException, IOException {
@@ -48,12 +61,8 @@ public class UserStatusFilterTest {
         ServletOutputStream mockServletOutputStream = mock(ServletOutputStream.class);
         FilterChain mockFilterChain = mock(FilterChain.class);
 
-        TokenInfo tokenInfo = new TokenInfo();
+        TokenInfo tokenInfo = TokenInfo.builder().enabled(false).validated(false).build();
         ArgumentCaptor<byte[]> responsePayload = ArgumentCaptor.forClass(byte[].class);
-
-
-        tokenInfo.setEnabled(false);
-        tokenInfo.setValidated(false);
 
         when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
         SecurityContextHolder.setContext(mockSecurityContext);
@@ -95,11 +104,8 @@ public class UserStatusFilterTest {
         ServletOutputStream mockServletOutputStream = mock(ServletOutputStream.class);
         FilterChain mockFilterChain = mock(FilterChain.class);
 
-        TokenInfo tokenInfo = new TokenInfo();
+        TokenInfo tokenInfo = TokenInfo.builder().enabled(false).validated(true).build();
         ArgumentCaptor<byte[]> responsePayload = ArgumentCaptor.forClass(byte[].class);
-
-        tokenInfo.setEnabled(false);
-        tokenInfo.setValidated(true);
 
         when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
         SecurityContextHolder.setContext(mockSecurityContext);
@@ -141,10 +147,7 @@ public class UserStatusFilterTest {
         ServletOutputStream mockServletOutputStream = mock(ServletOutputStream.class);
         FilterChain mockFilterChain = mock(FilterChain.class);
 
-        TokenInfo tokenInfo = new TokenInfo();
-
-        tokenInfo.setEnabled(true);
-        tokenInfo.setValidated(true);
+        TokenInfo tokenInfo = TokenInfo.builder().enabled(true).validated(true).build();
 
         when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
         SecurityContextHolder.setContext(mockSecurityContext);

@@ -12,22 +12,23 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
 
     private UserService userService;
 
-    public CustomJwtAccessTokenConverter(UserService userService) {
+    CustomJwtAccessTokenConverter(UserService userService) {
         this.userService = userService;
     }
 
+    @Override
     public OAuth2Authentication extractAuthentication(Map<String, ?> map) {
         OAuth2Authentication authentication = getAccessTokenConverter().extractAuthentication(map);
 
-        TokenInfo tokenInfo = new TokenInfo();
+        TokenInfo tokenInfo = TokenInfo.builder()
+                .userId((String) map.get(AdditionalJWTInformation.USER_ID_KEY))
+                .enabled((Boolean) map.get(AdditionalJWTInformation.ENABLED_KEY))
+                .validated((Boolean) map.get(AdditionalJWTInformation.VALIDATED_KEY))
+                .uid((String) map.get(AdditionalJWTInformation.USER_NAME_KEY))
+                .clientId((String) map.get(AdditionalJWTInformation.CLIENT_ID_KEY))
+                .build();
 
-        tokenInfo.setUserId((String) map.get(AdditionalJWTInformation.USER_ID_KEY));
-        tokenInfo.setEnabled((Boolean) map.get(AdditionalJWTInformation.ENABLED_KEY));
-        tokenInfo.setValidated((Boolean) map.get(AdditionalJWTInformation.VALIDATED_KEY));
-        tokenInfo.setUid((String) map.get(AdditionalJWTInformation.USER_NAME_KEY));
-        tokenInfo.setClientId((String) map.get(AdditionalJWTInformation.CLIENT_ID_KEY));
-
-        if(tokenInfo.isEnabled() && tokenInfo.isValidated()){
+        if (tokenInfo.isEnabled() && tokenInfo.isValidated()) {
             User user = userService.findById(UUID.fromString(tokenInfo.getUserId()));
 
             tokenInfo.setEnabled(user.isEnabled());
