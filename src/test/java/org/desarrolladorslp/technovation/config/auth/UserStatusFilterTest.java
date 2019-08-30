@@ -61,8 +61,10 @@ public class UserStatusFilterTest {
         when(mockDetails.getDecodedDetails()).thenReturn(tokenInfo);
         when(mockResponse.getOutputStream()).thenReturn(mockServletOutputStream);
 
-        // When:\
+        // When:
         userStatusFilter.doFilterInternal(mockRequest, mockResponse, mockFilterChain);
+
+        // Then:
         verify(mockSecurityContext).getAuthentication();
         verify(mockAuthentication).getDetails();
         verify(mockResponse).setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
@@ -96,7 +98,6 @@ public class UserStatusFilterTest {
         TokenInfo tokenInfo = new TokenInfo();
         ArgumentCaptor<byte[]> responsePayload = ArgumentCaptor.forClass(byte[].class);
 
-
         tokenInfo.setEnabled(false);
         tokenInfo.setValidated(true);
 
@@ -106,8 +107,10 @@ public class UserStatusFilterTest {
         when(mockDetails.getDecodedDetails()).thenReturn(tokenInfo);
         when(mockResponse.getOutputStream()).thenReturn(mockServletOutputStream);
 
-        // When:\
+        // When:
         userStatusFilter.doFilterInternal(mockRequest, mockResponse, mockFilterChain);
+
+        // Then:
         verify(mockSecurityContext).getAuthentication();
         verify(mockAuthentication).getDetails();
         verify(mockResponse).setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
@@ -148,8 +151,10 @@ public class UserStatusFilterTest {
         when(mockAuthentication.getDetails()).thenReturn(mockDetails);
         when(mockDetails.getDecodedDetails()).thenReturn(tokenInfo);
 
-        // When:\
+        // When:
         userStatusFilter.doFilterInternal(mockRequest, mockResponse, mockFilterChain);
+
+        // Then:
         verify(mockSecurityContext).getAuthentication();
         verify(mockAuthentication).getDetails();
         verify(mockDetails).getDecodedDetails();
