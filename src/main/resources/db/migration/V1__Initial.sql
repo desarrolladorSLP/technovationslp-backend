@@ -72,8 +72,8 @@ CREATE TABLE sessions
     notes      TEXT         NOT NULL,
     location   varchar(500),
     date       DATE         NOT NULL,
-    start_time TIME,
-    end_time   TIME,
+    start_time TIME WITH TIME ZONE,
+    end_time   TIME WITH TIME ZONE,
 
     CONSTRAINT session_title UNIQUE (batch_id, title)
 );
