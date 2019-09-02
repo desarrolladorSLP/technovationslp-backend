@@ -12,11 +12,13 @@ public class SecurityServerConfig extends WebSecurityConfigurerAdapter {
 
 
     public static final String OAUTH_TOKEN_URL = "/oauth/token";
+    public static final String FAKE_PICTURES_URL = "/fake-pictures/*";
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, OAUTH_TOKEN_URL).permitAll();
+                .antMatchers(HttpMethod.OPTIONS, OAUTH_TOKEN_URL).permitAll()
+                .antMatchers(HttpMethod.GET, FAKE_PICTURES_URL).permitAll();
     }
 }
