@@ -2,5 +2,6 @@
   "id": "98b0257c-3ba7-43e3-8080-0418b6c2cc01",
   "enabled": true,
   "validated": true,
+  "pictureUrl": "image_user1.png",
   "roles": ["ROLE_ADMINISTRATOR"]
 }

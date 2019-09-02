@@ -11,6 +11,7 @@ public class TokenInfo {
     private String name;
     private String uid;
     private String userId;
+    private String pictureUrl;
     private boolean enabled;
     private boolean validated;
 }

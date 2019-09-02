@@ -40,6 +40,9 @@ public class User implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "picture_url")
+    private String pictureUrl;
+
     private boolean enabled;
 
     private boolean validated;
