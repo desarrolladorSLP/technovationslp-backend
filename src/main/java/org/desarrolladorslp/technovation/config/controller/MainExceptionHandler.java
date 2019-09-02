@@ -40,12 +40,12 @@ public class MainExceptionHandler {
         String message;
         String exception;
 
-        Error message(String message) {
+        public Error message(String message) {
             this.message = message;
             return this;
         }
 
-        Error exception(String exception) {
+        public Error exception(String exception) {
             this.exception = exception;
             return this;
         }

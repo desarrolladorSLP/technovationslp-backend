@@ -27,12 +27,12 @@ public class FakeFirebaseService implements FirebaseService {
         }
 
         FakeToken fakeToken = tokens.get(idToken);
-        TokenInfo token = new TokenInfo();
 
-        token.setEmail(fakeToken.getEmail());
-        token.setName(fakeToken.getName());
-        token.setUid(idToken);
+        return TokenInfo.builder()
+                .email(fakeToken.getEmail())
+                .name(fakeToken.getName())
+                .uid(idToken)
+                .build();
 
-        return token;
     }
 }
