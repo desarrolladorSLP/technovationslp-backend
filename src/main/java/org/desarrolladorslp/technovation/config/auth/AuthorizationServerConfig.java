@@ -5,6 +5,7 @@ import java.util.Arrays;
 import javax.sql.DataSource;
 
 import org.desarrolladorslp.technovation.config.auth.firebase.FirebaseTokenGranter;
+import org.desarrolladorslp.technovation.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private JwtConfig jwtConfig;
 
     private DataSource dataSource;
+
+    private UserService userService;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
@@ -66,7 +69,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             return null;
         }
 
-        JwtAccessTokenConverter accessTokenConverter = new CustomJwtAccessTokenConverter();
+        JwtAccessTokenConverter accessTokenConverter = new CustomJwtAccessTokenConverter(userService);
         byte[] privateKey = Base64Utils.decodeFromString(jwtConfig.getPrivateKey());
         byte[] publicKey = Base64Utils.decodeFromString(jwtConfig.getPublicKey());
 
@@ -105,5 +108,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }
