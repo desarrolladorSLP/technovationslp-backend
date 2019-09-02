@@ -113,3 +113,10 @@ INSERT INTO oauth_client_details
  refresh_token_validity, additional_information, autoapprove)
 VALUES
 ('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC', 'read,write','firebase', null, null, 5184000, 0, null, true);
+
+CREATE TABLE users_by_batch
+(
+    batch_id  UUID REFERENCES batches,
+    user_id     UUID REFERENCES users,
+    PRIMARY KEY (batch_id, user_id)
+);

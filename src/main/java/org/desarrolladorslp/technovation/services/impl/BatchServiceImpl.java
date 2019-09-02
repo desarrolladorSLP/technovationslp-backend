@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Program;
 import org.desarrolladorslp.technovation.repository.BatchRepository;
@@ -50,7 +51,13 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
+    @Transactional
     public void registerUserToBatch(UUID batchId, UUID userId) {
+        batchRepository.getUserByBatch(batchId, userId).ifPresentOrElse(
+                user -> {
+                    throw new UserAlreadyRegisteredInBatch(user.getId() + "has been registered already");
+                }, ()->
+        batchRepository.registerUserToBatch(batchId, userId));
 
     }
 

@@ -81,7 +81,7 @@ public class BatchController {
     @PostMapping
     @RequestMapping("registerUser/{batchId}/{userId}")
     public ResponseEntity registerUserToBatch(@PathVariable String batchId, @PathVariable String userId){
-        //batchService.registerUserToBatch(UUID.fromString(batchId), UUID.fromString(userId));
+        batchService.registerUserToBatch(UUID.fromString(batchId), UUID.fromString(userId));
         return new ResponseEntity(HttpStatus.OK);
     }
 
