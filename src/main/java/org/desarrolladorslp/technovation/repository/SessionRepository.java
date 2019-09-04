@@ -30,4 +30,7 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
 
     @Query(value = "SELECT u FROM User u JOIN UserBySession ca ON u.id = ca.userId JOIN UsersByRole ur ON u.id = ur.userId WHERE ca.sessionId = :id AND ur.roleName in('ROLE_STAFF','ROLE_MENTOR', 'ROLE_ADMINISTRATOR')")
     List<User> staff(@Param("id") UUID sessionId);
+
+    @Query("SELECT s FROM Session s JOIN UserByBatch ub ON s.batch.id = ub.batchId JOIN User u ON ub.userId = u.id WHERE u.id = :userId ")
+    List<Session> getSessionsByUser(UUID userId);
 }

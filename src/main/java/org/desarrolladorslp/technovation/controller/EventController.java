@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.controller;
 
+import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.controller.dto.EventDTO;
 import org.desarrolladorslp.technovation.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -18,13 +20,20 @@ public class EventController {
 
     private EventService eventService;
 
-    @GetMapping
-    public ResponseEntity<List<EventDTO>> listEvents(@PathVariable String month, @PathVariable String year){
+    private TokenInfoService tokenInfoService;
 
-        return new ResponseEntity<>(eventService.list(Integer.parseInt(year),Integer.parseInt(month)),HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<EventDTO>> listEvents(@PathVariable String month, @PathVariable String year, Principal principal){
+
+        return new ResponseEntity<>(eventService.listEvents(Integer.parseInt(year),Integer.parseInt(month),tokenInfoService.getIdFromPrincipal(principal)),HttpStatus.OK);
     }
 
     @Autowired
     public void setEventService(EventService eventService){ this.eventService = eventService;}
+
+    @Autowired
+    public void setTokenInfoService(TokenInfoService tokenInfoService){
+        this.tokenInfoService = tokenInfoService;
+    }
 
 }
