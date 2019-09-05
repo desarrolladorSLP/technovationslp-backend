@@ -5,6 +5,7 @@
     "preferredEmail": "user1@mail.com",
     "enabled": false,
     "validated": false,
+    "pictureUrl": "image_user1.png",
     "roles": [
       {
         "name": "ROLE_ADMINISTRATOR",
@@ -18,6 +19,7 @@
     "preferredEmail": "user2@mail.com",
     "enabled": true,
     "validated": true,
+    "pictureUrl": "image_user2.png",
     "roles": [
       {
         "name": "ROLE_TECKER",
@@ -31,6 +33,7 @@
     "preferredEmail": "user3@mail.com",
     "enabled": false,
     "validated": false,
+    "pictureUrl": "image_user3.png",
     "roles": []
   },
   {
@@ -39,6 +42,7 @@
     "preferredEmail": "user4@mail.com",
     "enabled": false,
     "validated": false,
+    "pictureUrl": "image_user4.png",
     "roles": []
   }
 ]

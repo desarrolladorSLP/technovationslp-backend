@@ -28,6 +28,7 @@ public class AccessTokenAdapter implements JsonSerializer<DefaultOAuth2AccessTok
         tokenInfo.addProperty("name", (String) accessToken.getAdditionalInformation().get("name"));
         tokenInfo.addProperty("email", (String) accessToken.getAdditionalInformation().get("email"));
         tokenInfo.addProperty("enabled", (Boolean) accessToken.getAdditionalInformation().get("enabled"));
+        tokenInfo.addProperty("pictureUrl", (String) accessToken.getAdditionalInformation().get("picture_url"));
         tokenInfo.add("roles", roles);
 
         return tokenInfo;
