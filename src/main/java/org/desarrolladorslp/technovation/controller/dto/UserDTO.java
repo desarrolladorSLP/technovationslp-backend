@@ -22,6 +22,8 @@ public class UserDTO {
 
     private String preferredEmail;
 
+    private String pictureUrl;
+
     private boolean enabled;
 
     private boolean validated;

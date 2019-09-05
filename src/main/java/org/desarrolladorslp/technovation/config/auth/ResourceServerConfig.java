@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.config.auth;
 
+import static org.desarrolladorslp.technovation.config.auth.SecurityServerConfig.FAKE_PICTURES_URL;
 import static org.desarrolladorslp.technovation.config.auth.SecurityServerConfig.OAUTH_TOKEN_URL;
 
 import javax.servlet.Filter;
@@ -18,7 +19,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, OAUTH_TOKEN_URL).permitAll().and().authorizeRequests()
+        http
+                .csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, OAUTH_TOKEN_URL).permitAll()
+                .antMatchers(HttpMethod.GET, FAKE_PICTURES_URL).permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterAfter(userStatusFilter(), BasicAuthenticationFilter.class);
     }

@@ -1,31 +1,32 @@
 CREATE TABLE roles
 (
-  name        varchar(100) PRIMARY KEY,
-  description varchar(2000)
+    name        varchar(100) PRIMARY KEY,
+    description varchar(2000)
 );
 
 CREATE TABLE users
 (
-  id              UUID PRIMARY KEY,
-  name            varchar(100)          NOT NULL,
-  preferred_email varchar(200)          NOT NULL,
-  phone_number    varchar(100),
-  enabled         boolean DEFAULT false NOT NULL,
-  validated       boolean DEFAULT false NOT NULL
+    id              UUID PRIMARY KEY,
+    name            varchar(100)          NOT NULL,
+    preferred_email varchar(200)          NOT NULL,
+    phone_number    varchar(100),
+    enabled         boolean DEFAULT false NOT NULL,
+    picture_url     varchar(1024)         NOT NULL,
+    validated       boolean DEFAULT false NOT NULL
 );
 
 CREATE TABLE users_roles
 (
-  user_id   UUID REFERENCES users,
-  role_name varchar(100) REFERENCES roles,
-  PRIMARY KEY (user_id, role_name)
+    user_id   UUID REFERENCES users,
+    role_name varchar(100) REFERENCES roles,
+    PRIMARY KEY (user_id, role_name)
 );
 
 CREATE TABLE firebase_users
 (
-  uid     varchar(200) PRIMARY KEY,
-  user_id UUID REFERENCES users NOT NULL,
-  email   varchar(200)
+    uid     varchar(200) PRIMARY KEY,
+    user_id UUID REFERENCES users NOT NULL,
+    email   varchar(200)
 );
 
 CREATE TABLE oauth_client_details
@@ -46,9 +47,9 @@ CREATE TABLE oauth_client_details
 CREATE TABLE programs
 (
     id          UUID PRIMARY KEY,
-    name        varchar(200) UNIQUE  NOT NULL,
-    description varchar(500)  NOT NULL,
-    responsible varchar(2000) NOT NULL
+    name        varchar(200) UNIQUE NOT NULL,
+    description varchar(500)        NOT NULL,
+    responsible varchar(2000)       NOT NULL
 );
 
 CREATE TABLE batches
@@ -71,16 +72,16 @@ CREATE TABLE sessions
     notes      TEXT         NOT NULL,
     location   varchar(500),
     date       DATE         NOT NULL,
-    start_time TIME,
-    end_time   TIME,
+    start_time TIME WITH TIME ZONE,
+    end_time   TIME WITH TIME ZONE,
 
     CONSTRAINT session_title UNIQUE (batch_id, title)
 );
 
 CREATE TABLE confirm_attendance
 (
-    session_id  UUID REFERENCES sessions,
-    user_id     UUID REFERENCES users,
+    session_id UUID REFERENCES sessions,
+    user_id    UUID REFERENCES users,
     PRIMARY KEY (session_id, user_id)
 );
 
@@ -97,22 +98,22 @@ INSERT INTO oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-VALUES
-('iOSApp', '$2a$10$7rdl7jOe.LW1Db05XkPhneoAFXryHC0qGhmDdsmSbLYjMpZPTrBZ2', 'read,write','firebase', null, null, 5184000, 0, null, true);
+VALUES ('iOSApp', '$2a$10$7rdl7jOe.LW1Db05XkPhneoAFXryHC0qGhmDdsmSbLYjMpZPTrBZ2', 'read,write',
+        'firebase', null, null, 5184000, 0, null, true);
 
 INSERT INTO oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-VALUES
-('AndroidApp', '$2a$10$SK3CdCpS2ui543vb4dMS4ev1F5NanWS.wxzlSFRa/huWBZkKIWwe6', 'read,write','firebase', null, null, 5184000, 0, null, true);
+VALUES ('AndroidApp', '$2a$10$SK3CdCpS2ui543vb4dMS4ev1F5NanWS.wxzlSFRa/huWBZkKIWwe6', 'read,write',
+        'firebase', null, null, 5184000, 0, null, true);
 
 INSERT INTO oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-VALUES
-('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC', 'read,write','firebase', null, null, 5184000, 0, null, true);
+VALUES ('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC',
+        'read,write', 'firebase', null, null, 5184000, 0, null, true);
 
 CREATE TABLE users_by_batch
 (
