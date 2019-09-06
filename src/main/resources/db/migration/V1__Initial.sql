@@ -113,3 +113,27 @@ INSERT INTO oauth_client_details
  refresh_token_validity, additional_information, autoapprove)
 VALUES
 ('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC', 'read,write','firebase', null, null, 5184000, 0, null, true);
+
+CREATE TABLE messages
+(
+    id              UUID PRIMARY KEY,
+    userSender_id   UUID REFERENCES users,
+    title           varchar(200) NOT NULL,
+    body            TEXT         NOT NULL,
+    date_time            timestamp    NOT NULL
+);
+
+CREATE TABLE messages_by_users
+(
+    message_id      UUID REFERENCES messages,
+    userReceiver_id UUID REFERENCES users,
+    PRIMARY KEY (message_id, userReceiver_id)
+);
+
+CREATE TABLE resouces
+(
+    id          UUID PRIMARY KEY,
+    message_id  UUID REFERENCES messages,
+    url         varchar(200) NOT NULL,
+    mimetype    varchar(200) NOT NULL
+);
