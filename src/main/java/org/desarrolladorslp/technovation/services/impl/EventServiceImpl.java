@@ -20,6 +20,8 @@ public class EventServiceImpl implements EventService {
 
     private ModelMapper modelMapper;
 
+    private static final String TYPE_SESSION = "SESSION";
+
     @Override
     public List<EventDTO> list(int year, int month) {
 
@@ -37,7 +39,7 @@ public class EventServiceImpl implements EventService {
         modelMapper.addMappings(new PropertyMap<Session, EventDTO>() {
             @Override
             protected void configure() {
-                map().setType("SESSION");
+                map().setType(TYPE_SESSION);
                 map().setSubject(source.getTitle());
                 map().setDirections(source.getNotes());
                 map().setDate(source.getDate());

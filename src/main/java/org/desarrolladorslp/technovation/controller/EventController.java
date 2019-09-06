@@ -13,15 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/events/{year}/{month}")
+@RequestMapping("api/events")
 public class EventController {
 
     private EventService eventService;
 
     @GetMapping
-    public ResponseEntity<List<EventDTO>> listEvents(@PathVariable String month, @PathVariable String year){
+    @RequestMapping("/{year}/{month}")
+    public ResponseEntity<List<EventDTO>> listEvents(@PathVariable int month, @PathVariable int year){
 
-        return new ResponseEntity<>(eventService.list(Integer.parseInt(year),Integer.parseInt(month)),HttpStatus.OK);
+        return new ResponseEntity<>(eventService.list(year,month),HttpStatus.OK);
     }
 
     @Autowired
