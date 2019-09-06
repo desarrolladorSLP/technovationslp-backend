@@ -23,13 +23,14 @@ public class FirebaseServiceImpl implements FirebaseService {
 
         try {
             FirebaseToken token = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
-            TokenInfo tokenInfo = new TokenInfo();
 
-            tokenInfo.setUid(token.getUid());
-            tokenInfo.setName(token.getName());
-            tokenInfo.setEmail(token.getEmail());
+            return TokenInfo.builder()
+                    .uid(token.getUid())
+                    .name(token.getName())
+                    .email(token.getEmail())
+                    .pictureUrl(token.getPicture())
+                    .build();
 
-            return tokenInfo;
         } catch (Exception e) {
             throw new FirebaseTokenInvalidException(e.getMessage());
         }

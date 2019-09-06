@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 @Profile("fake-token-granter")
 public class FakeFirebaseService implements FirebaseService {
 
+    public static final String FAKE_PICTURES_URL = "/fake-pictures/";
+    private static final String PICTURE_EXT = ".jpg";
     private FakeTokenProperties fakeTokenProperties;
 
     public FakeFirebaseService(FakeTokenProperties fakeTokenProperties) {
@@ -27,12 +29,13 @@ public class FakeFirebaseService implements FirebaseService {
         }
 
         FakeToken fakeToken = tokens.get(idToken);
-        TokenInfo token = new TokenInfo();
 
-        token.setEmail(fakeToken.getEmail());
-        token.setName(fakeToken.getName());
-        token.setUid(idToken);
+        return TokenInfo.builder()
+                .email(fakeToken.getEmail())
+                .name(fakeToken.getName())
+                .uid(idToken)
+                .pictureUrl(FAKE_PICTURES_URL + fakeToken.getName() + PICTURE_EXT)
+                .build();
 
-        return token;
     }
 }

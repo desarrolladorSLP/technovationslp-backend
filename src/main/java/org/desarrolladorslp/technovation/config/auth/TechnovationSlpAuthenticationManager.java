@@ -36,6 +36,7 @@ public class TechnovationSlpAuthenticationManager implements AuthenticationManag
                 .id(UUID.randomUUID())
                 .name(details.getName())
                 .preferredEmail(details.getEmail())
+                .pictureUrl(details.getPictureUrl())
                 .enabled(false)
                 .validated(false)
                 .build();
