@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
@@ -30,10 +28,12 @@ public class Message implements Serializable {
 
     private String body;
 
-    @Column(name = "date_time")
-    private LocalDateTime dateTime;
+    private Boolean highPriority;
 
-    //@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    @JoinColumn(name = "userSender_id")
-    private UUID userSender;
+    @Column(name = "date_time")
+    private ZonedDateTime dateTime;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "user_sender_id")
+    private User userSender;
 }
