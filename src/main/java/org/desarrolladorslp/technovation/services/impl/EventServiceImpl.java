@@ -33,7 +33,7 @@ public class EventServiceImpl implements EventService {
             throw new IllegalArgumentException("Invalid Month");
         }
 
-        List<Session> sessions = sessionRepository.getSessionsByUser(userId, year, month);
+        List<Session> sessions = sessionRepository.getSessionsByUserByDate(year, month, userId);
         return sessions.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 

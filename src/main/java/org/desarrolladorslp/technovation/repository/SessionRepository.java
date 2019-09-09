@@ -32,5 +32,5 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
     List<User> staff(@Param("id") UUID sessionId);
 
     @Query("SELECT s FROM Session s JOIN UserByBatch ub ON s.batch.id = ub.batchId JOIN User u ON ub.userId = u.id WHERE u.id = :userId AND year(s.date) =:year AND month(s.date) = :month ")
-    List<Session> getSessionsByUser(UUID userId,int year, int month);
+    List<Session> getSessionsByUserByDate(int year, int month, UUID userId);
 }

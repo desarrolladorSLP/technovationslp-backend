@@ -24,16 +24,18 @@ public class EventController {
 
     @GetMapping
     @RequestMapping("/{year}/{month}")
-    public ResponseEntity<List<EventDTO>> listEvents(@PathVariable int month, @PathVariable int year){
+    public ResponseEntity<List<EventDTO>> listEvents(@PathVariable int month, @PathVariable int year, Principal principal) {
 
-        return new ResponseEntity<>(eventService.list(year,month),HttpStatus.OK);
+        return new ResponseEntity<>(eventService.listEvents(year, month, tokenInfoService.getIdFromPrincipal(principal)), HttpStatus.OK);
     }
 
     @Autowired
-    public void setEventService(EventService eventService){ this.eventService = eventService;}
+    public void setEventService(EventService eventService) {
+        this.eventService = eventService;
+    }
 
     @Autowired
-    public void setTokenInfoService(TokenInfoService tokenInfoService){
+    public void setTokenInfoService(TokenInfoService tokenInfoService) {
         this.tokenInfoService = tokenInfoService;
     }
 
