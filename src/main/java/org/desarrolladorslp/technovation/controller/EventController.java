@@ -15,7 +15,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/events/{year}/{month}")
+@RequestMapping("api/events")
 public class EventController {
 
     private EventService eventService;
@@ -23,9 +23,10 @@ public class EventController {
     private TokenInfoService tokenInfoService;
 
     @GetMapping
-    public ResponseEntity<List<EventDTO>> listEvents(@PathVariable String month, @PathVariable String year, Principal principal){
+    @RequestMapping("/{year}/{month}")
+    public ResponseEntity<List<EventDTO>> listEvents(@PathVariable int month, @PathVariable int year){
 
-        return new ResponseEntity<>(eventService.listEvents(Integer.parseInt(year),Integer.parseInt(month),tokenInfoService.getIdFromPrincipal(principal)),HttpStatus.OK);
+        return new ResponseEntity<>(eventService.list(year,month),HttpStatus.OK);
     }
 
     @Autowired
