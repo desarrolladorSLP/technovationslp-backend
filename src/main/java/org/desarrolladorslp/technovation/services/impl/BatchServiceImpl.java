@@ -55,7 +55,7 @@ public class BatchServiceImpl implements BatchService {
     public void registerUserToBatch(UUID batchId, UUID userId) {
         batchRepository.getUserByBatch(batchId, userId).ifPresentOrElse(
                 user -> {
-                    throw new UserAlreadyRegisteredInBatch(user.getId() + " has been registered already");
+                    throw new UserAlreadyRegisteredInBatch(user.getId() + "has been registered already");
                 }, ()->
         batchRepository.registerUserToBatch(batchId, userId));
 
