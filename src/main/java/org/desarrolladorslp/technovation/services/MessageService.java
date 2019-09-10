@@ -9,7 +9,5 @@ import java.util.UUID;
 
 public interface MessageService {
 
-    Message sendMessage(Message message, UUID userId, List<String> usersId);
-
     Map<String,List<MessageHeaderDTO>> getMessagesByUser(UUID userReceiverId);
 }

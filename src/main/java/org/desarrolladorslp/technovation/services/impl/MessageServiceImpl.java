@@ -2,7 +2,6 @@ package org.desarrolladorslp.technovation.services.impl;
 
 import org.desarrolladorslp.technovation.controller.dto.MessageHeaderDTO;
 import org.desarrolladorslp.technovation.models.Message;
-import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.repository.MessageRepository;
 import org.desarrolladorslp.technovation.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,34 +22,6 @@ public class MessageServiceImpl implements MessageService {
     private MessageRepository messageRepository;
 
     @Override
-    @Transactional
-    public Message sendMessage(Message message, UUID userId, List<String> users){
-
-        List<UUID> usersId = new ArrayList<>();
-        for (String id: users) {
-            usersId.add(UUID.fromString(id));
-        }
-        List<User> usersExistent =  messageRepository.getUsersExistent(usersId);
-
-        /*LocalDateTime date = LocalDateTime.now(ZoneOffset.UTC);
-        System.out.println(date);*/
-
-        Instant instant = new Date().toInstant();
-        LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-
-        if(Objects.isNull(message.getId())){
-            message.setId(UUID.randomUUID());
-        }
-        message.setDateTime(ZonedDateTime.now(ZoneOffset.UTC));
-
-        for(User user: usersExistent){
-            messageRepository.messagesToUsers(user.getId(),message.getId());
-        }
-
-        return messageRepository.save(message);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public Map<String,List<MessageHeaderDTO>> getMessagesByUser(UUID userReceiverId){
         Map<String,List<MessageHeaderDTO>> messages = new LinkedHashMap<>();
@@ -64,7 +35,7 @@ public class MessageServiceImpl implements MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public MessageHeaderDTO convertToDTO(Message message){
+    private MessageHeaderDTO convertToDTO(Message message){
         return MessageHeaderDTO.builder()
                 .sender(message.getUserSender().getName())
                 .senderImage(message.getUserSender().getPictureUrl())
@@ -72,5 +43,4 @@ public class MessageServiceImpl implements MessageService {
                 .timestamp(message.getDateTime().format(DateTimeFormatter.ISO_INSTANT))
                 .build();
     }
-
 }
