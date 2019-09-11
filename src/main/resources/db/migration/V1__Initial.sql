@@ -139,3 +139,10 @@ create TABLE resources
     url         varchar(200) NOT NULL,
     mimetype    varchar(200) NOT NULL
 );
+
+CREATE TABLE users_by_batch
+(
+    batch_id  UUID REFERENCES batches,
+    user_id     UUID REFERENCES users,
+    PRIMARY KEY (batch_id, user_id)
+);
