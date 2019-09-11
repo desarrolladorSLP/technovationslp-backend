@@ -1,10 +1,10 @@
-CREATE TABLE roles
+create TABLE roles
 (
     name        varchar(100) PRIMARY KEY,
     description varchar(2000)
 );
 
-CREATE TABLE users
+create TABLE users
 (
     id              UUID PRIMARY KEY,
     name            varchar(100)          NOT NULL,
@@ -15,21 +15,21 @@ CREATE TABLE users
     validated       boolean DEFAULT false NOT NULL
 );
 
-CREATE TABLE users_roles
+create TABLE users_roles
 (
     user_id   UUID REFERENCES users,
     role_name varchar(100) REFERENCES roles,
     PRIMARY KEY (user_id, role_name)
 );
 
-CREATE TABLE firebase_users
+create TABLE firebase_users
 (
     uid     varchar(200) PRIMARY KEY,
     user_id UUID REFERENCES users NOT NULL,
     email   varchar(200)
 );
 
-CREATE TABLE oauth_client_details
+create TABLE oauth_client_details
 (
     client_id               VARCHAR(256) PRIMARY KEY,
     resource_ids            VARCHAR(256),
@@ -44,7 +44,7 @@ CREATE TABLE oauth_client_details
     autoapprove             VARCHAR(256)
 );
 
-CREATE TABLE programs
+create TABLE programs
 (
     id          UUID PRIMARY KEY,
     name        varchar(200) UNIQUE NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE programs
     responsible varchar(2000)       NOT NULL
 );
 
-CREATE TABLE batches
+create TABLE batches
 (
     id         UUID PRIMARY KEY,
     program_id UUID REFERENCES programs,
@@ -64,7 +64,7 @@ CREATE TABLE batches
     CONSTRAINT batch_name_by_program UNIQUE (program_id, name)
 );
 
-CREATE TABLE sessions
+create TABLE sessions
 (
     id         UUID PRIMARY KEY,
     batch_id   UUID REFERENCES batches,
@@ -78,15 +78,15 @@ CREATE TABLE sessions
     CONSTRAINT session_title UNIQUE (batch_id, title)
 );
 
-CREATE TABLE confirm_attendance
+create TABLE confirm_attendance
 (
     session_id UUID REFERENCES sessions,
     user_id    UUID REFERENCES users,
     PRIMARY KEY (session_id, user_id)
 );
 
-INSERT INTO roles (name, description)
-VALUES ('ROLE_TECKER',
+insert into roles (name, description)
+values ('ROLE_TECKER',
         'Main consumers of the programs provided by the organization, for many of the programs they are supposed to be kids'),
        ('ROLE_PARENT', 'Parents/tutors of the teckers'),
        ('ROLE_MENTOR', 'People in charge of some team of teckers'),
@@ -94,26 +94,51 @@ VALUES ('ROLE_TECKER',
        ('ROLE_ADMINISTRATOR',
         'People guiding the programs. An administrator belongs to staff as well');
 
-INSERT INTO oauth_client_details
+insert into oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-VALUES ('iOSApp', '$2a$10$7rdl7jOe.LW1Db05XkPhneoAFXryHC0qGhmDdsmSbLYjMpZPTrBZ2', 'read,write',
-        'firebase', null, null, 5184000, 0, null, true);
+values
+('iOSApp', '$2a$10$7rdl7jOe.LW1Db05XkPhneoAFXryHC0qGhmDdsmSbLYjMpZPTrBZ2', 'read,write','firebase', null, null, 5184000, 0, null, true);
 
-INSERT INTO oauth_client_details
+insert into oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-VALUES ('AndroidApp', '$2a$10$SK3CdCpS2ui543vb4dMS4ev1F5NanWS.wxzlSFRa/huWBZkKIWwe6', 'read,write',
-        'firebase', null, null, 5184000, 0, null, true);
+values
+('AndroidApp', '$2a$10$SK3CdCpS2ui543vb4dMS4ev1F5NanWS.wxzlSFRa/huWBZkKIWwe6', 'read,write','firebase', null, null, 5184000, 0, null, true);
 
-INSERT INTO oauth_client_details
+insert into oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-VALUES ('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC',
-        'read,write', 'firebase', null, null, 5184000, 0, null, true);
+values
+('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC', 'read,write','firebase', null, null, 5184000, 0, null, true);
+
+create TABLE messages
+(
+    id              UUID PRIMARY KEY,
+    user_sender_id  UUID REFERENCES users,
+    title           varchar(200)               NOT NULL,
+    body            TEXT                       NOT NULL,
+    date_time       timestamp WITH TIME ZONE   NOT NULL,
+    high_priority   boolean                    NOT NULL
+);
+
+create TABLE messages_by_users
+(
+    message_id          UUID REFERENCES messages,
+    user_receiver_id    UUID REFERENCES users,
+    PRIMARY KEY (message_id, user_receiver_id)
+);
+
+create TABLE resources
+(
+    id          UUID PRIMARY KEY,
+    message_id  UUID REFERENCES messages,
+    url         varchar(200) NOT NULL,
+    mimetype    varchar(200) NOT NULL
+);
 
 CREATE TABLE users_by_batch
 (
