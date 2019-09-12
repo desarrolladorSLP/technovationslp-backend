@@ -19,7 +19,7 @@ import java.util.UUID;
 
 import org.desarrolladorslp.technovation.config.controller.LocalDateAdapter;
 import org.desarrolladorslp.technovation.config.controller.LocalTimeAdapter;
-import org.desarrolladorslp.technovation.controller.dto.SessionDTO;
+import org.desarrolladorslp.technovation.dto.SessionDTO;
 import org.desarrolladorslp.technovation.models.Session;
 import org.desarrolladorslp.technovation.services.SessionService;
 import org.junit.Assert;

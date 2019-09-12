@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.desarrolladorslp.technovation.config.controller.LocalDateAdapter;
-import org.desarrolladorslp.technovation.controller.dto.BatchDTO;
+import org.desarrolladorslp.technovation.dto.BatchDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.services.BatchService;
 import org.junit.Before;

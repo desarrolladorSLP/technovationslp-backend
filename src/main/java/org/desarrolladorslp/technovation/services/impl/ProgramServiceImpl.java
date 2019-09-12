@@ -38,6 +38,16 @@ public class ProgramServiceImpl implements ProgramService {
         return programRepository.findById(id);
     }
 
+    @Override
+    @Transactional
+    public Optional<Program> delete(UUID id) {
+        Optional<Program> optionalProgram = programRepository.findById(id);
+
+        optionalProgram.ifPresent(p -> programRepository.delete(p));
+
+        return optionalProgram;
+    }
+
     @Autowired
     public void setProgramRepository(ProgramRepository programRepository) {
         this.programRepository = programRepository;

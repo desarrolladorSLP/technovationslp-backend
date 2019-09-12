@@ -1,30 +1,26 @@
 package org.desarrolladorslp.technovation.services.impl;
 
-import org.desarrolladorslp.technovation.config.auth.TokenInfo;
-import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
-import org.desarrolladorslp.technovation.controller.dto.EventDTO;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
+
+import org.desarrolladorslp.technovation.dto.EventDTO;
 import org.desarrolladorslp.technovation.models.Session;
 import org.desarrolladorslp.technovation.repository.SessionRepository;
 import org.desarrolladorslp.technovation.services.EventService;
-import org.desarrolladorslp.technovation.services.SessionService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 @Service
 public class EventServiceImpl implements EventService {
 
-    private SessionRepository sessionRepository;
-
-    private ModelMapper modelMapper;
-
     private static final String TYPE_SESSION = "SESSION";
+    private SessionRepository sessionRepository;
+    private ModelMapper modelMapper;
 
     @Override
     public List<EventDTO> listEvents(int year, int month, UUID userId) {
@@ -51,7 +47,7 @@ public class EventServiceImpl implements EventService {
         });
     }
 
-    public EventDTO convertToDTO(Session session) {
+    private EventDTO convertToDTO(Session session) {
 
         return modelMapper.map(session, EventDTO.class);
     }

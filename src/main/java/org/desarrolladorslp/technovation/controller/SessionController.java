@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
-import org.desarrolladorslp.technovation.controller.dto.SessionDTO;
+import org.desarrolladorslp.technovation.dto.SessionDTO;
 import org.desarrolladorslp.technovation.models.Session;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.SessionService;
@@ -48,8 +48,7 @@ public class SessionController {
     }
 
     @Secured({"ROLE_TECKER", "ROLE_STAFF", "ROLE_MENTOR"})
-    @PostMapping
-    @RequestMapping("/confirm/{sessionId}")
+    @PostMapping("/confirm/{sessionId}")
     public ResponseEntity confirmAttendance(@PathVariable String sessionId, Principal principal) {
         sessionService.confirmAttendance(UUID.fromString(sessionId), tokenInfoService.getIdFromPrincipal(principal));
 
@@ -57,24 +56,21 @@ public class SessionController {
     }
 
     @Secured({"ROLE_PARENT"})
-    @PostMapping
-    @RequestMapping("/confirmParent/{sessionId}")
+    @PostMapping("/confirmParent/{sessionId}")
     public ResponseEntity confirmParentAttendanceByTecker(@PathVariable String sessionId, @RequestBody User userTecker) {
         sessionService.confirmAttendance(UUID.fromString(sessionId), userTecker.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMINISTRATOR", "ROLE_STAFF", "ROLE_MENTOR"})
-    @GetMapping
-    @RequestMapping("/people/{sessionId}")
-    public ResponseEntity<List<User>> listAllBySession(@PathVariable String sessionId){
-        return new ResponseEntity<>(sessionService.allPeople(UUID.fromString(sessionId)),HttpStatus.OK);
+    @GetMapping("/people/{sessionId}")
+    public ResponseEntity<List<User>> listAllBySession(@PathVariable String sessionId) {
+        return new ResponseEntity<>(sessionService.allPeople(UUID.fromString(sessionId)), HttpStatus.OK);
     }
 
     @Secured({"ROLE_PARENT", "ROLE_TECKER"})
-    @GetMapping
-    @RequestMapping("/staff/{sessionId}")
-    public ResponseEntity<List<User>> listStaffBySession(@PathVariable String sessionId){
+    @GetMapping("/staff/{sessionId}")
+    public ResponseEntity<List<User>> listStaffBySession(@PathVariable String sessionId) {
         return new ResponseEntity<>(sessionService.staff(UUID.fromString(sessionId)), HttpStatus.OK);
     }
 
@@ -99,15 +95,13 @@ public class SessionController {
         return new ResponseEntity<>(sessions.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping
-    @RequestMapping("/{sessionId}")
+    @GetMapping("/{sessionId}")
     public ResponseEntity<SessionDTO> getSession(@PathVariable String sessionId) {
 
         return new ResponseEntity<>(convertToDTO(sessionService.findById(UUID.fromString(sessionId)).orElseThrow()), HttpStatus.OK);
     }
 
-    @GetMapping
-    @RequestMapping("batch/{batchId}")
+    @GetMapping("batch/{batchId}")
     public ResponseEntity<List<SessionDTO>> getSessionsByBatch(@PathVariable String batchId) {
 
         List<Session> sessions = sessionService.findByBatch(UUID.fromString(batchId));
@@ -115,12 +109,12 @@ public class SessionController {
         return new ResponseEntity<>(sessions.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    public Session convertToEntity(SessionDTO sessionDTO) {
+    private Session convertToEntity(SessionDTO sessionDTO) {
 
         return modelMapper.map(sessionDTO, Session.class);
     }
 
-    public SessionDTO convertToDTO(Session session) {
+    private SessionDTO convertToDTO(Session session) {
 
         return modelMapper.map(session, SessionDTO.class);
     }

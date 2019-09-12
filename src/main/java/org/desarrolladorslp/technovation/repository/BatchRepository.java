@@ -21,6 +21,7 @@ public interface BatchRepository extends JpaRepository<Batch, UUID> {
     @Query(value = "INSERT INTO users_by_batch (batch_id, user_id) VALUES (:batchId, :userId)", nativeQuery = true)
     void registerUserToBatch(UUID batchId, UUID userId);
 
+    //TODO: move method to UserRepository
     @Query("SELECT u FROM User u JOIN UserByBatch ub ON u.id = ub.userId WHERE ub.batchId = :batchId AND ub.userId =:userId ")
     Optional<User> getUserByBatch(UUID batchId, UUID userId);
 }
