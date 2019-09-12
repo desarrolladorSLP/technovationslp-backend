@@ -1,4 +1,4 @@
-package org.desarrolladorslp.technovation.controller.dto;
+package org.desarrolladorslp.technovation.dto;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -30,6 +30,5 @@ public class BatchDTO {
     private String notes;
 
     private UUID programId;
-
-
+    
 }

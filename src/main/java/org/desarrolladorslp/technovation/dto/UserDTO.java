@@ -1,4 +1,4 @@
-package org.desarrolladorslp.technovation.controller.dto;
+package org.desarrolladorslp.technovation.dto;
 
 import java.util.List;
 import java.util.UUID;

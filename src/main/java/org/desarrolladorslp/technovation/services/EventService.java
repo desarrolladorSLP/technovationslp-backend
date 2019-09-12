@@ -1,9 +1,9 @@
 package org.desarrolladorslp.technovation.services;
 
-import org.desarrolladorslp.technovation.controller.dto.EventDTO;
-
 import java.util.List;
 import java.util.UUID;
+
+import org.desarrolladorslp.technovation.dto.EventDTO;
 
 public interface EventService {
 

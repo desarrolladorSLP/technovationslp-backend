@@ -1,5 +1,10 @@
 package org.desarrolladorslp.technovation.services.impl;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.desarrolladorslp.technovation.exception.UserAlreadyConfirmedException;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Session;
@@ -9,11 +14,6 @@ import org.desarrolladorslp.technovation.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class SessionServiceImpl implements SessionService {

@@ -1,17 +1,19 @@
 package org.desarrolladorslp.technovation.services.impl;
 
-import org.desarrolladorslp.technovation.controller.dto.MessageHeaderDTO;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.desarrolladorslp.technovation.dto.MessageHeaderDTO;
 import org.desarrolladorslp.technovation.models.Message;
 import org.desarrolladorslp.technovation.repository.MessageRepository;
 import org.desarrolladorslp.technovation.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -23,10 +25,10 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     @Transactional(readOnly = true)
-    public Map<String,List<MessageHeaderDTO>> getMessagesByUser(UUID userReceiverId){
-        Map<String,List<MessageHeaderDTO>> messages = new LinkedHashMap<>();
-        messages.put(HIGH_PRIORITY,messageRepository.getMessagesByPriority(userReceiverId,true).stream().map(this::convertToDTO).collect(Collectors.toList()));
-        messages.put(LOW_PRIORITY,messageRepository.getMessagesByPriority(userReceiverId,false).stream().map(this::convertToDTO).collect(Collectors.toList()));
+    public Map<String, List<MessageHeaderDTO>> getMessagesByUser(UUID userReceiverId) {
+        Map<String, List<MessageHeaderDTO>> messages = new LinkedHashMap<>();
+        messages.put(HIGH_PRIORITY, messageRepository.getMessagesByPriority(userReceiverId, true).stream().map(this::convertToDTO).collect(Collectors.toList()));
+        messages.put(LOW_PRIORITY, messageRepository.getMessagesByPriority(userReceiverId, false).stream().map(this::convertToDTO).collect(Collectors.toList()));
         return messages;
     }
 
@@ -35,7 +37,7 @@ public class MessageServiceImpl implements MessageService {
         this.messageRepository = messageRepository;
     }
 
-    private MessageHeaderDTO convertToDTO(Message message){
+    private MessageHeaderDTO convertToDTO(Message message) {
         return MessageHeaderDTO.builder()
                 .sender(message.getUserSender().getName())
                 .senderImage(message.getUserSender().getPictureUrl())

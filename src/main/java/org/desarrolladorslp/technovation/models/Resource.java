@@ -1,19 +1,21 @@
 package org.desarrolladorslp.technovation.models;
 
+import java.io.Serializable;
+import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.UUID;
-
 @Entity
-@Table(name="resources")
+@Table(name = "resources")
 @Builder
 @Data
 @NoArgsConstructor
@@ -30,5 +32,6 @@ public class Resource implements Serializable {
 
     private String url;
 
-    private String mimetype;
+    @Column(name = "mime_type")
+    private String mimeType;
 }

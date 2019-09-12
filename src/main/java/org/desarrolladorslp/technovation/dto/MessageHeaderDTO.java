@@ -1,12 +1,12 @@
-package org.desarrolladorslp.technovation.controller.dto;
+package org.desarrolladorslp.technovation.dto;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
 @Builder
