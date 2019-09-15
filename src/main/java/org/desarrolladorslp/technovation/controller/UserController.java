@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
-import org.desarrolladorslp.technovation.controller.dto.UserDTO;
+import org.desarrolladorslp.technovation.dto.UserDTO;
 import org.desarrolladorslp.technovation.models.Role;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.UserService;
@@ -90,6 +90,7 @@ public class UserController {
                 .id(userDTO.getId())
                 .name(userDTO.getName())
                 .phoneNumber(userDTO.getPhoneNumber())
+                .pictureUrl(userDTO.getPictureUrl())
                 .enabled(userDTO.isEnabled())
                 .validated(userDTO.isValidated())
                 .preferredEmail(userDTO.getPreferredEmail())
@@ -104,6 +105,7 @@ public class UserController {
                 .id(user.getId())
                 .name(user.getName())
                 .phoneNumber(user.getPhoneNumber())
+                .pictureUrl(user.getPictureUrl())
                 .enabled(user.isEnabled())
                 .validated(user.isValidated())
                 .preferredEmail(user.getPreferredEmail())

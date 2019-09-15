@@ -1,4 +1,4 @@
-package org.desarrolladorslp.technovation.controller.dto;
+package org.desarrolladorslp.technovation.dto;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +21,8 @@ public class UserDTO {
     private String phoneNumber;
 
     private String preferredEmail;
+
+    private String pictureUrl;
 
     private boolean enabled;
 

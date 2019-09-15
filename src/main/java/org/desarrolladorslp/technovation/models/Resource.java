@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -14,20 +15,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "confirm_attendance")
+@Table(name = "resources")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserBySession implements Serializable {
+public class Resource implements Serializable {
 
-    private static final long serialVersionUID = 7814368125368211389L;
-
-    @Id
-    @Column(name = "session_id", nullable = false)
-    private UUID sessionId;
+    private static final long serialVersionUID = 6087371650632727123L;
 
     @Id
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    private UUID id;
+
+    @JoinColumn(name = "message_id")
+    private Message messageId;
+
+    private String url;
+
+    @Column(name = "mime_type")
+    private String mimeType;
 }

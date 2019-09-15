@@ -14,18 +14,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "confirm_attendance")
+@Table(name = "users_by_batch")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserBySession implements Serializable {
+public class UserByBatch implements Serializable {
 
-    private static final long serialVersionUID = 7814368125368211389L;
+    private static final long serialVersionUID = -2399889439289025275L;
 
     @Id
-    @Column(name = "session_id", nullable = false)
-    private UUID sessionId;
+    @Column(name = "batch_id", nullable = false)
+    private UUID batchId;
 
     @Id
     @Column(name = "user_id", nullable = false)

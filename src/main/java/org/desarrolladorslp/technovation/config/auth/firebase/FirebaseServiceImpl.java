@@ -28,6 +28,7 @@ public class FirebaseServiceImpl implements FirebaseService {
                     .uid(token.getUid())
                     .name(token.getName())
                     .email(token.getEmail())
+                    .pictureUrl(token.getPicture())
                     .build();
 
         } catch (Exception e) {

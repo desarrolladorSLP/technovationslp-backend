@@ -25,9 +25,13 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
     @Query("SELECT u FROM User u JOIN UserBySession us ON u.id = us.userId WHERE us.sessionId = :id")
     List<User> allPeople(@Param("id") UUID sessionId);
 
+    //TODO: move method to UserRepository
     @Query("SELECT u FROM User u JOIN UserBySession us ON u.id = us.userId WHERE us.sessionId = :sessionId AND us.userId = :userId")
     Optional<User> getUserBySession(UUID sessionId, UUID userId);
 
     @Query(value = "SELECT u FROM User u JOIN UserBySession ca ON u.id = ca.userId JOIN UsersByRole ur ON u.id = ur.userId WHERE ca.sessionId = :id AND ur.roleName in('ROLE_STAFF','ROLE_MENTOR', 'ROLE_ADMINISTRATOR')")
     List<User> staff(@Param("id") UUID sessionId);
+
+    @Query("SELECT s FROM Session s JOIN UserByBatch ub ON s.batch.id = ub.batchId JOIN User u ON ub.userId = u.id WHERE u.id = :userId AND year(s.date) =:year AND month(s.date) = :month ")
+    List<Session> getSessionsByUserByDate(int year, int month, UUID userId);
 }

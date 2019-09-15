@@ -1,4 +1,4 @@
-package org.desarrolladorslp.technovation.controller.dto;
+package org.desarrolladorslp.technovation.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -35,6 +35,4 @@ public class SessionDTO {
     private String location;
 
     private UUID batchId;
-
-
 }

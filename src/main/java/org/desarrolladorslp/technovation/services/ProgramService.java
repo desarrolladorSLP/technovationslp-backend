@@ -13,4 +13,6 @@ public interface ProgramService {
     List<Program> list();
 
     Optional<Program> findById(UUID id);
+
+    Optional<Program> delete(UUID fromString);
 }

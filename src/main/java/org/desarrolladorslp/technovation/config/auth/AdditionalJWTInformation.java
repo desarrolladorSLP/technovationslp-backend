@@ -24,6 +24,7 @@ public class AdditionalJWTInformation implements TokenEnhancer {
     static final String USER_ID_KEY = "userId";
     static final String USER_NAME_KEY = "user_name";
     static final String CLIENT_ID_KEY = "client_id";
+    private static final String PICTURE_URL = "picture_url";
     private static final String ROLES_KEY = "roles";
     private UserService userService;
 
@@ -37,6 +38,7 @@ public class AdditionalJWTInformation implements TokenEnhancer {
         info.put(ENABLED_KEY, user.isEnabled());
         info.put(VALIDATED_KEY, user.isValidated());
         info.put(USER_ID_KEY, user.getId());
+        info.put(PICTURE_URL, user.getPictureUrl());
         info.put(ROLES_KEY, oAuth2Authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);

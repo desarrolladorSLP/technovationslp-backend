@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
-import org.desarrolladorslp.technovation.controller.dto.BatchDTO;
+import org.desarrolladorslp.technovation.dto.BatchDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.services.BatchService;
 import org.modelmapper.ModelMapper;
@@ -62,19 +62,24 @@ public class BatchController {
         return new ResponseEntity<>(batches.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping
-    @RequestMapping("/{batchId}")
+    @GetMapping("/{batchId}")
     public ResponseEntity<BatchDTO> getBatch(@PathVariable String batchId) {
         return new ResponseEntity<>(convertToDTO(batchService.findById(UUID.fromString(batchId)).orElseThrow()), HttpStatus.OK);
     }
 
-    @GetMapping
-    @RequestMapping("/program/{programId}")
+    @GetMapping("/program/{programId}")
     public ResponseEntity<List<BatchDTO>> getBatchByProgram(@PathVariable String programId) {
 
         List<Batch> batches = batchService.findByProgram(UUID.fromString(programId));
 
         return new ResponseEntity<>(batches.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @PostMapping("registerUser/{batchId}/{userId}")
+    public ResponseEntity registerUserToBatch(@PathVariable String batchId, @PathVariable String userId) {
+        batchService.registerUserToBatch(UUID.fromString(batchId), UUID.fromString(userId));
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Autowired
@@ -83,7 +88,7 @@ public class BatchController {
     }
 
     @PostConstruct
-    public void prepareMappings(){
+    public void prepareMappings() {
 
         modelMapper.addMappings(new PropertyMap<BatchDTO, Batch>() {
             @Override
@@ -100,12 +105,12 @@ public class BatchController {
         });
     }
 
-    public Batch convertToEntity(BatchDTO batchDTO) {
+    private Batch convertToEntity(BatchDTO batchDTO) {
 
         return modelMapper.map(batchDTO, Batch.class);
     }
 
-    public BatchDTO convertToDTO(Batch batch) {
+    private BatchDTO convertToDTO(Batch batch) {
 
         return modelMapper.map(batch, BatchDTO.class);
     }
