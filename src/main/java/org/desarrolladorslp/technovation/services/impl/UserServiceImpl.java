@@ -118,6 +118,11 @@ public class UserServiceImpl implements UserService {
         return new org.springframework.security.core.userdetails.User(user.getName(), "", authorities);
     }
 
+    @Override
+    public List<User> getUsersByRole(String roleName) {
+        return userRepository.getUsersByRole(roleName);
+    }
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;

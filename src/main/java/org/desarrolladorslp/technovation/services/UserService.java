@@ -23,4 +23,6 @@ public interface UserService extends UserDetailsService {
     User findById(UUID uuid);
 
     User save(User user);
+
+    List<User> getUsersByRole(String roleName);
 }

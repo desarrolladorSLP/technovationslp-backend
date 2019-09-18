@@ -13,11 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -82,6 +78,12 @@ public class UserController {
         user.setPhoneNumber(userDTO.getPhoneNumber());
 
         return new ResponseEntity<>(convertToDTO(userService.save(user)), HttpStatus.OK);
+    }
+
+    @GetMapping("/role/{roleid}")
+    public ResponseEntity<List<UserDTO>> getUsersByRole(@PathVariable String roleid) {
+        List<User> users = userService.getUsersByRole(roleid);
+        return new ResponseEntity<>(users.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     private User convertToEntity(UserDTO userDTO) {
