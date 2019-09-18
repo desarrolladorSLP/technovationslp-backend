@@ -13,9 +13,7 @@ To build the application it is required to have maven installed then execute:
 
 To run the application execute:
 ```
-java -DCLIENT_ID=<any string to use as client id for the application authentication> \
-     -DCLIENT_SECRET=<any string to use as password for the application authentication> \
-     -DJWT_PUBLIC_KEY=<public key for JWT encoded as base64> \
+java -DJWT_PUBLIC_KEY=<public key for JWT encoded as base64> \
      -DJWT_PRIVATE_KEY=<private key for JWT encoded as base64> \
      -DFIREBASE_DATABASE_URL=https://<project name>.firebaseio.com \
      -DFIREBASE_CONFIG=<json object provided by firebase for service account authentication encoded as base64 > \
