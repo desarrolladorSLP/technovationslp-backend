@@ -39,10 +39,12 @@ public class MessageServiceImpl implements MessageService {
 
     private MessageHeaderDTO convertToDTO(Message message) {
         return MessageHeaderDTO.builder()
+                .messageId(message.getId())
                 .sender(message.getUserSender().getName())
                 .senderImage(message.getUserSender().getPictureUrl())
                 .subject(message.getTitle())
                 .timestamp(message.getDateTime().format(DateTimeFormatter.ISO_INSTANT))
+                .userSenderId(message.getUserSender().getId())
                 .build();
     }
 }
