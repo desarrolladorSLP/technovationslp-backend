@@ -16,13 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/batch")
@@ -73,6 +67,12 @@ public class BatchController {
         List<Batch> batches = batchService.findByProgram(UUID.fromString(programId));
 
         return new ResponseEntity<>(batches.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @DeleteMapping("/{batchId}")
+    public ResponseEntity<Batch> deleteBatch(@PathVariable String batchId){
+        return new ResponseEntity<>(batchService.delete(UUID.fromString(batchId)).orElseThrow(),HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMINISTRATOR"})

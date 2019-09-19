@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.desarrolladorslp.technovation.exception.BatchCannotBeDelete;
 import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Program;
@@ -48,6 +49,20 @@ public class BatchServiceImpl implements BatchService {
         program.setId(programId);
 
         return batchRepository.findByProgram(program);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Batch> delete(UUID id){
+        Optional<Batch> optionalBatch = batchRepository.findById(id);
+
+        batchRepository.sessionsExistentingInBatch(id).ifPresentOrElse(
+                batch -> {
+                    throw new BatchCannotBeDelete(id + " the batch contain sessions, can't delete the batch");
+                },() -> batchRepository.delete(optionalBatch.get())
+            );
+
+        return optionalBatch;
     }
 
     @Override
