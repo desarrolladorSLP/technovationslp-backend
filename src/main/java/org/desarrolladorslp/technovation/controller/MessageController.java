@@ -3,6 +3,7 @@ package org.desarrolladorslp.technovation.controller;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.dto.MessageHeaderDTO;
@@ -10,9 +11,7 @@ import org.desarrolladorslp.technovation.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/message")
@@ -27,6 +26,13 @@ public class MessageController {
         Map<String, List<MessageHeaderDTO>> messages = messageService.getMessagesByUser(tokenInfoService.getIdFromPrincipal(principal));
 
         return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+
+    @PutMapping("/{messageId}/read")
+    public ResponseEntity markMessageAsRead(@PathVariable String messageId){
+
+        messageService.markMessageAsRead(UUID.fromString(messageId));
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Autowired

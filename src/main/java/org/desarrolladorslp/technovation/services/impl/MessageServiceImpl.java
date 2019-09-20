@@ -32,6 +32,13 @@ public class MessageServiceImpl implements MessageService {
         return messages;
     }
 
+    @Override
+    @Transactional
+    public void markMessageAsRead(UUID messageId){
+        messageRepository.markMessageAsRead(messageId);
+    }
+
+
     @Autowired
     public void setMessageRepository(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;

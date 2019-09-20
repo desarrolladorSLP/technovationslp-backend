@@ -122,7 +122,8 @@ create TABLE messages
     title           varchar(200)               NOT NULL,
     body            TEXT                       NOT NULL,
     date_time       timestamp WITH TIME ZONE   NOT NULL,
-    high_priority   boolean                    NOT NULL
+    high_priority   boolean                    NOT NULL,
+    unread          boolean                    NOT NULL
 );
 
 create TABLE messages_by_users
