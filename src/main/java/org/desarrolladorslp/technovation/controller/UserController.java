@@ -2,10 +2,12 @@ package org.desarrolladorslp.technovation.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.dto.UserDTO;
+import org.desarrolladorslp.technovation.dto.UsersByRoleDTO;
 import org.desarrolladorslp.technovation.models.Role;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.UserService;
@@ -80,10 +82,9 @@ public class UserController {
         return new ResponseEntity<>(convertToDTO(userService.save(user)), HttpStatus.OK);
     }
 
-    @GetMapping("/role/{roleid}")
-    public ResponseEntity<List<UserDTO>> getUsersByRole(@PathVariable String roleid) {
-        List<User> users = userService.getUsersByRole(roleid);
-        return new ResponseEntity<>(users.stream().map(this::convertToDTO).collect(Collectors.toList()), HttpStatus.OK);
+    @GetMapping("/role/{roleName}")
+    public ResponseEntity<List<UsersByRoleDTO>> getUsersByRole(@PathVariable String roleName) {
+        return new ResponseEntity<>(userService.getUsersByRole(roleName), HttpStatus.OK);
     }
 
     private User convertToEntity(UserDTO userDTO) {

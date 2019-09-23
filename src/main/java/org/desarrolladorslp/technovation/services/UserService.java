@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.desarrolladorslp.technovation.dto.UsersByRoleDTO;
 import org.desarrolladorslp.technovation.models.FirebaseUser;
 import org.desarrolladorslp.technovation.models.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,5 +25,5 @@ public interface UserService extends UserDetailsService {
 
     User save(User user);
 
-    List<User> getUsersByRole(String roleName);
+    List<UsersByRoleDTO> getUsersByRole(String roleName);
 }
