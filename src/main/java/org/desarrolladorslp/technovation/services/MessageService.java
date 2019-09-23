@@ -11,4 +11,6 @@ public interface MessageService {
     Map<String, List<MessageHeaderDTO>> getMessagesByUser(UUID userReceiverId);
 
     void markMessageAsRead(UUID messageId);
+
+    void markMessageAsUnread(UUID messageId);
 }

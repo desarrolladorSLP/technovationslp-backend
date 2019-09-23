@@ -38,6 +38,12 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.markMessageAsRead(messageId);
     }
 
+    @Override
+    @Transactional
+    public void markMessageAsUnread(UUID messageId){
+        messageRepository.markMessageAsUnread(messageId);
+    }
+
 
     @Autowired
     public void setMessageRepository(MessageRepository messageRepository) {

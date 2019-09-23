@@ -29,9 +29,15 @@ public class MessageController {
     }
 
     @PutMapping("/{messageId}/read")
-    public ResponseEntity markMessageAsRead(@PathVariable String messageId){
+    public ResponseEntity markMessageAsRead(@PathVariable UUID messageId){
 
-        messageService.markMessageAsRead(UUID.fromString(messageId));
+        messageService.markMessageAsRead(messageId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping("/{messageId}/unread")
+    public ResponseEntity markMessageAsUnread(@PathVariable UUID messageId){
+        messageService.markMessageAsUnread(messageId);
         return new ResponseEntity(HttpStatus.OK);
     }
 
