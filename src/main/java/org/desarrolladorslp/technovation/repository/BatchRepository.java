@@ -18,7 +18,7 @@ public interface BatchRepository extends JpaRepository<Batch, UUID> {
     List<Batch> findByProgram(Program program);
 
     @Query(value = "SELECT DISTINCT true FROM sessions WHERE  batch_id = :batchId", nativeQuery = true)
-    Optional<Boolean> sessionsExistentingInBatch(UUID batchId);
+    Optional<Boolean> doesBatchHaveSessions(UUID batchId);
 
     @Modifying
     @Query(value = "INSERT INTO users_by_batch (batch_id, user_id) VALUES (:batchId, :userId)", nativeQuery = true)
