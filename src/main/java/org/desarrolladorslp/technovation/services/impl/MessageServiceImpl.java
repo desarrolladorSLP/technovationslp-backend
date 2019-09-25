@@ -50,6 +50,12 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.markMessageAsHighPriority(messageId);
     }
 
+    @Override
+    @Transactional
+    public void markMessageAsLowPriority(UUID messageId){
+        messageRepository.markMessageAsLowPriority(messageId);
+    }
+
     @Autowired
     public void setMessageRepository(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;

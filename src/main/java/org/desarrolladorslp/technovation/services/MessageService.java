@@ -16,4 +16,5 @@ public interface MessageService {
 
     void markMessageAsHighPriority(UUID messageId);
 
+    void markMessageAsLowPriority(UUID messageId);
 }
