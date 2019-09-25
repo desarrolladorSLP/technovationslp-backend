@@ -13,4 +13,7 @@ public interface MessageService {
     void markMessageAsRead(UUID messageId);
 
     void markMessageAsUnread(UUID messageId);
+
+    void markMessageAsHighPriority(UUID messageId);
+
 }

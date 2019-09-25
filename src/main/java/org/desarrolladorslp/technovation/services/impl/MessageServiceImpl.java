@@ -44,6 +44,11 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.markMessageAsUnread(messageId);
     }
 
+    @Override
+    @Transactional
+    public void markMessageAsHighPriority(UUID messageId){
+        messageRepository.markMessageAsHighPriority(messageId);
+    }
 
     @Autowired
     public void setMessageRepository(MessageRepository messageRepository) {

@@ -21,4 +21,7 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     @Query(value = "UPDATE messages SET unread = true WHERE id = :messageId", nativeQuery = true)
     void markMessageAsUnread(UUID messageId);
 
+    @Modifying
+    @Query(value = "UPDATE messages SET high_priority = true WHERE id = :messageId", nativeQuery = true)
+    void markMessageAsHighPriority(UUID messageId);
 }

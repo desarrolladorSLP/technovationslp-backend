@@ -41,6 +41,12 @@ public class MessageController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PutMapping("/{messageId}/highPriority")
+    public ResponseEntity markMessageAsHighPriority(@PathVariable UUID messageId){
+        messageService.markMessageAsHighPriority(messageId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @Autowired
     public void setMessageService(MessageService messageService) {
         this.messageService = messageService;
