@@ -3,11 +3,7 @@ package org.desarrolladorslp.technovation.models;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,11 +23,12 @@ public class Resource implements Serializable {
     @Id
     private UUID id;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "message_id")
-    private Message messageId;
+    private Message message;
 
     private String url;
 
-    @Column(name = "mime_type")
+    @Column(name = "mimetype")
     private String mimeType;
 }
