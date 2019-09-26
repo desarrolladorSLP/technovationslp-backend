@@ -123,7 +123,9 @@ create TABLE messages
     body            TEXT                       NOT NULL,
     date_time       timestamp WITH TIME ZONE   NOT NULL,
     high_priority   boolean                    NOT NULL,
-    unread          boolean                    NOT NULL
+    read            boolean                    NOT NULL,
+    received        boolean                    NOT NULL,
+    confirm_reading boolean                    NOT NULL
 );
 
 create TABLE messages_by_users
