@@ -24,13 +24,11 @@ public class MessageController {
     @GetMapping
     public ResponseEntity<Map<String, List<MessageHeaderDTO>>> retrieveMessage(Principal principal) {
         Map<String, List<MessageHeaderDTO>> messages = messageService.getMessagesByUser(tokenInfoService.getIdFromPrincipal(principal));
-
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
     @PutMapping("/{messageId}/read")
     public void markMessageAsRead(@PathVariable UUID messageId){
-
         messageService.markMessageAsRead(messageId);
     }
 
@@ -40,15 +38,13 @@ public class MessageController {
     }
 
     @PutMapping("/{messageId}/highPriority")
-    public ResponseEntity markMessageAsHighPriority(@PathVariable UUID messageId){
+    public void markMessageAsHighPriority(@PathVariable UUID messageId){
         messageService.markMessageAsHighPriority(messageId);
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/{messageId}/lowPriority")
-    public ResponseEntity markMessageAsLowPriority(@PathVariable UUID messageId){
+    public void markMessageAsLowPriority(@PathVariable UUID messageId){
         messageService.markMessageAsLowPriority(messageId);
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Autowired
