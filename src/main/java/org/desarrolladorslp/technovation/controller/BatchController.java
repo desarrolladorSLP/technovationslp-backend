@@ -71,9 +71,8 @@ public class BatchController {
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @DeleteMapping("/{batchId}")
-    public ResponseEntity<Batch> deleteBatch(@PathVariable String batchId){
+    public void deleteBatch(@PathVariable String batchId){
         batchService.delete(UUID.fromString(batchId));
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMINISTRATOR"})
