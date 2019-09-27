@@ -29,16 +29,14 @@ public class MessageController {
     }
 
     @PutMapping("/{messageId}/read")
-    public ResponseEntity markMessageAsRead(@PathVariable UUID messageId){
+    public void markMessageAsRead(@PathVariable UUID messageId){
 
         messageService.markMessageAsRead(messageId);
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/{messageId}/unread")
-    public ResponseEntity markMessageAsUnread(@PathVariable UUID messageId){
+    public void markMessageAsUnread(@PathVariable UUID messageId){
         messageService.markMessageAsUnread(messageId);
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/{messageId}/highPriority")
