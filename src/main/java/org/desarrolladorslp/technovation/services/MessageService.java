@@ -9,4 +9,12 @@ import org.desarrolladorslp.technovation.dto.MessageHeaderDTO;
 public interface MessageService {
 
     Map<String, List<MessageHeaderDTO>> getMessagesByUser(UUID userReceiverId);
+
+    void markMessageAsRead(UUID messageId);
+
+    void markMessageAsUnread(UUID messageId);
+
+    void markMessageAsHighPriority(UUID messageId);
+
+    void markMessageAsLowPriority(UUID messageId);
 }

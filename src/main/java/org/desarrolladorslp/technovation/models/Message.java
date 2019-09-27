@@ -37,6 +37,8 @@ public class Message implements Serializable {
 
     private Boolean highPriority;
 
+    private Boolean read;
+
     @Column(name = "date_time")
     private ZonedDateTime dateTime;
 

@@ -2,17 +2,22 @@ package org.desarrolladorslp.technovation.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Id;
+
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventDTO {
+
+   private UUID id;
 
    private String type;
 

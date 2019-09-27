@@ -32,6 +32,30 @@ public class MessageServiceImpl implements MessageService {
         return messages;
     }
 
+    @Override
+    @Transactional
+    public void markMessageAsRead(UUID messageId){
+        messageRepository.markMessageAsRead(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsUnread(UUID messageId){
+        messageRepository.markMessageAsUnread(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsHighPriority(UUID messageId){
+        messageRepository.markMessageAsHighPriority(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsLowPriority(UUID messageId){
+        messageRepository.markMessageAsLowPriority(messageId);
+    }
+
     @Autowired
     public void setMessageRepository(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
