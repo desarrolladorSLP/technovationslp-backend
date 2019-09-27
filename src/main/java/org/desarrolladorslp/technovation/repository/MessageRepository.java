@@ -16,6 +16,6 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     @Query(value = "SELECT * FROM messages AS m INNER JOIN messages_by_users AS mbu ON m.id = mbu.message_id WHERE mbu.user_receiver_id = :userReceiverId AND high_priority = :highPriority", nativeQuery = true)
     List<Message> getMessagesByPriority(UUID userReceiverId, Boolean highPriority);
 
-    @Query(value = "SELECT * FROM messages AS m WHERE m.id = :messageId", nativeQuery = true)
+    @Query("SELECT m FROM Message m WHERE m.id = :messageId")
     Message getBodyOfMessageByUser(UUID messageId);
 }

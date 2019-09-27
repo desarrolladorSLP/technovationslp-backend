@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.dto.MessageBodyDTO;
 import org.desarrolladorslp.technovation.dto.MessageHeaderDTO;
-import org.desarrolladorslp.technovation.dto.MessagesReceiversDTO;
+import org.desarrolladorslp.technovation.dto.MessageReceiverDTO;
 import org.desarrolladorslp.technovation.dto.ResourceDTO;
 import org.desarrolladorslp.technovation.models.Message;
 import org.desarrolladorslp.technovation.models.Resource;
@@ -43,12 +43,12 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     @Transactional
-    public MessageBodyDTO getSpecificMessageByUser(UUID messageId, UUID userReceiverId){
+    public MessageBodyDTO getSpecificMessageByUser(UUID messageId, UUID userReceiverId) {
         Message m = messageRepository.getBodyOfMessageByUser(messageId);
-        List<MessagesReceiversDTO> receivers = userRepository.getUsersReceiversToSpecificMessage(messageId).stream().map(this::convertUserReceiversToDTO).collect(Collectors.toList());
+        List<MessageReceiverDTO> receivers = userRepository.getUsersReceiversToSpecificMessage(messageId).stream().map(this::convertUserReceiversToDTO).collect(Collectors.toList());
         List<ResourceDTO> attachments = resourceRepository.getResourcesBySpecificMessage(messageId).stream().map(this::convertResourceToDTO).collect(Collectors.toList());
 
-       return createMessageToDto(m,receivers, attachments);
+        return createMessageToDto(m, receivers, attachments);
     }
 
     @Autowired
@@ -57,12 +57,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository){
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Autowired
-    public void setResourceRepository(ResourceRepository resourceRepository){
+    public void setResourceRepository(ResourceRepository resourceRepository) {
         this.resourceRepository = resourceRepository;
     }
 
@@ -71,13 +71,13 @@ public class MessageServiceImpl implements MessageService {
         this.messageRepository = messageRepository;
     }
 
-    private ResourceDTO convertResourceToDTO(Resource resource){
-        return modelMapper.map(resource,ResourceDTO.class);
+    private ResourceDTO convertResourceToDTO(Resource resource) {
+        return modelMapper.map(resource, ResourceDTO.class);
     }
 
-    private MessagesReceiversDTO convertUserReceiversToDTO(User user) {
+    private MessageReceiverDTO convertUserReceiversToDTO(User user) {
 
-        return modelMapper.map(user, MessagesReceiversDTO.class);
+        return modelMapper.map(user, MessageReceiverDTO.class);
     }
 
     private MessageHeaderDTO convertToDTO(Message message) {
@@ -89,7 +89,7 @@ public class MessageServiceImpl implements MessageService {
                 .build();
     }
 
-    private MessageBodyDTO createMessageToDto(Message message, List<MessagesReceiversDTO> receivers, List<ResourceDTO> attachments){
+    private MessageBodyDTO createMessageToDto(Message message, List<MessageReceiverDTO> receivers, List<ResourceDTO> attachments) {
         return MessageBodyDTO.builder()
                 .body(message.getBody())
                 .subject(message.getTitle())
@@ -101,6 +101,5 @@ public class MessageServiceImpl implements MessageService {
                 .receivers(receivers)
                 .attachments(attachments)
                 .build();
-
     }
 }

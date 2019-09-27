@@ -29,7 +29,7 @@ public class MessageBodyDTO {
 
     private String timestamp;
 
-    private List<MessagesReceiversDTO> receivers;
+    private List<MessageReceiverDTO> receivers;
 
     private List<ResourceDTO> attachments;
 }
