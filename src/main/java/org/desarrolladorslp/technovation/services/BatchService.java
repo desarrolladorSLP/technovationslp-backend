@@ -16,5 +16,7 @@ public interface BatchService {
 
     List<Batch> findByProgram(UUID programId);
 
+    void delete(UUID id);
+
     void registerUserToBatch(UUID batchId, UUID userId);
 }

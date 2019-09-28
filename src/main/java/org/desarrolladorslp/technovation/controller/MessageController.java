@@ -12,10 +12,7 @@ import org.desarrolladorslp.technovation.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/message")
@@ -28,8 +25,27 @@ public class MessageController {
     @GetMapping
     public ResponseEntity<Map<String, List<MessageHeaderDTO>>> retrieveMessage(Principal principal) {
         Map<String, List<MessageHeaderDTO>> messages = messageService.getMessagesByUser(tokenInfoService.getIdFromPrincipal(principal));
-
         return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+
+    @PutMapping("/{messageId}/read")
+    public void markMessageAsRead(@PathVariable UUID messageId){
+        messageService.markMessageAsRead(messageId);
+    }
+
+    @PutMapping("/{messageId}/unread")
+    public void markMessageAsUnread(@PathVariable UUID messageId){
+        messageService.markMessageAsUnread(messageId);
+    }
+
+    @PutMapping("/{messageId}/highPriority")
+    public void markMessageAsHighPriority(@PathVariable UUID messageId){
+        messageService.markMessageAsHighPriority(messageId);
+    }
+
+    @PutMapping("/{messageId}/lowPriority")
+    public void markMessageAsLowPriority(@PathVariable UUID messageId){
+        messageService.markMessageAsLowPriority(messageId);
     }
 
     @GetMapping("/{messageId}")

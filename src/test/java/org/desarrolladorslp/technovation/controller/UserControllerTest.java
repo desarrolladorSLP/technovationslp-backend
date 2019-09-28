@@ -90,21 +90,21 @@ public class UserControllerTest {
         when(userService.findAll()).thenReturn(expectedList);
 
         //when
-            MockHttpServletResponse response = mockMvc.perform(
-                    MockMvcRequestBuilders.get(BASE_USER_URL)).andReturn().getResponse();
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.get(BASE_USER_URL)).andReturn().getResponse();
 
-            //then
-            assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-            verify(userService).findAll();
-            verifyNoMoreInteractions(userService);
+        //then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        verify(userService).findAll();
+        verifyNoMoreInteractions(userService);
 
-            String responseBody = response.getContentAsString();
-            List<UserDTO> receivedUsersDTO = gson.fromJson(responseBody, UserDTOListType);
-            assertThat(receivedUsersDTO).isEqualTo(expectedListDTO);
+        String responseBody = response.getContentAsString();
+        List<UserDTO> receivedUsersDTO = gson.fromJson(responseBody, UserDTOListType);
+        assertThat(receivedUsersDTO).isEqualTo(expectedListDTO);
     }
 
     @Test
-    public void whenListActiveUsers_thenReturnListAnd200Status() throws Exception{
+    public void whenListActiveUsers_thenReturnListAnd200Status() throws Exception {
         //given
         Type listActiveDTOListType = new TypeToken<ArrayList<UserDTO>>() {
         }.getType();

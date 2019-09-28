@@ -12,4 +12,12 @@ public interface MessageService {
     Map<String, List<MessageHeaderDTO>> getMessagesByUser(UUID userReceiverId);
 
     MessageBodyDTO getSpecificMessageByUser(UUID messageId, UUID userReceiverId);
+
+    void markMessageAsRead(UUID messageId);
+
+    void markMessageAsUnread(UUID messageId);
+
+    void markMessageAsHighPriority(UUID messageId);
+
+    void markMessageAsLowPriority(UUID messageId);
 }

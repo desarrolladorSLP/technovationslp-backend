@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Builder
 @Data
@@ -16,6 +18,8 @@ import lombok.NoArgsConstructor;
 public class MessageHeaderDTO {
 
     @Id
+    private UUID messageId;
+
     private String sender;
 
     private String senderImage;
@@ -23,4 +27,6 @@ public class MessageHeaderDTO {
     private String subject;
 
     private String timestamp;
+
+    private UUID userSenderId;
 }

@@ -1,7 +1,7 @@
 {
   "enabled": false,
   "validated": true,
-  "roles":[
+  "roles": [
     {
       "name": "ROLE_TECKER"
     },

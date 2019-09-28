@@ -66,6 +66,30 @@ public class MessageServiceImpl implements MessageService {
         this.resourceRepository = resourceRepository;
     }
 
+    @Override
+    @Transactional
+    public void markMessageAsRead(UUID messageId){
+        messageRepository.markMessageAsRead(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsUnread(UUID messageId){
+        messageRepository.markMessageAsUnread(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsHighPriority(UUID messageId){
+        messageRepository.markMessageAsHighPriority(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsLowPriority(UUID messageId){
+        messageRepository.markMessageAsLowPriority(messageId);
+    }
+
     @Autowired
     public void setMessageRepository(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
@@ -82,10 +106,12 @@ public class MessageServiceImpl implements MessageService {
 
     private MessageHeaderDTO convertToDTO(Message message) {
         return MessageHeaderDTO.builder()
+                .messageId(message.getId())
                 .sender(message.getUserSender().getName())
                 .senderImage(message.getUserSender().getPictureUrl())
                 .subject(message.getTitle())
                 .timestamp(message.getDateTime().format(DateTimeFormatter.ISO_INSTANT))
+                .userSenderId(message.getUserSender().getId())
                 .build();
     }
 
