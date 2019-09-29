@@ -23,9 +23,8 @@ public class Resource implements Serializable {
     @Id
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    @JoinColumn(name = "message_id")
-    private Message message;
+    @Column(name = "message_id")
+    private UUID messageId;
 
     private String url;
 

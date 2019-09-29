@@ -1,15 +1,11 @@
 package org.desarrolladorslp.technovation.repository;
 
-import org.desarrolladorslp.technovation.dto.ResourceDTO;
 import org.desarrolladorslp.technovation.models.Message;
-import org.desarrolladorslp.technovation.models.Resource;
-import org.desarrolladorslp.technovation.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface MessageRepository extends JpaRepository<Message, UUID> {

@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface ResourceRepository extends JpaRepository<Resource, UUID> {
 
-    @Query("SELECT r FROM Resource r WHERE r.message.id = :messageId")
+    @Query("SELECT r FROM Resource r WHERE r.messageId = :messageId")
     List<Resource> getResourcesBySpecificMessage(UUID messageId);
 }

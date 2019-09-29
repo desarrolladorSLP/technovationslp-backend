@@ -51,6 +51,30 @@ public class MessageServiceImpl implements MessageService {
         return createMessageToDto(m, receivers, attachments);
     }
 
+    @Override
+    @Transactional
+    public void markMessageAsRead(UUID messageId) {
+        messageRepository.markMessageAsRead(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsUnread(UUID messageId) {
+        messageRepository.markMessageAsUnread(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsHighPriority(UUID messageId) {
+        messageRepository.markMessageAsHighPriority(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void markMessageAsLowPriority(UUID messageId) {
+        messageRepository.markMessageAsLowPriority(messageId);
+    }
+
     @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
@@ -64,30 +88,6 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     public void setResourceRepository(ResourceRepository resourceRepository) {
         this.resourceRepository = resourceRepository;
-    }
-
-    @Override
-    @Transactional
-    public void markMessageAsRead(UUID messageId){
-        messageRepository.markMessageAsRead(messageId);
-    }
-
-    @Override
-    @Transactional
-    public void markMessageAsUnread(UUID messageId){
-        messageRepository.markMessageAsUnread(messageId);
-    }
-
-    @Override
-    @Transactional
-    public void markMessageAsHighPriority(UUID messageId){
-        messageRepository.markMessageAsHighPriority(messageId);
-    }
-
-    @Override
-    @Transactional
-    public void markMessageAsLowPriority(UUID messageId){
-        messageRepository.markMessageAsLowPriority(messageId);
     }
 
     @Autowired
