@@ -13,8 +13,8 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     @Query(value = "SELECT * FROM messages AS m INNER JOIN messages_by_users AS mbu ON m.id = mbu.message_id WHERE mbu.user_receiver_id = :userReceiverId AND high_priority = :highPriority", nativeQuery = true)
     List<Message> getMessagesByPriority(UUID userReceiverId, Boolean highPriority);
 
-    @Query("SELECT m FROM Message m WHERE m.id = :messageId")
-    Message getBodyOfMessageByUser(UUID messageId);
+    @Query("SELECT m FROM Message m INNER JOIN MessagesByUser mbu ON m.id = mbu.messageId WHERE m.id = :messageId AND mbu.userReceiverId = :userReceiverId")
+    Message getBodyOfMessageByUser(UUID messageId, UUID userReceiverId);
 
     @Modifying
     @Query(value = "UPDATE messages SET read = true WHERE id = :messageId", nativeQuery = true)

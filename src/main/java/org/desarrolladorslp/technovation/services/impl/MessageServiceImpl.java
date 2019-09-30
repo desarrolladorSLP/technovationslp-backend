@@ -42,13 +42,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public MessageBodyDTO getSpecificMessageByUser(UUID messageId, UUID userReceiverId) {
-        Message m = messageRepository.getBodyOfMessageByUser(messageId);
+        Message m = messageRepository.getBodyOfMessageByUser(messageId, userReceiverId);
         List<MessageReceiverDTO> receivers = userRepository.getUsersReceiversToSpecificMessage(messageId).stream().map(this::convertUserReceiversToDTO).collect(Collectors.toList());
         List<ResourceDTO> attachments = resourceRepository.getResourcesBySpecificMessage(messageId).stream().map(this::convertResourceToDTO).collect(Collectors.toList());
 
-        return createMessageToDto(m, receivers, attachments);
+        return createMessageDto(m, receivers, attachments);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class MessageServiceImpl implements MessageService {
                 .build();
     }
 
-    private MessageBodyDTO createMessageToDto(Message message, List<MessageReceiverDTO> receivers, List<ResourceDTO> attachments) {
+    private MessageBodyDTO createMessageDto(Message message, List<MessageReceiverDTO> receivers, List<ResourceDTO> attachments) {
         return MessageBodyDTO.builder()
                 .body(message.getBody())
                 .subject(message.getTitle())

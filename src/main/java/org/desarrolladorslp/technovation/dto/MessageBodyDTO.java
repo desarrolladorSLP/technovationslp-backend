@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.Id;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +17,6 @@ public class MessageBodyDTO {
 
     private String subject;
 
-    @Id
     private UUID messageId;
 
     private UUID senderId;

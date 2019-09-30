@@ -28,6 +28,6 @@ public class Resource implements Serializable {
 
     private String url;
 
-    @Column(name = "mimetype")
+    @Column(name = "mime_type")
     private String mimeType;
 }
