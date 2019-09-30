@@ -47,6 +47,16 @@ public class MessageController {
         messageService.markMessageAsLowPriority(messageId);
     }
 
+    @PutMapping("/{messageId}/received")
+    public void confirmMessageReceived(@PathVariable UUID messageId){
+        messageService.confirmMessageReceived(messageId);
+    }
+
+    @PutMapping("/{messageId}/reading")
+    public void confirmMessageReading(@PathVariable UUID messageId){
+        messageService.confirmMessageReading(messageId);
+    }
+
     @Autowired
     public void setMessageService(MessageService messageService) {
         this.messageService = messageService;

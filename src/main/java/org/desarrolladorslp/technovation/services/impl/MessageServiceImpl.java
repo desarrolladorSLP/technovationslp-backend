@@ -56,6 +56,18 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.markMessageAsLowPriority(messageId);
     }
 
+    @Override
+    @Transactional
+    public void confirmMessageReceived(UUID messageId){
+        messageRepository.confirmMessageReceived(messageId);
+    }
+
+    @Override
+    @Transactional
+    public void confirmMessageReading(UUID messageId){
+        messageRepository.confirmMessageReading(messageId);
+    }
+
     @Autowired
     public void setMessageRepository(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;

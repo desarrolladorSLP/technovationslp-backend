@@ -17,4 +17,8 @@ public interface MessageService {
     void markMessageAsHighPriority(UUID messageId);
 
     void markMessageAsLowPriority(UUID messageId);
+
+    void confirmMessageReceived(UUID messageId);
+
+    void confirmMessageReading(UUID messageId);
 }
