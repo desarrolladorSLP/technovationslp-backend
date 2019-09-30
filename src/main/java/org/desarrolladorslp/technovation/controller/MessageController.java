@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
+import org.desarrolladorslp.technovation.dto.MessageBodyDTO;
 import org.desarrolladorslp.technovation.dto.MessageHeaderDTO;
 import org.desarrolladorslp.technovation.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +29,29 @@ public class MessageController {
     }
 
     @PutMapping("/{messageId}/read")
-    public void markMessageAsRead(@PathVariable UUID messageId){
+    public void markMessageAsRead(@PathVariable UUID messageId) {
         messageService.markMessageAsRead(messageId);
     }
 
     @PutMapping("/{messageId}/unread")
-    public void markMessageAsUnread(@PathVariable UUID messageId){
+    public void markMessageAsUnread(@PathVariable UUID messageId) {
         messageService.markMessageAsUnread(messageId);
     }
 
     @PutMapping("/{messageId}/highPriority")
-    public void markMessageAsHighPriority(@PathVariable UUID messageId){
+    public void markMessageAsHighPriority(@PathVariable UUID messageId) {
         messageService.markMessageAsHighPriority(messageId);
     }
 
     @PutMapping("/{messageId}/lowPriority")
-    public void markMessageAsLowPriority(@PathVariable UUID messageId){
+    public void markMessageAsLowPriority(@PathVariable UUID messageId) {
         messageService.markMessageAsLowPriority(messageId);
+    }
+
+    @GetMapping("/{messageId}")
+    public ResponseEntity<MessageBodyDTO> getSpecificMessage(@PathVariable UUID messageId, Principal principal) {
+
+        return new ResponseEntity<>(messageService.getSpecificMessageByUser(messageId, tokenInfoService.getIdFromPrincipal(principal)), HttpStatus.OK);
     }
 
     @Autowired

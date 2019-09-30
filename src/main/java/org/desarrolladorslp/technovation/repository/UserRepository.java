@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findByValidated(boolean isValidated);
 
+    @Query("SELECT u FROM User u INNER JOIN MessagesByUser mbu ON u.id = mbu.userReceiverId WHERE mbu.messageId = :messageId")
+    List<User> getUsersReceiversToSpecificMessage(UUID messageId);
+
     @Query("SELECT u FROM User u JOIN UsersByRole ur ON u.id = ur.userId WHERE ur.roleName = :roleName")
     List<User> getUsersByRole(String roleName);
 }
