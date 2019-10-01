@@ -17,8 +17,6 @@ public interface MessageService {
 
     MessageBodyDTO getSpecificMessageByUser(UUID messageId, UUID userReceiverId);
 
-    void markMessageAsRead(UUID messageId);
-
     void markMessageAsHighPriority(UUID messageId, UUID userReceiverId);
 
     void markMessageAsLowPriority(UUID messageId, UUID userReceiverId);
