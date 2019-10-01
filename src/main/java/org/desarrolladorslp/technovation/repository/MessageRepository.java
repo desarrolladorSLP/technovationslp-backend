@@ -30,10 +30,10 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     void markMessageAsLowPriority(UUID messageId);
 
     @Modifying
-    @Query(value = "UPDATE messages SET received = true WHERE id = :messageId", nativeQuery = true)
+    @Query(value = "UPDATE messages SET received = true WHERE id = :messageId AND mes", nativeQuery = true)
     void confirmMessageReceived(UUID messageId);
 
     @Modifying
-    @Query(value = "UPDATE messages SET confirm_reading = true WHERE id = :messageId", nativeQuery = true)
+    @Query(value = "UPDATE messages SET confirm_reading =  true WHERE id = :messageId", nativeQuery = true)
     void confirmMessageReading(UUID messageId);
 }

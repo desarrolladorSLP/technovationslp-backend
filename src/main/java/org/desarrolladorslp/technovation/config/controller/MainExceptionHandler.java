@@ -3,6 +3,7 @@ package org.desarrolladorslp.technovation.config.controller;
 import java.util.NoSuchElementException;
 
 import org.desarrolladorslp.technovation.exception.BatchCannotBeDeletedException;
+import org.desarrolladorslp.technovation.exception.MessageDoesNotBelongToUser;
 import org.desarrolladorslp.technovation.exception.UserAlreadyConfirmedException;
 import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
 import org.springframework.core.Ordered;
@@ -36,6 +37,13 @@ public class MainExceptionHandler {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())
                 .message(ex.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MessageDoesNotBelongToUser.class)
+    public ResponseEntity<Error> handleMessageDoesNotBelongToUser(Exception ex) {
+        return new ResponseEntity<>(new Error()
+                .exception(ex.getClass().getCanonicalName())
+                .message(ex.getMessage()), HttpStatus.FORBIDDEN);
     }
 
     public static class Error {

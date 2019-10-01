@@ -28,33 +28,33 @@ public class MessageController {
     }
 
     @PutMapping("/{messageId}/read")
-    public void markMessageAsRead(@PathVariable UUID messageId){
-        messageService.markMessageAsRead(messageId);
+    public void markMessageAsRead(@PathVariable UUID messageId, Principal principal){
+        messageService.markMessageAsRead(messageId, tokenInfoService.getIdFromPrincipal(principal));
     }
 
     @PutMapping("/{messageId}/unread")
-    public void markMessageAsUnread(@PathVariable UUID messageId){
-        messageService.markMessageAsUnread(messageId);
+    public void markMessageAsUnread(@PathVariable UUID messageId, Principal principal){
+        messageService.markMessageAsUnread(messageId, tokenInfoService.getIdFromPrincipal(principal));
     }
 
     @PutMapping("/{messageId}/highPriority")
-    public void markMessageAsHighPriority(@PathVariable UUID messageId){
-        messageService.markMessageAsHighPriority(messageId);
+    public void markMessageAsHighPriority(@PathVariable UUID messageId, Principal principal){
+        messageService.markMessageAsHighPriority(messageId, tokenInfoService.getIdFromPrincipal(principal));
     }
 
     @PutMapping("/{messageId}/lowPriority")
-    public void markMessageAsLowPriority(@PathVariable UUID messageId){
-        messageService.markMessageAsLowPriority(messageId);
+    public void markMessageAsLowPriority(@PathVariable UUID messageId, Principal principal){
+        messageService.markMessageAsLowPriority(messageId, tokenInfoService.getIdFromPrincipal(principal));
     }
 
     @PutMapping("/{messageId}/received")
-    public void confirmMessageReceived(@PathVariable UUID messageId){
-        messageService.confirmMessageReceived(messageId);
+    public void confirmMessageReceived(@PathVariable UUID messageId, Principal principal){
+        messageService.confirmMessageReceived(messageId, tokenInfoService.getIdFromPrincipal(principal));
     }
 
     @PutMapping("/{messageId}/reading")
-    public void confirmMessageReading(@PathVariable UUID messageId){
-        messageService.confirmMessageReading(messageId);
+    public void confirmMessageReading(@PathVariable UUID messageId, Principal principal){
+        messageService.confirmMessageReading(messageId, tokenInfoService.getIdFromPrincipal(principal));
     }
 
     @Autowired

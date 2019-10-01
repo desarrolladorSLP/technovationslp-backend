@@ -8,6 +8,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.dto.MessageHeaderDTO;
+import org.desarrolladorslp.technovation.exception.MessageDoesNotBelongToUser;
+import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
 import org.desarrolladorslp.technovation.models.Message;
 import org.desarrolladorslp.technovation.repository.MessageRepository;
 import org.desarrolladorslp.technovation.services.MessageService;
@@ -34,38 +36,68 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     @Transactional
-    public void markMessageAsRead(UUID messageId){
-        messageRepository.markMessageAsRead(messageId);
+    public void markMessageAsRead(UUID messageId, UUID userReceiverId) {
+        Map<String, List<MessageHeaderDTO>> messages = getMessagesByUser(userReceiverId);
+        if (messages.values().stream().anyMatch(p -> p.stream().anyMatch(m -> m.getMessageId().equals(messageId)))) {
+            messageRepository.markMessageAsRead(messageId);
+        } else {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        }
     }
 
     @Override
     @Transactional
-    public void markMessageAsUnread(UUID messageId){
-        messageRepository.markMessageAsUnread(messageId);
+    public void markMessageAsUnread(UUID messageId, UUID userReceiverId) {
+        Map<String, List<MessageHeaderDTO>> messages = getMessagesByUser(userReceiverId);
+        if (messages.values().stream().anyMatch(p -> p.stream().anyMatch(m -> m.getMessageId().equals(messageId)))) {
+            messageRepository.markMessageAsUnread(messageId);
+        } else {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        }
     }
 
     @Override
     @Transactional
-    public void markMessageAsHighPriority(UUID messageId){
-        messageRepository.markMessageAsHighPriority(messageId);
+    public void markMessageAsHighPriority(UUID messageId, UUID userReceiverId) {
+        Map<String, List<MessageHeaderDTO>> messages = getMessagesByUser(userReceiverId);
+        if (messages.values().stream().anyMatch(p -> p.stream().anyMatch(m -> m.getMessageId().equals(messageId)))) {
+            messageRepository.markMessageAsHighPriority(messageId);
+        } else {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        }
     }
 
     @Override
     @Transactional
-    public void markMessageAsLowPriority(UUID messageId){
-        messageRepository.markMessageAsLowPriority(messageId);
+    public void markMessageAsLowPriority(UUID messageId, UUID userReceiverId) {
+        Map<String, List<MessageHeaderDTO>> messages = getMessagesByUser(userReceiverId);
+        if (messages.values().stream().anyMatch(p -> p.stream().anyMatch(m -> m.getMessageId().equals(messageId)))) {
+            messageRepository.markMessageAsLowPriority(messageId);
+        } else {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        }
     }
 
     @Override
     @Transactional
-    public void confirmMessageReceived(UUID messageId){
-        messageRepository.confirmMessageReceived(messageId);
+    public void confirmMessageReceived(UUID messageId, UUID userReceiverId) {
+        Map<String, List<MessageHeaderDTO>> messages = getMessagesByUser(userReceiverId);
+        if (messages.values().stream().anyMatch(p -> p.stream().anyMatch(m -> m.getMessageId().equals(messageId)))) {
+            messageRepository.confirmMessageReceived(messageId);
+        } else {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        }
     }
 
     @Override
     @Transactional
-    public void confirmMessageReading(UUID messageId){
-        messageRepository.confirmMessageReading(messageId);
+    public void confirmMessageReading(UUID messageId, UUID userReceiverId) {
+        Map<String, List<MessageHeaderDTO>> messages = getMessagesByUser(userReceiverId);
+        if (messages.values().stream().anyMatch(p -> p.stream().anyMatch(m -> m.getMessageId().equals(messageId)))) {
+            messageRepository.confirmMessageReading(messageId);
+        } else {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        }
     }
 
     @Autowired
