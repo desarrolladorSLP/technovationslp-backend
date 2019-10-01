@@ -11,13 +11,17 @@ public interface MessageService {
 
     Map<String, List<MessageHeaderDTO>> getMessagesByUser(UUID userReceiverId);
 
+    void markMessageAsRead(UUID messageId, UUID userReceiverId);
+
+    void markMessageAsUnread(UUID messageId, UUID userReceiverId);
+
     MessageBodyDTO getSpecificMessageByUser(UUID messageId, UUID userReceiverId);
 
-    void markMessageAsRead(UUID messageId);
+    void markMessageAsHighPriority(UUID messageId, UUID userReceiverId);
 
-    void markMessageAsUnread(UUID messageId);
+    void markMessageAsLowPriority(UUID messageId, UUID userReceiverId);
 
-    void markMessageAsHighPriority(UUID messageId);
+    void confirmMessageReceived(UUID messageId, UUID userReceiverId);
 
-    void markMessageAsLowPriority(UUID messageId);
+    void confirmMessageReading(UUID messageId, UUID userReceiverId);
 }

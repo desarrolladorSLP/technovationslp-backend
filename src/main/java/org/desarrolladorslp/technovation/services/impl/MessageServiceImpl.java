@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.dto.MessageBodyDTO;
 import org.desarrolladorslp.technovation.dto.MessageHeaderDTO;
+import org.desarrolladorslp.technovation.exception.MessageDoesNotBelongToUser;
+import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
 import org.desarrolladorslp.technovation.dto.MessageReceiverDTO;
 import org.desarrolladorslp.technovation.dto.ResourceDTO;
 import org.desarrolladorslp.technovation.models.Message;
@@ -53,26 +55,68 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     @Transactional
-    public void markMessageAsRead(UUID messageId) {
-        messageRepository.markMessageAsRead(messageId);
+    public void markMessageAsRead(UUID messageId, UUID userReceiverId) {
+        Message message = messageRepository.getBodyOfMessageByUser(messageId, userReceiverId);
+        if (message == null) {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        } else {
+            messageRepository.markMessageAsRead(messageId);
+        }
     }
 
     @Override
     @Transactional
-    public void markMessageAsUnread(UUID messageId) {
-        messageRepository.markMessageAsUnread(messageId);
+    public void markMessageAsUnread(UUID messageId, UUID userReceiverId) {
+        Message message = messageRepository.getBodyOfMessageByUser(messageId, userReceiverId);
+        if (message == null) {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        } else {
+            messageRepository.markMessageAsUnread(messageId);
+        }
     }
 
     @Override
     @Transactional
-    public void markMessageAsHighPriority(UUID messageId) {
-        messageRepository.markMessageAsHighPriority(messageId);
+    public void markMessageAsHighPriority(UUID messageId, UUID userReceiverId) {
+        Message message = messageRepository.getBodyOfMessageByUser(messageId, userReceiverId);
+        if (message == null) {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        } else {
+            messageRepository.markMessageAsHighPriority(messageId);
+        }
     }
 
     @Override
     @Transactional
-    public void markMessageAsLowPriority(UUID messageId) {
-        messageRepository.markMessageAsLowPriority(messageId);
+    public void markMessageAsLowPriority(UUID messageId, UUID userReceiverId) {
+        Message message = messageRepository.getBodyOfMessageByUser(messageId, userReceiverId);
+        if (message == null) {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        } else {
+            messageRepository.markMessageAsLowPriority(messageId);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void confirmMessageReceived(UUID messageId, UUID userReceiverId) {
+        Message message = messageRepository.getBodyOfMessageByUser(messageId, userReceiverId);
+        if (message == null) {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        } else {
+            messageRepository.confirmMessageReceived(messageId);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void confirmMessageReading(UUID messageId, UUID userReceiverId) {
+        Message message = messageRepository.getBodyOfMessageByUser(messageId, userReceiverId);
+        if (message == null) {
+            throw new MessageDoesNotBelongToUser(messageId + "is not owned by user");
+        } else {
+            messageRepository.confirmMessageReading(messageId);
+        }
     }
 
     @Autowired
