@@ -140,7 +140,7 @@ create TABLE resources
     id          UUID PRIMARY KEY,
     message_id  UUID REFERENCES messages,
     url         varchar(200) NOT NULL,
-    mimetype    varchar(200) NOT NULL
+    mime_type   varchar(200) NOT NULL
 );
 
 CREATE TABLE users_by_batch

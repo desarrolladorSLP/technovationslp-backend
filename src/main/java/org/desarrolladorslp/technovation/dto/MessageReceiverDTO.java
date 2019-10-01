@@ -11,17 +11,9 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageHeaderDTO {
+public class MessageReceiverDTO {
 
-    private UUID messageId;
+    private UUID id;
 
-    private String sender;
-
-    private String senderImage;
-
-    private String subject;
-
-    private String timestamp;
-
-    private UUID userSenderId;
+    private String name;
 }

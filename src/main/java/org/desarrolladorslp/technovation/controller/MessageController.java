@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
+import org.desarrolladorslp.technovation.dto.MessageBodyDTO;
 import org.desarrolladorslp.technovation.dto.MessageHeaderDTO;
 import org.desarrolladorslp.technovation.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,12 @@ public class MessageController {
     @PutMapping("/{messageId}/reading")
     public void confirmMessageReading(@PathVariable UUID messageId, Principal principal){
         messageService.confirmMessageReading(messageId, tokenInfoService.getIdFromPrincipal(principal));
+    }
+
+    @GetMapping("/{messageId}")
+    public ResponseEntity<MessageBodyDTO> getSpecificMessage(@PathVariable UUID messageId, Principal principal) {
+
+        return new ResponseEntity<>(messageService.getSpecificMessageByUser(messageId, tokenInfoService.getIdFromPrincipal(principal)), HttpStatus.OK);
     }
 
     @Autowired
