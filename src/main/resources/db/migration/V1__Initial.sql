@@ -98,54 +98,54 @@ insert into oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-values
-('iOSApp', '$2a$10$7rdl7jOe.LW1Db05XkPhneoAFXryHC0qGhmDdsmSbLYjMpZPTrBZ2', 'read,write','firebase', null, null, 5184000, 0, null, true);
+values ('iOSApp', '$2a$10$7rdl7jOe.LW1Db05XkPhneoAFXryHC0qGhmDdsmSbLYjMpZPTrBZ2', 'read,write',
+        'firebase', null, null, 5184000, 0, null, true);
 
 insert into oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-values
-('AndroidApp', '$2a$10$SK3CdCpS2ui543vb4dMS4ev1F5NanWS.wxzlSFRa/huWBZkKIWwe6', 'read,write','firebase', null, null, 5184000, 0, null, true);
+values ('AndroidApp', '$2a$10$SK3CdCpS2ui543vb4dMS4ev1F5NanWS.wxzlSFRa/huWBZkKIWwe6', 'read,write',
+        'firebase', null, null, 5184000, 0, null, true);
 
 insert into oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
-values
-('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC', 'read,write','firebase', null, null, 5184000, 0, null, true);
+values ('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC',
+        'read,write', 'firebase', null, null, 5184000, 0, null, true);
 
 create TABLE messages
 (
     id              UUID PRIMARY KEY,
     user_sender_id  UUID REFERENCES users,
-    title           varchar(200)               NOT NULL,
-    body            TEXT                       NOT NULL,
-    date_time       timestamp WITH TIME ZONE   NOT NULL,
-    high_priority   boolean                    NOT NULL,
-    read            boolean                    NOT NULL,
-    received        boolean                    NOT NULL,
-    confirm_reading boolean                    NOT NULL
+    title           varchar(200)             NOT NULL,
+    body            TEXT                     NOT NULL,
+    date_time       timestamp WITH TIME ZONE NOT NULL,
+    high_priority   boolean                  NOT NULL,
+    read            boolean                  NOT NULL,
+    received        boolean                  NOT NULL,
+    confirm_reading boolean                  NOT NULL
 );
 
 create TABLE messages_by_users
 (
-    message_id          UUID REFERENCES messages,
-    user_receiver_id    UUID REFERENCES users,
+    message_id       UUID REFERENCES messages,
+    user_receiver_id UUID REFERENCES users,
     PRIMARY KEY (message_id, user_receiver_id)
 );
 
 create TABLE resources
 (
-    id          UUID PRIMARY KEY,
-    message_id  UUID REFERENCES messages,
-    url         varchar(200) NOT NULL,
-    mime_type   varchar(200) NOT NULL
+    id         UUID PRIMARY KEY,
+    message_id UUID REFERENCES messages,
+    url        varchar(200) NOT NULL,
+    mime_type  varchar(200) NOT NULL
 );
 
 CREATE TABLE users_by_batch
 (
-    batch_id  UUID REFERENCES batches,
-    user_id     UUID REFERENCES users,
+    batch_id UUID REFERENCES batches,
+    user_id  UUID REFERENCES users,
     PRIMARY KEY (batch_id, user_id)
 );

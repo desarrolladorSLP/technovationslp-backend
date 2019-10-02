@@ -1,12 +1,13 @@
 package org.desarrolladorslp.technovation.repository;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.desarrolladorslp.technovation.models.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
-import java.util.UUID;
 
 public interface MessageRepository extends JpaRepository<Message, UUID> {
 
@@ -14,7 +15,7 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     List<Message> getMessagesByPriority(UUID userReceiverId, Boolean highPriority);
 
     @Query("SELECT m FROM Message m INNER JOIN MessagesByUser mbu ON m.id = mbu.messageId WHERE m.id = :messageId AND mbu.userReceiverId = :userReceiverId")
-    Message getBodyOfMessageByUser(UUID messageId, UUID userReceiverId);
+    Optional<Message> getBodyOfMessageByUser(UUID messageId, UUID userReceiverId);
 
     @Modifying
     @Query(value = "UPDATE messages SET read = true WHERE id = :messageId", nativeQuery = true)
@@ -33,7 +34,7 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     void markMessageAsLowPriority(UUID messageId);
 
     @Modifying
-    @Query(value = "UPDATE messages SET received = true WHERE id = :messageId AND mes", nativeQuery = true)
+    @Query(value = "UPDATE messages SET received = true WHERE id = :messageId", nativeQuery = true)
     void confirmMessageReceived(UUID messageId);
 
     @Modifying
