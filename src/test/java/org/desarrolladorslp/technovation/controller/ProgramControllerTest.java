@@ -297,4 +297,47 @@ public class ProgramControllerTest {
         verify(programService).findById(programId);
         verifyNoMoreInteractions(programService);
     }
+
+    @Test
+    public void givenAnExistentProgramId_whenDelete_then200Status() throws Exception {
+        // given
+        UUID programId = UUID.randomUUID();
+        Optional<Program> program = Optional.of(Program.builder()
+                .id(programId)
+                .name(UUID.randomUUID().toString())
+                .responsible(UUID.randomUUID().toString())
+                .description(UUID.randomUUID().toString())
+                .build());
+
+        when(programService.delete(programId)).thenReturn(program);
+
+        // when
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.delete(BASE_PROGRAM_URL + "/" + programId))
+                .andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        verify(programService).delete(programId);
+        verifyNoMoreInteractions(programService);
+    }
+
+    @Test
+    public void givenANonExistentProgramId_whenDelete_then404Status() throws Exception {
+        // given
+        UUID programId = UUID.randomUUID();
+        Optional<Program> program = Optional.empty();
+
+        when(programService.delete(programId)).thenReturn(program);
+
+        // when
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.delete(BASE_PROGRAM_URL + "/" + programId))
+                .andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        verify(programService).delete(programId);
+        verifyNoMoreInteractions(programService);
+    }
 }

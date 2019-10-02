@@ -10,6 +10,7 @@ import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Program;
 import org.desarrolladorslp.technovation.repository.BatchRepository;
+import org.desarrolladorslp.technovation.repository.UserRepository;
 import org.desarrolladorslp.technovation.services.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BatchServiceImpl implements BatchService {
 
     private BatchRepository batchRepository;
+
+    private UserRepository userRepository;
 
     @Override
     @Transactional
@@ -53,20 +56,20 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     @Transactional
-    public void delete(UUID id){
+    public void delete(UUID id) {
         Optional<Batch> optionalBatch = batchRepository.findById(id);
 
-        batchRepository.doesBatchHaveSessions(id).ifPresentOrElse(
-                batch -> {
+        optionalBatch.ifPresent(batch -> batchRepository.doesBatchHaveSessions(id).ifPresentOrElse(
+                doHaveSessions -> {
                     throw new BatchCannotBeDeletedException(id + " the batch contain sessions, can't delete the batch");
-                },() -> batchRepository.delete(optionalBatch.get())
-            );
+                }, () -> batchRepository.delete(batch))
+        );
     }
 
     @Override
     @Transactional
     public void registerUserToBatch(UUID batchId, UUID userId) {
-        batchRepository.getUserByBatch(batchId, userId).ifPresentOrElse(
+        userRepository.getUserByBatch(batchId, userId).ifPresentOrElse(
                 user -> {
                     throw new UserAlreadyRegisteredInBatch(user.getId() + " has been registered already");
                 }, () ->
@@ -77,5 +80,10 @@ public class BatchServiceImpl implements BatchService {
     @Autowired
     public void setBatchRepository(BatchRepository batchRepository) {
         this.batchRepository = batchRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

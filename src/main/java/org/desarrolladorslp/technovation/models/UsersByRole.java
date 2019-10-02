@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class UsersByRole implements Serializable {
 
     private static final long serialVersionUID = 8147277458935466313L;
-    
+
     @Id
     @Column(name = "role_name", nullable = false)
     private String roleName;

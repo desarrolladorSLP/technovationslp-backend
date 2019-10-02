@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.desarrolladorslp.technovation.dto.UsersByRoleDTO;
 import org.desarrolladorslp.technovation.models.FirebaseUser;
 import org.desarrolladorslp.technovation.models.User;
@@ -27,8 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
-import javax.annotation.PostConstruct;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -132,22 +132,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @PostConstruct
-    public void prepareMappings(){
+    public void prepareMappings() {
         modelMapper.addMappings(new PropertyMap<User, UsersByRoleDTO>() {
             @Override
-            protected  void configure(){
+            protected void configure() {
                 map().setId(source.getId());
                 map().setName(source.getName());
             }
         });
     }
 
-    private UsersByRoleDTO convertToDTO(User user){
+    private UsersByRoleDTO convertToDTO(User user) {
         return modelMapper.map(user, UsersByRoleDTO.class);
     }
 
     @Autowired
-    public void setModelMapper(ModelMapper modelMapper){
+    public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 

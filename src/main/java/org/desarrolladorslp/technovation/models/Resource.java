@@ -3,7 +3,10 @@ package org.desarrolladorslp.technovation.models;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

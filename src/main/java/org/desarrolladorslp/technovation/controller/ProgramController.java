@@ -52,15 +52,15 @@ public class ProgramController {
     }
 
     @GetMapping("/{programId}")
-    public ResponseEntity<Program> getProgram(@PathVariable String programId) {
+    public ResponseEntity<Program> getProgram(@PathVariable UUID programId) {
 
-        return new ResponseEntity<>(programService.findById(UUID.fromString(programId)).orElseThrow(), HttpStatus.OK);
+        return new ResponseEntity<>(programService.findById(programId).orElseThrow(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{programId}")
-    public ResponseEntity<Program> deleteProgram(@PathVariable String programId) {
+    public ResponseEntity<Program> deleteProgram(@PathVariable UUID programId) {
 
-        return new ResponseEntity<>(programService.delete(UUID.fromString(programId)).orElseThrow(), HttpStatus.OK);
+        return new ResponseEntity<>(programService.delete(programId).orElseThrow(), HttpStatus.OK);
     }
 
     @Autowired

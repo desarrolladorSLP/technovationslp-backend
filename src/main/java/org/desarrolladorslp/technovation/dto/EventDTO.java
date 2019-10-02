@@ -9,28 +9,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
-
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventDTO {
 
-   private UUID id;
+    private UUID id;
 
-   private String type;
+    private String type;
 
-   private LocalDate date;
+    private LocalDate date;
 
-   private String subject;
+    private String subject;
 
-   private String location;
+    private String location;
 
-   private LocalTime startTime;
+    private LocalTime startTime;
 
-   private LocalTime endTime;
+    private LocalTime endTime;
 
-   private String directions;
+    private String directions;
 
 }
