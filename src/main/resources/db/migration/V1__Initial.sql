@@ -149,3 +149,13 @@ CREATE TABLE users_by_batch
     user_id  UUID REFERENCES users,
     PRIMARY KEY (batch_id, user_id)
 );
+
+create TABLE deliverables
+(
+    id              UUID PRIMARY KEY,
+    batch_id        UUID REFERENCES batches,
+    due_date        timestamp WITH TIME ZONE NOT NULL,
+    title           varchar(200)             NOT NULL,
+    description     TEXT                     NOT NULL
+);
+
