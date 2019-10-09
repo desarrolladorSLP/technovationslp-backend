@@ -138,7 +138,6 @@ create TABLE messages_by_users
 create TABLE resources
 (
     id         UUID PRIMARY KEY,
-    message_id UUID REFERENCES messages,
     url        varchar(200) NOT NULL,
     mime_type  varchar(200) NOT NULL
 );
@@ -148,4 +147,11 @@ CREATE TABLE users_by_batch
     batch_id UUID REFERENCES batches,
     user_id  UUID REFERENCES users,
     PRIMARY KEY (batch_id, user_id)
+);
+
+create TABLE messages_resources
+(
+    message_id  UUID REFERENCES messages,
+    resource_id UUID REFERENCES resources,
+    PRIMARY KEY (message_id, resource_id)
 );
