@@ -19,4 +19,8 @@ public interface BatchService {
     void delete(UUID id);
 
     void registerUserToBatch(UUID batchId, UUID userId);
+
+    void registerToBatch(List<UUID> usersToRegister, UUID batchId);
+
+    void unregisterToBatch(List<UUID> usersToUnregister, UUID batchId);
 }

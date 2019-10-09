@@ -1,9 +1,8 @@
 package org.desarrolladorslp.technovation.services.impl;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.exception.BatchCannotBeDeletedException;
 import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
@@ -14,7 +13,12 @@ import org.desarrolladorslp.technovation.repository.UserRepository;
 import org.desarrolladorslp.technovation.services.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.UnexpectedRollbackException;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
+import javax.validation.ConstraintViolationException;
 
 @Service
 public class BatchServiceImpl implements BatchService {
@@ -74,7 +78,37 @@ public class BatchServiceImpl implements BatchService {
                     throw new UserAlreadyRegisteredInBatch(user.getId() + " has been registered already");
                 }, () ->
                         batchRepository.registerUserToBatch(batchId, userId));
+    }
 
+    @Override
+    @Transactional
+    public void registerToBatch(List<UUID> usersToRegister, UUID batchId) {
+        List<UUID> errorToRegister = new ArrayList<>();
+        usersToRegister.forEach(
+                uuid -> {
+                    userRepository.findById(uuid).ifPresentOrElse(
+                            user -> {
+                                userRepository.getUserByBatch(batchId,user.getId()).ifPresentOrElse(
+                                    u -> errorToRegister.add(u.getId()), () -> batchRepository.registerUserToBatch(batchId,uuid));
+                            }, () -> errorToRegister.add(uuid)
+                    );
+                });
+        System.out.println("Error al registrar los siguientes teckers " + errorToRegister.stream().collect(Collectors.toList()));
+    }
+
+    @Override
+    @Transactional
+    public void unregisterToBatch(List<UUID> usersToUnregister, UUID batchId){
+        List<UUID> errorToUnregister = new ArrayList<>();
+        usersToUnregister.forEach(
+                uuid -> {
+                    userRepository.findById(uuid).ifPresentOrElse(
+                            user -> {
+                                batchRepository.unregisterUserToBatch(batchId,user.getId());
+                            }, () -> errorToUnregister.add(uuid)
+                    );
+                });
+        System.out.println("Error al eliminar del registro los siguientes teckers " + errorToUnregister.stream().collect(Collectors.toList()));
     }
 
     @Autowired

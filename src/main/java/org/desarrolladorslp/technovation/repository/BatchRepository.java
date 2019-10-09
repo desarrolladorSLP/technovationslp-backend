@@ -22,4 +22,8 @@ public interface BatchRepository extends JpaRepository<Batch, UUID> {
     @Modifying
     @Query(value = "INSERT INTO users_by_batch (batch_id, user_id) VALUES (:batchId, :userId)", nativeQuery = true)
     void registerUserToBatch(UUID batchId, UUID userId);
+
+    @Modifying
+    @Query(value = "DELETE FROM users_by_batch WHERE batch_id = :batchId AND user_id = :userId", nativeQuery = true)
+    void unregisterUserToBatch(UUID batchId, UUID userId);
 }
