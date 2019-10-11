@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ResourceRepository extends JpaRepository<Resource, UUID> {
 
-    @Query("SELECT r FROM Resource r WHERE r.messageId = :messageId")
+    @Query("SELECT r FROM Resource r JOIN MessagesResources mr ON r.id = mr.resourceId WHERE mr.messageId = :messageId")
     List<Resource> getResourcesBySpecificMessage(UUID messageId);
 }
