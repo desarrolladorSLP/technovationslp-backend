@@ -26,9 +26,6 @@ public class Resource implements Serializable {
     @Id
     private UUID id;
 
-    @Column(name = "message_id")
-    private UUID messageId;
-
     private String url;
 
     @Column(name = "mime_type")
