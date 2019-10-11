@@ -93,9 +93,7 @@ public class BatchController {
     @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping("register")
     public void registerToBatch(@RequestBody RegisterToBatchDTO register){
-        batchService.registerToBatch(register.getRegister(),register.getBatchId());
-        batchService.unregisterToBatch(register.getUnregister(),register.getBatchId());
-
+        batchService.registerMultipleUsersToBatch(register);
     }
 
     @Autowired
