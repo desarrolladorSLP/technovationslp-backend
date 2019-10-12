@@ -16,7 +16,7 @@ public class DeliverableDTO {
 
     private UUID id;
 
-    private ZonedDateTime dueDate;
+    private String dueDate;
 
     private String title;
 

@@ -1,22 +1,22 @@
 package org.desarrolladorslp.technovation.services.impl;
 
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
+import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
 import org.desarrolladorslp.technovation.repository.DeliverableRepository;
 import org.desarrolladorslp.technovation.services.DeliverableService;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@Service
 public class DeliverableServiceImpl implements DeliverableService {
 
     private DeliverableRepository deliverableRepository;
-
-    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -31,35 +31,24 @@ public class DeliverableServiceImpl implements DeliverableService {
         this.deliverableRepository = deliverableRepository;
     }
 
-    @Autowired
-    public void setModelMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
-    @PostConstruct
-    public void prepareMappings() {
-
-        modelMapper.addMappings(new PropertyMap<Deliverable, DeliverableDTO>() {
-            @Override
-            public void configure() {
-                map().setBatchId(source.getBatch().getId());
-            }
-        });
-
-        modelMapper.addMappings(new PropertyMap<DeliverableDTO, Deliverable>() {
-            @Override
-            public void configure() {
-                map().getBatch().setId(source.getBatchId());
-            }
-        });
-    }
-
     private Deliverable convertToEntity(DeliverableDTO deliverableDTO) {
-        return modelMapper.map(deliverableDTO, Deliverable.class);
+        return Deliverable.builder()
+                .id(deliverableDTO.getId())
+                .dueDate(ZonedDateTime.parse(deliverableDTO.getDueDate(), DateTimeFormatter.ISO_DATE_TIME))
+                .title(deliverableDTO.getTitle())
+                .description(deliverableDTO.getDescription())
+                .batch(Batch.builder().id(deliverableDTO.getBatchId()).build())
+                .build();
     }
 
     private DeliverableDTO convertToDTO(Deliverable deliverable) {
-        return modelMapper.map(deliverable, DeliverableDTO.class);
+        return DeliverableDTO.builder()
+                .id(deliverable.getId())
+                .dueDate(deliverable.getDueDate().format(DateTimeFormatter.ISO_DATE_TIME))
+                .title(deliverable.getTitle())
+                .description(deliverable.getDescription())
+                .batchId(deliverable.getBatch().getId())
+                .build();
     }
 
 
