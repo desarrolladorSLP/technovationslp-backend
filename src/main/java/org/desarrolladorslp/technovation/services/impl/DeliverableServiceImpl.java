@@ -21,8 +21,8 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Override
     @Transactional
     public DeliverableDTO save(DeliverableDTO deliverableDTO) {
+        deliverableDTO.setId(UUID.randomUUID());
         Deliverable deliverable = convertToEntity(deliverableDTO);
-        deliverable.setId(UUID.randomUUID());
         return convertToDTO(deliverableRepository.save(deliverable));
     }
 
