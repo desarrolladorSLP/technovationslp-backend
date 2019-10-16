@@ -26,6 +26,12 @@ public class DeliverableServiceImpl implements DeliverableService {
         return convertToDTO(deliverableRepository.save(deliverable));
     }
 
+    @Override
+    @Transactional
+    public void assignDeliverableToSession(UUID deliverableId, UUID sessionId, String type) {
+        deliverableRepository.assignDeliverableToSession(deliverableId, sessionId, type);
+    }
+
     @Autowired
     public void setDeliverableRepository(DeliverableRepository deliverableRepository) {
         this.deliverableRepository = deliverableRepository;
