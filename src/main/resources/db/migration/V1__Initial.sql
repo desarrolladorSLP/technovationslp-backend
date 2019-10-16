@@ -155,3 +155,13 @@ create TABLE messages_resources
     resource_id UUID REFERENCES resources,
     PRIMARY KEY (message_id, resource_id)
 );
+
+create TABLE deliverables
+(
+    id              UUID PRIMARY KEY,
+    batch_id        UUID REFERENCES batches,
+    due_date        timestamp WITH TIME ZONE NOT NULL,
+    title           varchar(200)             NOT NULL,
+    description     TEXT                     NOT NULL
+);
+
