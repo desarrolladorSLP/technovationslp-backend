@@ -102,7 +102,6 @@ public class BatchServiceImpl implements BatchService {
     @Override
     @Transactional
     public void registerToBatch(List<UUID> usersToRegister, UUID batchId) {
-        Optional<Batch> optionalBatch = batchRepository.findById(batchId);
         List<UUID> errorToRegister = new ArrayList<>();
 
         logger.debug("Attempt to register users to batch {}", batchId);

@@ -92,7 +92,7 @@ public class BatchController {
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping("register")
-    public void registerToBatch(@RequestBody RegisterToBatchDTO register){
+    public void registerToBatch(@RequestBody RegisterToBatchDTO register) {
         batchService.registerMultipleUsersToBatch(register);
     }
 
