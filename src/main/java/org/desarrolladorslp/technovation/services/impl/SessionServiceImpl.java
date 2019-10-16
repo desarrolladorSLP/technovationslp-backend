@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.desarrolladorslp.technovation.exception.SessionCannotBeDeletedException;
 import org.desarrolladorslp.technovation.exception.UserAlreadyConfirmedException;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Session;
@@ -73,6 +74,19 @@ public class SessionServiceImpl implements SessionService {
         batch.setId(batchId);
 
         return sessionRepository.findByBatch(batch);
+    }
+
+    @Override
+    @Transactional
+    public void delete(UUID id) {
+        Optional<Session> optionalSession = sessionRepository.findById(id);
+
+        optionalSession.ifPresent(
+                session -> sessionRepository.doesSessionHaveUsersConfirmed(session.getId()).ifPresentOrElse(
+                        doHaveUsers -> {
+                            throw new SessionCannotBeDeletedException(session.getId() + " can't delete the session");
+                        }, () -> sessionRepository.delete(session))
+        );
     }
 
     @Autowired

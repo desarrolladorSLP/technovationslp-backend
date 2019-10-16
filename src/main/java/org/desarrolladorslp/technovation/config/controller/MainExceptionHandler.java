@@ -2,10 +2,7 @@ package org.desarrolladorslp.technovation.config.controller;
 
 import java.util.NoSuchElementException;
 
-import org.desarrolladorslp.technovation.exception.BatchCannotBeDeletedException;
-import org.desarrolladorslp.technovation.exception.MessageDoesNotBelongToUser;
-import org.desarrolladorslp.technovation.exception.UserAlreadyConfirmedException;
-import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
+import org.desarrolladorslp.technovation.exception.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -25,7 +22,7 @@ public class MainExceptionHandler {
                 .message(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({UserAlreadyConfirmedException.class, BatchCannotBeDeletedException.class, UserAlreadyRegisteredInBatch.class})
+    @ExceptionHandler({UserAlreadyConfirmedException.class, BatchCannotBeDeletedException.class, SessionCannotBeDeletedException.class, UserAlreadyRegisteredInBatch.class})
     public ResponseEntity<Error> handleUserAlreadyConfirmedException(Exception ex) {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())
