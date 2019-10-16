@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.desarrolladorslp.technovation.dto.BatchDTO;
+import org.desarrolladorslp.technovation.dto.RegisterToBatchDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.services.BatchService;
 import org.modelmapper.ModelMapper;
@@ -78,8 +79,8 @@ public class BatchController {
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @DeleteMapping("/{batchId}")
-    public void deleteBatch(@PathVariable String batchId) {
-        batchService.delete(UUID.fromString(batchId));
+    public void deleteBatch(@PathVariable UUID batchId) {
+        batchService.delete(batchId);
     }
 
     @Secured({"ROLE_ADMINISTRATOR"})
@@ -87,6 +88,12 @@ public class BatchController {
     public ResponseEntity registerUserToBatch(@PathVariable String batchId, @PathVariable String userId) {
         batchService.registerUserToBatch(UUID.fromString(batchId), UUID.fromString(userId));
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @PostMapping("register")
+    public void registerToBatch(@RequestBody RegisterToBatchDTO register) {
+        batchService.registerMultipleUsersToBatch(register);
     }
 
     @Autowired
