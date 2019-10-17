@@ -19,13 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/session")
@@ -86,6 +80,13 @@ public class SessionController {
 
         return new ResponseEntity<>(convertToDTO(sessionService.save(session)), HttpStatus.OK);
     }
+
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @DeleteMapping("/{sessionId}")
+    public void deleteSession(@PathVariable UUID sessionId){
+        sessionService.delete(sessionId);
+    }
+
 
     @GetMapping
     public ResponseEntity<List<SessionDTO>> listSessions() {
