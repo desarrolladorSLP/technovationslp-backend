@@ -29,7 +29,7 @@ public class MainExceptionHandler {
                 .message(ex.getMessage()), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler({NoSuchElementException.class, UsernameNotFoundException.class})
+    @ExceptionHandler({NoSuchElementException.class, UsernameNotFoundException.class, BatchDoesNotExistException.class})
     public ResponseEntity<Error> handleNoSuchElementException(Exception ex) {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())
