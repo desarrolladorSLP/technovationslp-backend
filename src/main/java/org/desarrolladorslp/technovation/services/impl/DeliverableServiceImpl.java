@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.services.impl;
 
+import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
@@ -28,8 +29,8 @@ public class DeliverableServiceImpl implements DeliverableService {
 
     @Override
     @Transactional
-    public void assignDeliverableToSession(UUID deliverableId, UUID sessionId, String type) {
-        deliverableRepository.assignDeliverableToSession(deliverableId, sessionId, type);
+    public void assignDeliverableToSession(UUID deliverableId, UUID sessionId, RelationType type) {
+        deliverableRepository.assignDeliverableToSession(deliverableId, sessionId, type.name());
     }
 
     @Autowired

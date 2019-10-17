@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.desarrolladorslp.technovation.Enum.RelationType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -30,7 +28,7 @@ public class DeliverableBySession implements Serializable {
     @Column(name="session_id", nullable = false)
     private UUID sessionId;
 
-    @Id
-    @Column(name="type", nullable = false)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name="type", length = 100,nullable = false)
+    private RelationType type;
 }

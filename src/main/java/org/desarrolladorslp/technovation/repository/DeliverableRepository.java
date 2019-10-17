@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.repository;
 
+import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.models.Deliverable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

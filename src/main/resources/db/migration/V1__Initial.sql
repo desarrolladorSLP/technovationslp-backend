@@ -170,11 +170,6 @@ create table deliverables_by_session
     deliverable_id uuid references deliverables,
     session_id     uuid references sessions,
     type           varchar (100)    not null,
-    primary key (deliverable_id, session_id),
-    constraint relation_type check (
-        type = 'STARTS_ON_SESSION' OR
-        type = 'COMPLETED_BEFORE_SESSION' OR
-        type = 'BUILT_ON_SESSION'
-    )
+    primary key (deliverable_id, session_id)
 );
 
