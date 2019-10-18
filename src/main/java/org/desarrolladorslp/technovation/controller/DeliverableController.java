@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/deliverable")
@@ -21,6 +21,11 @@ public class DeliverableController {
     @PostMapping
     public ResponseEntity<DeliverableDTO> save(@RequestBody DeliverableDTO deliverableDTO) {
         return new ResponseEntity<>(deliverableService.save(deliverableDTO), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/batch/{batchId}")
+    public ResponseEntity<List<DeliverableDTO>> getDeliverablesByBatch(@PathVariable UUID batchId) {
+        return new ResponseEntity<>(deliverableService.findByBatch(batchId), HttpStatus.OK);
     }
 
     @Autowired

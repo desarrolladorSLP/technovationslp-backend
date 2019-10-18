@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DeliverableServiceImpl implements DeliverableService {
@@ -24,6 +26,17 @@ public class DeliverableServiceImpl implements DeliverableService {
         deliverableDTO.setId(UUID.randomUUID());
         Deliverable deliverable = convertToEntity(deliverableDTO);
         return convertToDTO(deliverableRepository.save(deliverable));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<DeliverableDTO> findByBatch(UUID batchId) {
+        Batch batch = new Batch();
+
+        batch.setId(batchId);
+        List<Deliverable> deliverables = deliverableRepository.findByBatch(batch);
+
+        return deliverables.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Autowired
