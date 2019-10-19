@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,14 @@ public class DeliverableServiceImpl implements DeliverableService {
         List<Deliverable> deliverables = deliverableRepository.findByBatch(batch);
 
         return deliverables.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public DeliverableDTO update(DeliverableDTO deliverableDTO, UUID deliverableId) {
+        deliverableDTO.setId(deliverableId);
+        Deliverable deliverable = convertToEntity(deliverableDTO);
+        return convertToDTO(deliverableRepository.save(deliverable));
     }
 
     @Autowired

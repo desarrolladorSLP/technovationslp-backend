@@ -28,6 +28,12 @@ public class DeliverableController {
         return new ResponseEntity<>(deliverableService.findByBatch(batchId), HttpStatus.OK);
     }
 
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @PutMapping("/{deliverableId}")
+    public ResponseEntity<DeliverableDTO> update(@RequestBody DeliverableDTO deliverableDTO, @PathVariable UUID deliverableId) {
+        return new ResponseEntity<>(deliverableService.update(deliverableDTO, deliverableId), HttpStatus.OK);
+    }
+
     @Autowired
     public void setDeliverableService(DeliverableService deliverableService) {
         this.deliverableService = deliverableService;

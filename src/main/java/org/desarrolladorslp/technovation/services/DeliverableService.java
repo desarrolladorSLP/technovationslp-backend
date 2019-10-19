@@ -10,4 +10,6 @@ public interface DeliverableService {
     DeliverableDTO save(DeliverableDTO deliverableDTO);
 
     List<DeliverableDTO> findByBatch(UUID batchId);
+
+    DeliverableDTO update(DeliverableDTO deliverableDTO, UUID deliverableId);
 }
