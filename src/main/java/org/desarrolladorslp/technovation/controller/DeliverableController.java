@@ -34,6 +34,12 @@ public class DeliverableController {
         return new ResponseEntity<>(deliverableService.update(deliverableDTO, deliverableId), HttpStatus.OK);
     }
 
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @DeleteMapping("/{deliverableId}")
+    public void deleteDeliverable(@PathVariable UUID deliverableId) {
+        deliverableService.delete(deliverableId);
+    }
+
     @Autowired
     public void setDeliverableService(DeliverableService deliverableService) {
         this.deliverableService = deliverableService;

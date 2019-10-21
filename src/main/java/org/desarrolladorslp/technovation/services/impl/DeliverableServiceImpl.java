@@ -5,14 +5,18 @@ import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
 import org.desarrolladorslp.technovation.repository.DeliverableRepository;
 import org.desarrolladorslp.technovation.services.DeliverableService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -20,6 +24,8 @@ import java.util.stream.Collectors;
 public class DeliverableServiceImpl implements DeliverableService {
 
     private DeliverableRepository deliverableRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(DeliverableServiceImpl.class);
 
     @Override
     @Transactional
@@ -46,6 +52,21 @@ public class DeliverableServiceImpl implements DeliverableService {
         deliverableDTO.setId(deliverableId);
         Deliverable deliverable = convertToEntity(deliverableDTO);
         return convertToDTO(deliverableRepository.save(deliverable));
+    }
+
+    @Override
+    @Transactional
+    public void delete(UUID deliverableId) {
+
+        try {
+            Optional<Deliverable> deliverableOptional = deliverableRepository.findById(deliverableId);
+            deliverableOptional.ifPresent(
+                    deliverable -> deliverableRepository.delete(deliverable)
+            );
+        } catch (Exception exception) {
+
+            logger.warn(exception.getMessage());
+        }
     }
 
     @Autowired

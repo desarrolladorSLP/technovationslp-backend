@@ -12,5 +12,4 @@ import java.util.UUID;
 public interface DeliverableRepository extends JpaRepository<Deliverable, UUID> {
 
     List<Deliverable> findByBatch(Batch batch);
-
 }

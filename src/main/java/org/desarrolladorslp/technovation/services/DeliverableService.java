@@ -12,4 +12,6 @@ public interface DeliverableService {
     List<DeliverableDTO> findByBatch(UUID batchId);
 
     DeliverableDTO update(DeliverableDTO deliverableDTO, UUID deliverableId);
+
+    void delete(UUID deliverableId);
 }
