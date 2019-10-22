@@ -65,7 +65,7 @@ public class DeliverableServiceImpl implements DeliverableService {
             );
         } catch (Exception exception) {
 
-            logger.warn(exception.getMessage());
+            logger.warn("Error trying to delete a deliverable with id {}", deliverableId, exception);
         }
     }
 
