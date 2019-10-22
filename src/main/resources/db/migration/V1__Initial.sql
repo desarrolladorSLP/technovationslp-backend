@@ -165,3 +165,11 @@ create TABLE deliverables
     description     TEXT                     NOT NULL
 );
 
+CREATE TABLE tecker_by_deliverable
+(
+    id              UUID PRIMARY KEY,
+    tecker_id       UUID REFERENCES users,
+    deliverable_id  UUID REFERENCES deliverables,
+    status          VARCHAR(100)                    NOT NULL
+);
+
