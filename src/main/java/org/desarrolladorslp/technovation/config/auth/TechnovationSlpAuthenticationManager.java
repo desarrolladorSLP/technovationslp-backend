@@ -5,6 +5,8 @@ import java.util.UUID;
 import org.desarrolladorslp.technovation.models.FirebaseUser;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -16,15 +18,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class TechnovationSlpAuthenticationManager implements AuthenticationManager {
 
+    private static final Logger logger = LoggerFactory.getLogger(TechnovationSlpAuthenticationManager.class);
+
     private UserService userService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserDetails userDetails;
+
         try {
+            logger.debug("Authenticating user");
             userDetails = userService.loadUserByUsername(authentication.getName());
+            logger.info("Existent user {}", authentication.getName());
         } catch (UsernameNotFoundException ex) {
+            logger.info("Non Existent user {}, creating registry", authentication.getName());
             userDetails = tryToRegister((TokenInfo) authentication.getDetails());
+            logger.info("New user registered");
         }
 
         return new TechnovationSlpAuthenticationToken(authentication, userDetails.getAuthorities(), true);

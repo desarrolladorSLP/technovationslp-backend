@@ -58,9 +58,11 @@ public class FirebaseTokenGranter extends AbstractTokenGranter {
         }
 
         if (userAuth != null && userAuth.isAuthenticated()) {
+            logger.info("User authenticated creating successful response");
             OAuth2Request storedOAuth2Request = this.getRequestFactory().createOAuth2Request(client, tokenRequest);
             return new OAuth2Authentication(storedOAuth2Request, userAuth);
         } else {
+            logger.info("Failed user authentication");
             throw new InvalidGrantException("Could not authenticate user: " + holder.getEmail());
         }
     }

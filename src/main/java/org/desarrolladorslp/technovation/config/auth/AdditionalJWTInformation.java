@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AdditionalJWTInformation implements TokenEnhancer {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdditionalJWTInformation.class);
 
     static final String EMAIL_KEY = "email";
     static final String NAME_KEY = "name";
@@ -31,6 +35,9 @@ public class AdditionalJWTInformation implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
         Map<String, Object> info = new HashMap<>();
+
+        logger.info("Enhancing token for {}", oAuth2Authentication.getName());
+
         User user = userService.findByUsername(oAuth2Authentication.getName()).orElseThrow();
 
         info.put(EMAIL_KEY, user.getPreferredEmail());
@@ -42,6 +49,8 @@ public class AdditionalJWTInformation implements TokenEnhancer {
         info.put(ROLES_KEY, oAuth2Authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);
+
+        logger.debug("User found in database {}", user.getPreferredEmail());
 
         return oAuth2AccessToken;
     }
