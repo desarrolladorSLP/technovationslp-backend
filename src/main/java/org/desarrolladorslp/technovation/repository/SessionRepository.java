@@ -1,6 +1,7 @@
 package org.desarrolladorslp.technovation.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.desarrolladorslp.technovation.models.Batch;
@@ -21,4 +22,7 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
 
     @Query(value = "SELECT s FROM Session s JOIN UserByBatch ub ON s.batch.id = ub.batchId JOIN User u ON ub.userId = u.id WHERE u.id = :userId AND year(s.date) =:year AND month(s.date) = :month ")
     List<Session> getSessionsByUserByDate(int year, int month, UUID userId);
+
+    @Query(value = "SELECT DISTINCT true FROM confirm_attendance WHERE session_id = :sessionId", nativeQuery = true)
+    Optional<Boolean> doesSessionHaveUsersConfirmed(UUID sessionId);
 }
