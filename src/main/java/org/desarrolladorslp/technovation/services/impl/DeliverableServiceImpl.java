@@ -2,6 +2,7 @@ package org.desarrolladorslp.technovation.services.impl;
 
 import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
+import org.desarrolladorslp.technovation.exception.SessionDoesNotBelongToBatch;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
 import org.desarrolladorslp.technovation.repository.DeliverableRepository;
@@ -12,13 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,7 +70,9 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Override
     @Transactional
     public void assignDeliverableToSession(UUID deliverableId, UUID sessionId, RelationType type) {
-        deliverableRepository.assignDeliverableToSession(deliverableId, sessionId, type.name());
+
+        if (deliverableRepository.assignDeliverableToSession(deliverableId, sessionId, type.name()) == 0)
+            throw new SessionDoesNotBelongToBatch(sessionId + "does not belong to the same batch as deliverable");
     }
 
     @Autowired
