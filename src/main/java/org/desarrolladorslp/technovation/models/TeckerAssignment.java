@@ -16,21 +16,21 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeckerAssigned implements Serializable {
+public class TeckerAssignment implements Serializable {
 
     private static final long serialVersionUID = 1231247459935466311L;
 
     @Id
-    @Column(name= "id")
+    @Column(name = "id")
     private UUID id;
 
-    @Column(name="deliverable_id", nullable = false)
+    @Column(name = "deliverable_id", nullable = false)
     private UUID deliverableId;
 
-    @Column(name="tecker_id", nullable = false)
+    @Column(name = "tecker_id", nullable = false)
     private UUID teckerId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 100,nullable = false)
+    @Column(name = "status", length = 100, nullable = false)
     private StatusType status;
 }

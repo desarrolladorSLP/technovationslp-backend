@@ -4,10 +4,10 @@ import org.desarrolladorslp.technovation.dto.DeliverableDTO;
 import org.desarrolladorslp.technovation.enumerable.StatusType;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
-import org.desarrolladorslp.technovation.models.TeckerAssigned;
+import org.desarrolladorslp.technovation.models.TeckerAssignment;
 import org.desarrolladorslp.technovation.repository.BatchRepository;
 import org.desarrolladorslp.technovation.repository.DeliverableRepository;
-import org.desarrolladorslp.technovation.repository.TeckerAssignedRepository;
+import org.desarrolladorslp.technovation.repository.TeckerAssignmentRepository;
 import org.desarrolladorslp.technovation.repository.UserRepository;
 import org.desarrolladorslp.technovation.services.DeliverableService;
 import org.slf4j.Logger;
@@ -18,10 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DeliverableServiceImpl implements DeliverableService {
@@ -36,7 +37,8 @@ public class DeliverableServiceImpl implements DeliverableService {
 
     private BatchRepository batchRepository;
 
-    private TeckerAssignedRepository teckerAssignedRepository;
+    private TeckerAssignmentRepository teckerAssignmentRepository;
+
 
     @Override
     @Transactional
@@ -54,7 +56,7 @@ public class DeliverableServiceImpl implements DeliverableService {
 
     @Override
     @Transactional
-    public void AssignToDeliverable(UUID deliverableId, List<UUID> teckersToAssign) {
+    public void assignToDeliverable(UUID deliverableId, List<UUID> teckersToAssign) {
         Optional<Deliverable> deliverableOptional = findById(deliverableId);
         deliverableOptional.ifPresentOrElse(
                 deliverable -> {
@@ -70,7 +72,7 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Override
     @Transactional
     public void removeAssignmentFromThisDeliverableToTecker(UUID deliverableId) {
-        teckerAssignedRepository.removeAssignment(deliverableId);
+        teckerAssignmentRepository.removeAssignment(deliverableId);
     }
 
     @Override
@@ -87,7 +89,7 @@ public class DeliverableServiceImpl implements DeliverableService {
                                             batchRepository.areTeckerAndDeliverableAssignedInTheSameBatch(teckerId, batchId).ifPresentOrElse(
                                                     sameBatch -> {
                                                         logger.warn("deliverable and tecker in the same batch");
-                                                        AssignToDeliverable(deliverableId, teckerId);
+                                                        assignToDeliverable(deliverableId, teckerId);
                                                     }, () -> {
                                                         logger.warn("tecker and deliverable aren't in the same batch");
                                                         errorToAssign.add(teckerId);
@@ -108,15 +110,15 @@ public class DeliverableServiceImpl implements DeliverableService {
 
     @Override
     @Transactional
-    public void AssignToDeliverable(UUID deliverableId, UUID tekerId) {
-        TeckerAssigned teckerAssigned = new TeckerAssigned();
+    public void assignToDeliverable(UUID deliverableId, UUID tekerId) {
+        TeckerAssignment teckerAssigned = new TeckerAssignment();
 
         teckerAssigned.setId(UUID.randomUUID());
         teckerAssigned.setDeliverableId(deliverableId);
         teckerAssigned.setTeckerId(tekerId);
         teckerAssigned.setStatus(StatusType.TO_DO);
 
-        teckerAssignedRepository.save(teckerAssigned);
+        teckerAssignmentRepository.save(teckerAssigned);
     }
 
     @Autowired
@@ -125,13 +127,47 @@ public class DeliverableServiceImpl implements DeliverableService {
     }
 
     @Autowired
-    public void setTeckerToDeliverableRepository(TeckerAssignedRepository teckerAssignedRepositoryRepository) {
-        this.teckerAssignedRepository = teckerAssignedRepositoryRepository;
+    public void setTeckerToDeliverableRepository(TeckerAssignmentRepository teckerAssignmentRepository) {
+        this.teckerAssignmentRepository = teckerAssignmentRepository;
     }
 
     @Autowired
     public void setBatchRepository(BatchRepository batchRepository) {
         this.batchRepository = batchRepository;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<DeliverableDTO> findByBatch(UUID batchId) {
+        Batch batch = new Batch();
+
+        batch.setId(batchId);
+        List<Deliverable> deliverables = deliverableRepository.findByBatch(batch);
+
+        return deliverables.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public DeliverableDTO update(DeliverableDTO deliverableDTO, UUID deliverableId) {
+        deliverableDTO.setId(deliverableId);
+        Deliverable deliverable = convertToEntity(deliverableDTO);
+        return convertToDTO(deliverableRepository.save(deliverable));
+    }
+
+    @Override
+    @Transactional
+    public void delete(UUID deliverableId) {
+
+        try {
+            Optional<Deliverable> deliverableOptional = deliverableRepository.findById(deliverableId);
+            deliverableOptional.ifPresent(
+                    deliverable -> deliverableRepository.delete(deliverable)
+            );
+        } catch (Exception exception) {
+
+            logger.warn("Error trying to delete a deliverable with id {}", deliverableId, exception);
+        }
     }
 
     @Autowired

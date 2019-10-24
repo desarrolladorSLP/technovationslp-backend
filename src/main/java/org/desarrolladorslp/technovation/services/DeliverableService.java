@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+
 public interface DeliverableService {
 
     Optional<Deliverable> findById(UUID id);
@@ -15,9 +16,15 @@ public interface DeliverableService {
 
     void removeAssignmentFromThisDeliverableToTecker(UUID deliverableId);
 
-    void AssignToDeliverable(UUID deliverableId, UUID tekerId);
+    void assignToDeliverable(UUID deliverableId, UUID tekerId);
 
-    void AssignToDeliverable(UUID deliverableId, List<UUID> teckersToAssign);
+    void assignToDeliverable(UUID deliverableId, List<UUID> teckersToAssign);
 
     void assignTeckerToDeliverable(UUID deliverableId, UUID batchId, List<UUID> teckersToAssign);
+
+    List<DeliverableDTO> findByBatch(UUID batchId);
+
+    DeliverableDTO update(DeliverableDTO deliverableDTO, UUID deliverableId);
+
+    void delete(UUID deliverableId);
 }
