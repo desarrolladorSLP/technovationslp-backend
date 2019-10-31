@@ -31,4 +31,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u JOIN UserByBatch ub ON u.id = ub.userId WHERE ub.batchId = :batchId AND ub.userId =:userId ")
     Optional<User> getUserByBatch(UUID batchId, UUID userId);
+
+    @Query("SELECT userId FROM UsersByRole WHERE userId = :userId AND roleName IN (:role)")
+    Optional<UUID>doesUserHaveRoleTecker(UUID userId, String role);
 }
