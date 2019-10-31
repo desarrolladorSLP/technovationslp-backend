@@ -26,4 +26,7 @@ public interface BatchRepository extends JpaRepository<Batch, UUID> {
     @Modifying
     @Query(value = "DELETE FROM users_by_batch WHERE batch_id = :batchId AND user_id = :userId", nativeQuery = true)
     void unregisterUserToBatch(UUID batchId, UUID userId);
+
+    @Query(value = "SELECT DISTINCT true FROM users_by_batch WHERE user_id = :userId AND batch_id = :batchId", nativeQuery = true)
+    Optional<Boolean> areTeckerAndDeliverableAssignedInTheSameBatch(UUID userId, UUID batchId);
 }

@@ -1,6 +1,7 @@
 package org.desarrolladorslp.technovation.controller;
 
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
+import org.desarrolladorslp.technovation.dto.DeliverableToTeckerDTO;
 import org.desarrolladorslp.technovation.services.DeliverableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,12 @@ public class DeliverableController {
     @PostMapping
     public ResponseEntity<DeliverableDTO> save(@RequestBody DeliverableDTO deliverableDTO) {
         return new ResponseEntity<>(deliverableService.save(deliverableDTO), HttpStatus.CREATED);
+    }
+
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @PostMapping("{deliverableId}/teckers")
+    public void assignToDeliverable(@PathVariable UUID deliverableId, @RequestBody DeliverableToTeckerDTO teckers) {
+        deliverableService.assignToDeliverable(deliverableId, teckers.getTeckersToAssign());
     }
 
     @GetMapping("/batch/{batchId}")

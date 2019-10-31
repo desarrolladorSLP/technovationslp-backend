@@ -149,6 +149,13 @@ CREATE TABLE users_by_batch
     PRIMARY KEY (batch_id, user_id)
 );
 
+CREATE TABLE teckers_by_parents
+(
+    tecker_id UUID REFERENCES users,
+    parent_id UUID REFERENCES users,
+    PRIMARY KEY (tecker_id, parent_id)
+);
+
 create TABLE messages_resources
 (
     message_id  UUID REFERENCES messages,
@@ -163,5 +170,13 @@ create TABLE deliverables
     due_date        timestamp WITH TIME ZONE NOT NULL,
     title           varchar(200)             NOT NULL,
     description     TEXT                     NOT NULL
+);
+
+CREATE TABLE tecker_by_deliverable
+(
+    id              UUID PRIMARY KEY,
+    tecker_id       UUID REFERENCES users,
+    deliverable_id  UUID REFERENCES deliverables,
+    status          VARCHAR(100)                    NOT NULL
 );
 
