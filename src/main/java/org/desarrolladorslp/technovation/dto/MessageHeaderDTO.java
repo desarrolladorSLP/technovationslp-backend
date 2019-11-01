@@ -1,21 +1,20 @@
 package org.desarrolladorslp.technovation.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageHeaderDTO {
 
-    @Id
+    private UUID messageId;
+
     private String sender;
 
     private String senderImage;
@@ -23,4 +22,6 @@ public class MessageHeaderDTO {
     private String subject;
 
     private String timestamp;
+
+    private UUID userSenderId;
 }

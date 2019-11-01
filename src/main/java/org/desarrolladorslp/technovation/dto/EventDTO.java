@@ -2,6 +2,7 @@ package org.desarrolladorslp.technovation.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,18 +15,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EventDTO {
 
-   private String type;
+    private UUID id;
 
-   private LocalDate date;
+    private String type;
 
-   private String subject;
+    private LocalDate date;
 
-   private String location;
+    private String subject;
 
-   private LocalTime startTime;
+    private String location;
 
-   private LocalTime endTime;
+    private LocalTime startTime;
 
-   private String directions;
+    private LocalTime endTime;
+
+    private String directions;
 
 }

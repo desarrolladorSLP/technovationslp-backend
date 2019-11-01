@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -26,9 +25,6 @@ public class Resource implements Serializable {
 
     @Id
     private UUID id;
-
-    @JoinColumn(name = "message_id")
-    private Message messageId;
 
     private String url;
 

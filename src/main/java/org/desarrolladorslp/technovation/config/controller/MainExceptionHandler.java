@@ -2,7 +2,7 @@ package org.desarrolladorslp.technovation.config.controller;
 
 import java.util.NoSuchElementException;
 
-import org.desarrolladorslp.technovation.exception.UserAlreadyConfirmedException;
+import org.desarrolladorslp.technovation.exception.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -22,18 +22,25 @@ public class MainExceptionHandler {
                 .message(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({UserAlreadyConfirmedException.class})
+    @ExceptionHandler({UserAlreadyConfirmedException.class, BatchCannotBeDeletedException.class, SessionCannotBeDeletedException.class, UserAlreadyRegisteredInBatch.class, SessionDoesNotBelongToBatch.class})
     public ResponseEntity<Error> handleUserAlreadyConfirmedException(Exception ex) {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())
                 .message(ex.getMessage()), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler({NoSuchElementException.class, UsernameNotFoundException.class})
+    @ExceptionHandler({NoSuchElementException.class, UsernameNotFoundException.class, BatchDoesNotExistException.class})
     public ResponseEntity<Error> handleNoSuchElementException(Exception ex) {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())
                 .message(ex.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MessageDoesNotBelongToUser.class)
+    public ResponseEntity<Error> handleMessageDoesNotBelongToUser(Exception ex) {
+        return new ResponseEntity<>(new Error()
+                .exception(ex.getClass().getCanonicalName())
+                .message(ex.getMessage()), HttpStatus.FORBIDDEN);
     }
 
     public static class Error {
@@ -50,5 +57,4 @@ public class MainExceptionHandler {
             return this;
         }
     }
-
 }

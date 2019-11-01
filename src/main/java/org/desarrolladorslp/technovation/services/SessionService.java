@@ -18,6 +18,8 @@ public interface SessionService {
 
     void confirmAttendance(UUID sessionId, UUID userId);
 
+    void delete(UUID id);
+
     List<User> allPeople(UUID sessionId);
 
     List<User> staff(UUID sessionId);

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.desarrolladorslp.technovation.dto.BatchDTO;
+import org.desarrolladorslp.technovation.dto.RegisterToBatchDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.services.BatchService;
 import org.modelmapper.ModelMapper;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,10 +78,22 @@ public class BatchController {
     }
 
     @Secured({"ROLE_ADMINISTRATOR"})
+    @DeleteMapping("/{batchId}")
+    public void deleteBatch(@PathVariable UUID batchId) {
+        batchService.delete(batchId);
+    }
+
+    @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping("registerUser/{batchId}/{userId}")
     public ResponseEntity registerUserToBatch(@PathVariable String batchId, @PathVariable String userId) {
         batchService.registerUserToBatch(UUID.fromString(batchId), UUID.fromString(userId));
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @PostMapping("register")
+    public void registerToBatch(@RequestBody RegisterToBatchDTO register) {
+        batchService.registerMultipleUsersToBatch(register);
     }
 
     @Autowired

@@ -7,11 +7,16 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
+import org.desarrolladorslp.technovation.dto.UsersByRoleDTO;
 import org.desarrolladorslp.technovation.models.FirebaseUser;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.repository.FirebaseUserRepository;
 import org.desarrolladorslp.technovation.repository.UserRepository;
 import org.desarrolladorslp.technovation.services.UserService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +38,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     private FirebaseUserRepository firebaseUserRepository;
+
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -116,6 +123,32 @@ public class UserServiceImpl implements UserService {
                 user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 
         return new org.springframework.security.core.userdetails.User(user.getName(), "", authorities);
+    }
+
+    @Override
+    public List<UsersByRoleDTO> getUsersByRole(String roleName) {
+        List<User> users = userRepository.getUsersByRole(roleName);
+        return users.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    @PostConstruct
+    public void prepareMappings() {
+        modelMapper.addMappings(new PropertyMap<User, UsersByRoleDTO>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                map().setName(source.getName());
+            }
+        });
+    }
+
+    private UsersByRoleDTO convertToDTO(User user) {
+        return modelMapper.map(user, UsersByRoleDTO.class);
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 
     @Autowired
