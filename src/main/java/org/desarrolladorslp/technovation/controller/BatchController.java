@@ -122,11 +122,11 @@ public class BatchController {
         teckers.add(TeckerDTO.builder()
                 .teckerId(UUID.randomUUID())
                 .name("Tecker 1")
-                .url("/fake-pictures/tecker1.jpg").build());
+                .pictureUrl("/fake-pictures/tecker1.jpg").build());
         teckers.add(TeckerDTO.builder()
                 .teckerId(UUID.randomUUID())
                 .name("Tecker 2")
-                .url("/fake-pictures/Tecker 2.jpg").build());
+                .pictureUrl("/fake-pictures/Tecker 2.jpg").build());
         return new ResponseEntity<>(teckers, HttpStatus.OK);
     }
 

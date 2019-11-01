@@ -5,18 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
-
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeckerDTO {
+public class AssignTeckersDTO {
 
-    private UUID teckerId;
+    private List<UUID> assing;
 
-    private String name;
-
-    private String pictureUrl;
+    private List<UUID> unassign;
 }
