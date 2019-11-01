@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.controller;
 
+import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
 import org.desarrolladorslp.technovation.dto.DeliverableResourcesDTO;
 import org.desarrolladorslp.technovation.dto.DeliverableToTeckerDTO;
@@ -50,6 +51,12 @@ public class DeliverableController {
     @DeleteMapping("/{deliverableId}")
     public void deleteDeliverable(@PathVariable UUID deliverableId) {
         deliverableService.delete(deliverableId);
+    }
+
+    @Secured({"ROLE_ADMINISTRATOR"})
+    @PostMapping("/{deliverableId}/{sessionId}/{type}")
+    public void assignDeliverableToSession(@PathVariable UUID deliverableId, @PathVariable UUID sessionId, @PathVariable RelationType type) {
+        deliverableService.assignDeliverableToSession(deliverableId, sessionId, type);
     }
 
     @GetMapping("/{deliverableId}")
