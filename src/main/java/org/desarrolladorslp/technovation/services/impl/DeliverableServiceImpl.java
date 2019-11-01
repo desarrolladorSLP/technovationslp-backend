@@ -1,7 +1,9 @@
 package org.desarrolladorslp.technovation.services.impl;
 
+import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
 import org.desarrolladorslp.technovation.enumerable.StatusType;
+import org.desarrolladorslp.technovation.exception.SessionDoesNotBelongToBatch;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
 import org.desarrolladorslp.technovation.models.TeckerAssignment;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -168,6 +171,14 @@ public class DeliverableServiceImpl implements DeliverableService {
 
             logger.warn("Error trying to delete a deliverable with id {}", deliverableId, exception);
         }
+    }
+
+    @Override
+    @Transactional
+    public void assignDeliverableToSession(UUID deliverableId, UUID sessionId, RelationType type) {
+
+        if (deliverableRepository.assignDeliverableToSession(deliverableId, sessionId, type.name()) == 0)
+            throw new SessionDoesNotBelongToBatch(sessionId + "does not belong to the same batch as deliverable");
     }
 
     @Autowired
