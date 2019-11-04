@@ -102,17 +102,7 @@ public class BatchController {
     @GetMapping("/{batchId}/mentors")
     public ResponseEntity<List<MentorDTO>> getMentorsByBatch(@PathVariable UUID batchId) {
 
-        List<MentorDTO> mentors = new ArrayList<>();
-        mentors.add(MentorDTO.builder()
-                .mentorId(UUID.randomUUID())
-                .name("Mentor1")
-                .url("/fake-pictures/mentor1.jpg").build());
-        mentors.add(MentorDTO.builder()
-                .mentorId(UUID.randomUUID())
-                .name("Mentor2")
-                .url("/fake-pictures/mentor2.jpg").build());
-
-        return new ResponseEntity<>(mentors, HttpStatus.OK);
+        return new ResponseEntity<>(batchService.getMentorsByBatch(batchId), HttpStatus.OK);
     }
 
     @GetMapping("/{batchId}/teckers")

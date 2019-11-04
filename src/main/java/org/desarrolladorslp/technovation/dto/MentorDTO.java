@@ -17,6 +17,6 @@ public class MentorDTO {
 
     private String name;
 
-    private String url;
+    private String pictureUrl;
 
 }
