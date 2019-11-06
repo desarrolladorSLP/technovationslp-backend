@@ -6,11 +6,9 @@ import org.desarrolladorslp.technovation.enumerable.StatusType;
 import org.desarrolladorslp.technovation.exception.SessionDoesNotBelongToBatch;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
+import org.desarrolladorslp.technovation.models.Resource;
 import org.desarrolladorslp.technovation.models.TeckerAssignment;
-import org.desarrolladorslp.technovation.repository.BatchRepository;
-import org.desarrolladorslp.technovation.repository.DeliverableRepository;
-import org.desarrolladorslp.technovation.repository.TeckerAssignmentRepository;
-import org.desarrolladorslp.technovation.repository.UserRepository;
+import org.desarrolladorslp.technovation.repository.*;
 import org.desarrolladorslp.technovation.services.DeliverableService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +38,8 @@ public class DeliverableServiceImpl implements DeliverableService {
     private BatchRepository batchRepository;
 
     private TeckerAssignmentRepository teckerAssignmentRepository;
+
+    private ResourceRepository resourceRepository;
 
 
     @Override
@@ -124,6 +123,23 @@ public class DeliverableServiceImpl implements DeliverableService {
         teckerAssignmentRepository.save(teckerAssigned);
     }
 
+    @Override
+    @Transactional
+    public void addResourcesToDeliverable(UUID deliverableId, List<Resource> resourcesToAdd) {
+
+        resourcesToAdd.forEach(
+                resource -> {
+                    resource.setId(UUID.randomUUID());
+                    resourceRepository.save(resource);
+                }
+        );
+
+        resourcesToAdd.forEach(
+                resource -> deliverableRepository.addResourceToDeliverable(deliverableId, resource.getId())
+        );
+
+    }
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -137,6 +153,11 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Autowired
     public void setBatchRepository(BatchRepository batchRepository) {
         this.batchRepository = batchRepository;
+    }
+
+    @Autowired
+    void setResourceRepository(ResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
     }
 
     @Override
@@ -205,6 +226,5 @@ public class DeliverableServiceImpl implements DeliverableService {
                 .batchId(deliverable.getBatch().getId())
                 .build();
     }
-
 
 }

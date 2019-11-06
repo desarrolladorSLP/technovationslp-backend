@@ -22,4 +22,8 @@ public interface DeliverableRepository extends JpaRepository<Deliverable, UUID> 
             "SELECT batch_id FROM deliverables WHERE id = :deliverableId)"
             , nativeQuery = true)
     int assignDeliverableToSession(UUID deliverableId, UUID sessionId, String type);
+
+    @Modifying
+    @Query(value = "INSERT INTO deliverables_resources (deliverable_id, resource_id) VALUES (:deliverableId, :resourceId)", nativeQuery = true)
+    void addResourceToDeliverable(UUID deliverableId, UUID resourceId);
 }

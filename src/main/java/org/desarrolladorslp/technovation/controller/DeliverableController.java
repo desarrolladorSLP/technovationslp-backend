@@ -90,7 +90,7 @@ public class DeliverableController {
 
 
     @PutMapping("/{deliverableId}/resources")
-    public ResponseEntity<List<Resource>> addResourcesToDeliverable(@PathVariable UUID deliverableId, @RequestBody List<ResourceDTO> resources) {
+    public void addResourcesToDeliverable(@PathVariable UUID deliverableId, @RequestBody List<Resource> resources) {
         List<Resource> newResources = new ArrayList<>();
 
         newResources.add(Resource.builder().id(UUID.randomUUID())
@@ -103,7 +103,7 @@ public class DeliverableController {
                 .mimeType(resources.get(1).getMimeType())
                 .build());
 
-        return new ResponseEntity<>(newResources, HttpStatus.OK);
+        deliverableService.addResourcesToDeliverable(deliverableId, resources);
     }
 
     @GetMapping("/{deliverableId}/resources")
