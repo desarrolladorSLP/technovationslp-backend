@@ -2,6 +2,7 @@ package org.desarrolladorslp.technovation.services;
 
 import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
+import org.desarrolladorslp.technovation.dto.DeliverableResourcesDTO;
 import org.desarrolladorslp.technovation.models.Deliverable;
 
 import java.util.UUID;
@@ -32,5 +33,7 @@ public interface DeliverableService {
     void delete(UUID deliverableId);
 
     void assignDeliverableToSession(UUID deliverableId, UUID sessionId, RelationType type);
+
+    DeliverableResourcesDTO getDeliverable(UUID deliverableId);
 
 }
