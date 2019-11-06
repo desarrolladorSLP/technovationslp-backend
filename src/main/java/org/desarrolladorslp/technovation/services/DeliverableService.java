@@ -37,4 +37,6 @@ public interface DeliverableService {
 
     void addResourcesToDeliverable(UUID deliverableIds, List<Resource> resource);
 
+    List<Resource> getResourcesByDeliverable(UUID deliverableId);
+
 }

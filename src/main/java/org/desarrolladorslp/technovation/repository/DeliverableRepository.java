@@ -2,6 +2,7 @@ package org.desarrolladorslp.technovation.repository;
 
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
+import org.desarrolladorslp.technovation.models.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,7 @@ public interface DeliverableRepository extends JpaRepository<Deliverable, UUID> 
     @Modifying
     @Query(value = "INSERT INTO deliverables_resources (deliverable_id, resource_id) VALUES (:deliverableId, :resourceId)", nativeQuery = true)
     void addResourceToDeliverable(UUID deliverableId, UUID resourceId);
+
+    @Query("SELECT r FROM Resource r JOIN DeliverableResources dr ON dr.deliverableId = :deliverableId WHERE r.id = dr.resourceId")
+    List<Resource> getResourcesByDeliverable(UUID deliverableId);
 }

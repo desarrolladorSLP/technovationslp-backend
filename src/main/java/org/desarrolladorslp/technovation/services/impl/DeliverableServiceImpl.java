@@ -202,6 +202,11 @@ public class DeliverableServiceImpl implements DeliverableService {
             throw new SessionDoesNotBelongToBatch(sessionId + "does not belong to the same batch as deliverable");
     }
 
+    @Override
+    public List<Resource> getResourcesByDeliverable(UUID deliverableId){
+        return deliverableRepository.getResourcesByDeliverable(deliverableId);
+    }
+
     @Autowired
     public void setDeliverableRepository(DeliverableRepository deliverableRepository) {
         this.deliverableRepository = deliverableRepository;

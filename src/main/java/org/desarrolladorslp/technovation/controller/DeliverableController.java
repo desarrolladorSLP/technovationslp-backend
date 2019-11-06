@@ -91,36 +91,12 @@ public class DeliverableController {
 
     @PutMapping("/{deliverableId}/resources")
     public void addResourcesToDeliverable(@PathVariable UUID deliverableId, @RequestBody List<Resource> resources) {
-        List<Resource> newResources = new ArrayList<>();
-
-        newResources.add(Resource.builder().id(UUID.randomUUID())
-                .url(resources.get(0).getUrl())
-                .mimeType(resources.get(0).getMimeType())
-                .build());
-
-        newResources.add(Resource.builder().id(UUID.randomUUID())
-                .url(resources.get(1).getUrl())
-                .mimeType(resources.get(1).getMimeType())
-                .build());
-
         deliverableService.addResourcesToDeliverable(deliverableId, resources);
     }
 
     @GetMapping("/{deliverableId}/resources")
     public ResponseEntity<List<Resource>> getResourcesByDeliverable(@PathVariable UUID deliverableId) {
-        List<Resource> resources = new ArrayList<>();
-
-        resources.add(Resource.builder()
-                .id(UUID.randomUUID())
-                .url("/fake-resources/img1.jpg")
-                .mimeType("image/jpg").build());
-
-        resources.add(Resource.builder()
-                .id(UUID.randomUUID())
-                .url("/fake-resources/img2.jpg")
-                .mimeType("image/jpg").build());
-
-        return new ResponseEntity(resources, HttpStatus.OK);
+        return new ResponseEntity(deliverableService.getResourcesByDeliverable(deliverableId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{deliverableId}/resources/{resourceId}")
