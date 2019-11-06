@@ -203,8 +203,14 @@ public class DeliverableServiceImpl implements DeliverableService {
     }
 
     @Override
-    public List<Resource> getResourcesByDeliverable(UUID deliverableId){
+    public List<Resource> getResourcesByDeliverable(UUID deliverableId) {
         return deliverableRepository.getResourcesByDeliverable(deliverableId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteResourceFromDeliverable(UUID deliverableId, UUID resourceId) {
+        deliverableRepository.deleteResourceFromDeliverable(deliverableId, resourceId);
     }
 
     @Autowired

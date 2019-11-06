@@ -101,7 +101,7 @@ public class DeliverableController {
 
     @DeleteMapping("/{deliverableId}/resources/{resourceId}")
     public void deleteResourceFromDeliverable(@PathVariable UUID deliverableId, @PathVariable UUID resourceId) {
-
+        deliverableService.deleteResourceFromDeliverable(deliverableId, resourceId);
     }
 
     @Autowired

@@ -39,4 +39,6 @@ public interface DeliverableService {
 
     List<Resource> getResourcesByDeliverable(UUID deliverableId);
 
+    void deleteResourceFromDeliverable(UUID deliverableId, UUID resourceId);
+
 }

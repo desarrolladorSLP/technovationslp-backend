@@ -30,4 +30,8 @@ public interface DeliverableRepository extends JpaRepository<Deliverable, UUID> 
 
     @Query("SELECT r FROM Resource r JOIN DeliverableResources dr ON dr.deliverableId = :deliverableId WHERE r.id = dr.resourceId")
     List<Resource> getResourcesByDeliverable(UUID deliverableId);
+
+    @Modifying
+    @Query(value="DELETE FROM deliverables_resources WHERE resource_id = :resourceId AND deliverable_id = :deliverableId", nativeQuery = true)
+    void deleteResourceFromDeliverable(UUID deliverableId, UUID resourceId);
 }
