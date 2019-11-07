@@ -210,7 +210,9 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Override
     @Transactional
     public void deleteResourceFromDeliverable(UUID deliverableId, UUID resourceId) {
+
         deliverableRepository.deleteResourceFromDeliverable(deliverableId, resourceId);
+        resourceRepository.deleteResource(resourceId);
     }
 
     @Autowired
