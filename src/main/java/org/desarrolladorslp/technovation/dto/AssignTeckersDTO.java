@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AssignTeckersDTO {
 
-    private List<UUID> assing;
+    private List<UUID> assign;
 
     private List<UUID> unassign;
 }

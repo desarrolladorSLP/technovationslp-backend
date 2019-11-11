@@ -2,6 +2,8 @@ package org.desarrolladorslp.technovation.controller;
 
 import org.desarrolladorslp.technovation.dto.AssignTeckersDTO;
 import org.desarrolladorslp.technovation.dto.TeckerDTO;
+import org.desarrolladorslp.technovation.services.MentorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,11 @@ import java.util.UUID;
 @RequestMapping("/api/mentor")
 public class MentorController {
 
-    @PutMapping("/{mentorId}")
-    public void assignTeckersToMentor(@RequestBody AssignTeckersDTO teckers) {
+    private MentorService mentorService;
 
+    @PutMapping("/{mentorId}")
+    public void assignTeckersToMentor(@PathVariable UUID mentorId, @RequestBody AssignTeckersDTO teckers) {
+        mentorService.assignTeckersToMentor(mentorId, teckers);
     }
 
     @GetMapping("/{mentorId}/teckers")
@@ -53,6 +57,11 @@ public class MentorController {
                 .pictureUrl("/fake-pictures/tecker2.jpg").build());
 
         return new ResponseEntity<>(teckers, HttpStatus.OK);
+    }
+
+    @Autowired
+    private void setMentorService(MentorService mentorService) {
+        this.mentorService = mentorService;
     }
 
 }
