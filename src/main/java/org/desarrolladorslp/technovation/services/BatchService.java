@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.desarrolladorslp.technovation.dto.MentorDTO;
 import org.desarrolladorslp.technovation.dto.RegisterToBatchDTO;
+import org.desarrolladorslp.technovation.dto.TeckerDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 
 public interface BatchService {
@@ -29,5 +30,7 @@ public interface BatchService {
     void registerMultipleUsersToBatch(RegisterToBatchDTO register);
 
     List<MentorDTO> getMentorsByBatch(UUID batchId);
+
+    List<TeckerDTO> getTeckersByBatch(UUID batchId);
 
 }
