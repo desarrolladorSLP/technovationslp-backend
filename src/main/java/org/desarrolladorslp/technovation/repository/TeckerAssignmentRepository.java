@@ -14,6 +14,6 @@ public interface TeckerAssignmentRepository extends JpaRepository<TeckerAssignme
     @Query(value = "DELETE FROM tecker_by_deliverable WHERE deliverable_id = :deliverableId", nativeQuery = true)
     void removeAssignment(UUID deliverableId);
 
-    @Query("SELECT ta FROM TeckerAssigment ta WHERE ta.teckerId = :teckerId ta.deliverableId = :deliverableId")
+    @Query("SELECT ta FROM TeckerAssignment ta WHERE ta.teckerId = :teckerId AND ta.deliverableId = :deliverableId")
     Optional<TeckerAssignment> getTeckerAssigmentByTecker(UUID teckerId, UUID deliverableId);
 }
