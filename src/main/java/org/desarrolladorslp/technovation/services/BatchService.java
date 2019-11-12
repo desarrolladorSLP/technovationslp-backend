@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.desarrolladorslp.technovation.dto.RegisterToBatchDTO;
+import org.desarrolladorslp.technovation.dto.TeckerDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 
 public interface BatchService {
@@ -25,5 +26,8 @@ public interface BatchService {
 
     void unregisterToBatch(List<UUID> usersToUnregister, UUID batchId);
 
-    public void registerMultipleUsersToBatch(RegisterToBatchDTO register);
+    void registerMultipleUsersToBatch(RegisterToBatchDTO register);
+
+    List<TeckerDTO> getTeckersByBatch(UUID batchId);
+
 }
