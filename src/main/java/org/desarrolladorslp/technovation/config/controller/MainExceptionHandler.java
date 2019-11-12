@@ -36,7 +36,7 @@ public class MainExceptionHandler {
                 .message(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(MessageDoesNotBelongToUser.class)
+    @ExceptionHandler({MessageDoesNotBelongToUser.class, DeliverableDoesNotBelongToUser.class})
     public ResponseEntity<Error> handleMessageDoesNotBelongToUser(Exception ex) {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())

@@ -1,6 +1,7 @@
 package org.desarrolladorslp.technovation.controller;
 
 import org.desarrolladorslp.technovation.Enum.RelationType;
+import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
 import org.desarrolladorslp.technovation.dto.DeliverableResourcesDTO;
 import org.desarrolladorslp.technovation.dto.DeliverableToTeckerDTO;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +25,8 @@ import java.util.UUID;
 public class DeliverableController {
 
     private DeliverableService deliverableService;
+
+    private TokenInfoService tokenInfoService;
 
     @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping
@@ -100,12 +104,17 @@ public class DeliverableController {
     }
 
     @DeleteMapping("/{deliverableId}/resources/{resourceId}")
-    public void deleteResourceFromDeliverable(@PathVariable UUID deliverableId, @PathVariable UUID resourceId) {
-        deliverableService.deleteResourceFromDeliverable(deliverableId, resourceId);
+    public void deleteResourceFromDeliverable(@PathVariable UUID deliverableId, @PathVariable UUID resourceId, Principal principal) {
+        deliverableService.deleteResourceFromDeliverable(tokenInfoService.getIdFromPrincipal(principal), deliverableId, resourceId);
     }
 
     @Autowired
     public void setDeliverableService(DeliverableService deliverableService) {
         this.deliverableService = deliverableService;
+    }
+
+    @Autowired
+    public void setTokenInfoService(TokenInfoService tokenInfoService){
+        this.tokenInfoService = tokenInfoService;
     }
 }

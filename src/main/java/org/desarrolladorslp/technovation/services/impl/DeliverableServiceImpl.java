@@ -3,11 +3,10 @@ package org.desarrolladorslp.technovation.services.impl;
 import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
 import org.desarrolladorslp.technovation.enumerable.StatusType;
+import org.desarrolladorslp.technovation.exception.DeliverableDoesNotBelongToUser;
+import org.desarrolladorslp.technovation.exception.InvalidUserException;
 import org.desarrolladorslp.technovation.exception.SessionDoesNotBelongToBatch;
-import org.desarrolladorslp.technovation.models.Batch;
-import org.desarrolladorslp.technovation.models.Deliverable;
-import org.desarrolladorslp.technovation.models.Resource;
-import org.desarrolladorslp.technovation.models.TeckerAssignment;
+import org.desarrolladorslp.technovation.models.*;
 import org.desarrolladorslp.technovation.repository.*;
 import org.desarrolladorslp.technovation.services.DeliverableService;
 import org.slf4j.Logger;
@@ -40,6 +39,8 @@ public class DeliverableServiceImpl implements DeliverableService {
     private TeckerAssignmentRepository teckerAssignmentRepository;
 
     private ResourceRepository resourceRepository;
+
+    private TeckerRepository teckerRepository;
 
 
     @Override
@@ -209,10 +210,19 @@ public class DeliverableServiceImpl implements DeliverableService {
 
     @Override
     @Transactional
-    public void deleteResourceFromDeliverable(UUID deliverableId, UUID resourceId) {
-
-        deliverableRepository.deleteResourceFromDeliverable(deliverableId, resourceId);
-        resourceRepository.deleteResource(resourceId);
+    public void deleteResourceFromDeliverable(UUID teckerId, UUID deliverableId, UUID resourceId) {
+        userRepository.doesUserHaveRoleTecker(teckerId, ROLE_TECKER).ifPresentOrElse(
+                userId -> teckerAssignmentRepository.getTeckerAssigmentByTecker(teckerId, deliverableId).ifPresentOrElse(
+                        teckerAssignment -> {
+                            deliverableRepository.deleteResourceFromDeliverable(deliverableId, resourceId);
+                            resourceRepository.deleteResource(resourceId);
+                        }, () -> {
+                            throw new DeliverableDoesNotBelongToUser("is not owner of the deliverable");
+                        }
+                ), () -> {
+                    throw new InvalidUserException(teckerId + "is not a tecker");
+                }
+        );
     }
 
     @Autowired
@@ -238,6 +248,11 @@ public class DeliverableServiceImpl implements DeliverableService {
                 .description(deliverable.getDescription())
                 .batchId(deliverable.getBatch().getId())
                 .build();
+    }
+
+    @Autowired
+    public void setTeckerRepository(TeckerRepository teckerRepository) {
+        this.teckerRepository = teckerRepository;
     }
 
 }
