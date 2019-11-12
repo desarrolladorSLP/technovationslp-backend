@@ -4,8 +4,8 @@ import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
 import org.desarrolladorslp.technovation.enumerable.StatusType;
 import org.desarrolladorslp.technovation.exception.DeliverableDoesNotBelongToUser;
-import org.desarrolladorslp.technovation.exception.InvalidUserException;
 import org.desarrolladorslp.technovation.exception.SessionDoesNotBelongToBatch;
+import org.desarrolladorslp.technovation.exception.UserDoesNotHaveRequiredRole;
 import org.desarrolladorslp.technovation.models.*;
 import org.desarrolladorslp.technovation.repository.*;
 import org.desarrolladorslp.technovation.services.DeliverableService;
@@ -220,7 +220,7 @@ public class DeliverableServiceImpl implements DeliverableService {
                             throw new DeliverableDoesNotBelongToUser("is not owner of the deliverable");
                         }
                 ), () -> {
-                    throw new InvalidUserException(teckerId + "is not a tecker");
+                    throw new UserDoesNotHaveRequiredRole(teckerId + "is not a tecker");
                 }
         );
     }
