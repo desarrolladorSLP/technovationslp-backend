@@ -6,6 +6,7 @@ import org.desarrolladorslp.technovation.services.MentorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -24,6 +25,7 @@ public class MentorController {
         mentorService.assignTeckersToMentor(mentorId, teckers);
     }
 
+    @Secured("ROLE_ADMINISTRATOR")
     @GetMapping("/{mentorId}/teckers")
     public ResponseEntity<List<TeckerDTO>> getTeckersByMentor(@PathVariable UUID mentorId) {
 
@@ -39,7 +41,7 @@ public class MentorController {
                 .name("Tecker 2")
                 .pictureUrl("/fake-pictures/tecker2.jpg").build());
 
-        return new ResponseEntity<>(teckers, HttpStatus.OK);
+        return new ResponseEntity<>(mentorService.getTeckersByMentor(mentorId), HttpStatus.OK);
     }
 
     @GetMapping("/teckers")

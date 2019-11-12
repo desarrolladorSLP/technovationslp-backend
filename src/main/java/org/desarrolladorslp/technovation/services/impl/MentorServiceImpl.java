@@ -1,19 +1,26 @@
 package org.desarrolladorslp.technovation.services.impl;
 
 import org.desarrolladorslp.technovation.dto.AssignTeckersDTO;
+import org.desarrolladorslp.technovation.dto.TeckerDTO;
 import org.desarrolladorslp.technovation.exception.UserDoesNotHaveRequieredRole;
+import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.repository.MentorRepository;
 import org.desarrolladorslp.technovation.repository.UserRepository;
 import org.desarrolladorslp.technovation.services.MentorService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class MentorServiceImpl implements MentorService {
@@ -25,6 +32,8 @@ public class MentorServiceImpl implements MentorService {
     private static final Logger logger = LoggerFactory.getLogger(MentorServiceImpl.class);
 
     private static final String ROLE_TECKER = "ROLE_TECKER";
+
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -70,8 +79,27 @@ public class MentorServiceImpl implements MentorService {
                         ), () -> errorToUnassign.add(uuid)
                 )
         );
-        if(!errorToUnassign.isEmpty())
+        if (!errorToUnassign.isEmpty())
             logger.warn("error to unregister the users {}", errorToUnassign);
+    }
+
+    @Override
+    public List<TeckerDTO> getTeckersByMentor(UUID mentorId) {
+        return mentorRepository.getTeckersByMentor(mentorId).stream().map(this::convertToTeckerDTO).collect(Collectors.toList());
+    }
+
+    private TeckerDTO convertToTeckerDTO(User user) {
+        return modelMapper.map(user, TeckerDTO.class);
+    }
+
+    @PostConstruct
+    public void prepareMappings() {
+        modelMapper.addMappings(new PropertyMap<User, TeckerDTO>() {
+            @Override
+            protected void configure() {
+                map().setTeckerId(source.getId());
+            }
+        });
     }
 
     @Autowired
@@ -82,5 +110,10 @@ public class MentorServiceImpl implements MentorService {
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 }
