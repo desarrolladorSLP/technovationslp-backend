@@ -22,7 +22,7 @@ public class MainExceptionHandler {
                 .message(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({UserAlreadyConfirmedException.class, BatchCannotBeDeletedException.class, SessionCannotBeDeletedException.class, UserAlreadyRegisteredInBatch.class, SessionDoesNotBelongToBatch.class})
+    @ExceptionHandler({UserAlreadyConfirmedException.class, BatchCannotBeDeletedException.class, SessionCannotBeDeletedException.class, UserAlreadyRegisteredInBatch.class, SessionDoesNotBelongToBatch.class, UserDoesNotHaveRequiredRole.class})
     public ResponseEntity<Error> handleUserAlreadyConfirmedException(Exception ex) {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())
@@ -36,7 +36,7 @@ public class MainExceptionHandler {
                 .message(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(MessageDoesNotBelongToUser.class)
+    @ExceptionHandler({MessageDoesNotBelongToUser.class, DeliverableDoesNotBelongToUser.class})
     public ResponseEntity<Error> handleMessageDoesNotBelongToUser(Exception ex) {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())
