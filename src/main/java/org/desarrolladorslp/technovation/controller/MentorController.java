@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.controller;
 
+import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.dto.AssignTeckersDTO;
 import org.desarrolladorslp.technovation.dto.TeckerDTO;
 import org.desarrolladorslp.technovation.services.MentorService;
@@ -20,6 +21,9 @@ public class MentorController {
 
     private MentorService mentorService;
 
+    private TokenInfoService tokenInfoService;
+
+    @Secured("ROLE_ADMINISTRATOR")
     @PutMapping("/{mentorId}")
     public void assignTeckersToMentor(@PathVariable UUID mentorId, @RequestBody AssignTeckersDTO teckers) {
         mentorService.assignTeckersToMentor(mentorId, teckers);
@@ -28,42 +32,22 @@ public class MentorController {
     @Secured("ROLE_ADMINISTRATOR")
     @GetMapping("/{mentorId}/teckers")
     public ResponseEntity<List<TeckerDTO>> getTeckersByMentor(@PathVariable UUID mentorId) {
-
-        List<TeckerDTO> teckers = new ArrayList<>();
-
-        teckers.add(TeckerDTO.builder()
-                .teckerId(UUID.randomUUID())
-                .name("Tecker 1")
-                .pictureUrl("/fake-pictures/tecker1.jpg").build());
-
-        teckers.add(TeckerDTO.builder()
-                .teckerId(UUID.randomUUID())
-                .name("Tecker 2")
-                .pictureUrl("/fake-pictures/tecker2.jpg").build());
-
         return new ResponseEntity<>(mentorService.getTeckersByMentor(mentorId), HttpStatus.OK);
     }
 
     @GetMapping("/teckers")
     public ResponseEntity<List<TeckerDTO>> getTeckers(Principal principal) {
-        List<TeckerDTO> teckers = new ArrayList<>();
-
-        teckers.add(TeckerDTO.builder()
-                .teckerId(UUID.randomUUID())
-                .name("Tecker 1")
-                .pictureUrl("/fake-pictures/tecker1.jpg").build());
-
-        teckers.add(TeckerDTO.builder()
-                .teckerId(UUID.randomUUID())
-                .name("Tecker 2")
-                .pictureUrl("/fake-pictures/tecker2.jpg").build());
-
-        return new ResponseEntity<>(teckers, HttpStatus.OK);
+        return new ResponseEntity<>(mentorService.getTeckersByMentor(tokenInfoService.getIdFromPrincipal(principal)), HttpStatus.OK);
     }
 
     @Autowired
     private void setMentorService(MentorService mentorService) {
         this.mentorService = mentorService;
+    }
+
+    @Autowired
+    private void setTokenInfoService(TokenInfoService tokenInfoService) {
+        this.tokenInfoService = tokenInfoService;
     }
 
 }
