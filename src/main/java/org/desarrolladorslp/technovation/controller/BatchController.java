@@ -127,7 +127,7 @@ public class BatchController {
                 .teckerId(UUID.randomUUID())
                 .name("Tecker 2")
                 .pictureUrl("/fake-pictures/Tecker 2.jpg").build());
-        return new ResponseEntity<>(teckers, HttpStatus.OK);
+        return new ResponseEntity<>(batchService.getTeckersByBatch(batchId), HttpStatus.OK);
     }
 
     @Autowired

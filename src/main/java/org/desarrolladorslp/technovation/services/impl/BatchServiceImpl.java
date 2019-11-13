@@ -4,11 +4,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.dto.RegisterToBatchDTO;
+import org.desarrolladorslp.technovation.dto.TeckerDTO;
 import org.desarrolladorslp.technovation.exception.BatchCannotBeDeletedException;
 import org.desarrolladorslp.technovation.exception.BatchDoesNotExistException;
 import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Program;
+import org.desarrolladorslp.technovation.models.User;
 import org.hibernate.jdbc.BatchFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,6 +144,20 @@ public class BatchServiceImpl implements BatchService {
         if (!errorToUnregister.isEmpty())
             logger.warn("error to unregister the users {}", errorToUnregister);
 
+    }
+
+    public List<TeckerDTO> getTeckersByBatch(UUID batchId) {
+        List<User> teckers = batchRepository.getTeckersByBatch(batchId);
+
+        return teckers.stream().map(this::convertToTeckerDTO).collect(Collectors.toList());
+    }
+
+    private TeckerDTO convertToTeckerDTO(User user) {
+        return TeckerDTO.builder()
+                .teckerId(user.getId())
+                .name(user.getName())
+                .pictureUrl(user.getPictureUrl())
+                .build();
     }
 
     @Autowired
