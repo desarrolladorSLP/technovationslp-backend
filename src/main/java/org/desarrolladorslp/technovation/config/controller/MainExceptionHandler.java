@@ -22,7 +22,9 @@ public class MainExceptionHandler {
                 .message(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({UserAlreadyConfirmedException.class, BatchCannotBeDeletedException.class, SessionCannotBeDeletedException.class, UserAlreadyRegisteredInBatch.class, SessionDoesNotBelongToBatch.class, CannnotAssignTeckersToParent.class})
+    @ExceptionHandler({UserAlreadyConfirmedException.class, BatchCannotBeDeletedException.class,
+            SessionCannotBeDeletedException.class, UserAlreadyRegisteredInBatch.class,
+            SessionDoesNotBelongToBatch.class, CannnotAssignTeckersToParent.class})
     public ResponseEntity<Error> handleUserAlreadyConfirmedException(Exception ex) {
         return new ResponseEntity<>(new Error()
                 .exception(ex.getClass().getCanonicalName())

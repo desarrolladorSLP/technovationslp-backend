@@ -87,8 +87,9 @@ public class UserController {
         return new ResponseEntity<>(userService.getUsersByRole(roleName), HttpStatus.OK);
     }
 
+    //TODO
     @PutMapping("picture")
-    public ResponseEntity<HttpStatus> updatePicture(@RequestBody UserPictureDTO picture, Principal principal){
+    public ResponseEntity<HttpStatus> updatePicture(@RequestBody UserPictureDTO picture, Principal principal) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

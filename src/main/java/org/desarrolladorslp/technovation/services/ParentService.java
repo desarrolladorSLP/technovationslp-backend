@@ -11,7 +11,7 @@ public interface ParentService {
 
     void assignTeckersToParent(UUID parentId, List<UUID> teckers);
 
-    List<TeckerDTO> teckersByParent(UUID parentId);
+    List<TeckerDTO> getTeckersByParent(UUID parentId);
 
-    List<TeckerDTO> teckerByParentLogged(UUID parentId);
+    List<TeckerDTO> getTeckersByParentLogged(UUID parentId);
 }

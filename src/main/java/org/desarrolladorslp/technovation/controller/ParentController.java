@@ -31,14 +31,14 @@ public class ParentController {
     @GetMapping("/{parentId}")
     public ResponseEntity<List<TeckerDTO>> getTeckersByParent(@PathVariable UUID parentId) {
 
-        return new ResponseEntity<>(parentService.teckersByParent(parentId), HttpStatus.OK);
+        return new ResponseEntity<>(parentService.getTeckersByParent(parentId), HttpStatus.OK);
     }
 
     @Secured({"ROLE_PARENT"})
     @GetMapping("/teckers")
     public ResponseEntity<List<TeckerDTO>> getTeckers(Principal principal) {
 
-        return new ResponseEntity<>(parentService.teckerByParentLogged(tokenInfoService.getIdFromPrincipal(principal)), HttpStatus.OK);
+        return new ResponseEntity<>(parentService.getTeckersByParentLogged(tokenInfoService.getIdFromPrincipal(principal)), HttpStatus.OK);
 
     }
 

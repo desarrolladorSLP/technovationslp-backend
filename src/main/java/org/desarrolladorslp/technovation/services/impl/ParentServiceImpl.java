@@ -36,8 +36,9 @@ public class ParentServiceImpl implements ParentService {
             if (teckers.isEmpty()) {
                 logger.warn("List empty");
                 teckerByParentRepository.removeAssignment(parentId);
-            } else
+            } else {
                 assignTeckersToParent(parentId, teckers);
+            }
         } else {
             throw new CannnotAssignTeckersToParent("the user don't have the role PARENT");
         }
@@ -61,14 +62,15 @@ public class ParentServiceImpl implements ParentService {
                             });
                 });
 
-        if (!errorToAssign.isEmpty())
+        if (!errorToAssign.isEmpty()) {
             logger.warn("error to register the users {}", errorToAssign);
+        }
     }
 
 
     @Override
     @Transactional
-    public List<TeckerDTO> teckersByParent(UUID parentId) {
+    public List<TeckerDTO> getTeckersByParent(UUID parentId) {
         Optional<Boolean> optionalParent = teckerByParentRepository.isParent(parentId);
 
         if (optionalParent.isPresent()) {
@@ -81,7 +83,7 @@ public class ParentServiceImpl implements ParentService {
 
     @Override
     @Transactional
-    public List<TeckerDTO> teckerByParentLogged(UUID parentId) {
+    public List<TeckerDTO> getTeckersByParentLogged(UUID parentId) {
         List<User> teckers = teckerByParentRepository.getTeckersByParent(parentId);
         return teckers.stream().map(this::convertTeckerDTO).collect(Collectors.toList());
     }
