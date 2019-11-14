@@ -34,4 +34,7 @@ public interface BatchRepository extends JpaRepository<Batch, UUID> {
     @Query("SELECT u FROM UserByBatch ub JOIN UsersByRole ur ON ub.userId = ur.userId JOIN User u ON ur.userId = u.id WHERE ub.batchId = :batchId AND ur.roleName = 'ROLE_TECKER'")
     List<User> getTeckersByBatch(UUID batchId);
 
+
+    @Query(value = "SELECT u FROM UserByBatch ub JOIN UsersByRole ur ON ub.userId = ur.userId JOIN User u ON ur.userId = u.id WHERE ub.batchId = :batchId AND ur.roleName = 'ROLE_MENTOR'")
+    List<User> getMentorsByBatch(UUID batchId);
 }
