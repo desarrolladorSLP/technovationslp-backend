@@ -5,10 +5,16 @@ import java.util.UUID;
 
 import org.desarrolladorslp.technovation.models.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ResourceRepository extends JpaRepository<Resource, UUID> {
 
     @Query("SELECT r FROM Resource r JOIN MessagesResources mr ON r.id = mr.resourceId WHERE mr.messageId = :messageId")
     List<Resource> getResourcesBySpecificMessage(UUID messageId);
+
+    @Modifying
+    @Query(value = "DELETE FROM resources WHERE id = :resourceId", nativeQuery = true)
+    void deleteResource(UUID resourceId);
+
 }

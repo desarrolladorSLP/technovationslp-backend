@@ -180,6 +180,14 @@ create table tecker_by_deliverable
     status          varchar(100)                    not null
 );
 
+CREATE TABLE deliverables_resources
+(
+    deliverable_id UUID REFERENCES deliverables,
+    resource_id    UUID REFERENCES resources,
+    PRIMARY KEY (deliverable_id, resource_id)
+);
+
+
 create table tecker_by_mentor
 (
     tecker_id   uuid references users,

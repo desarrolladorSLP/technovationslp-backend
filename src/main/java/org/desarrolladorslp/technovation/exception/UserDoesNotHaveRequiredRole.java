@@ -8,3 +8,5 @@ public class UserDoesNotHaveRequiredRole extends RuntimeException {
         super(message);
     }
 }
+
+
