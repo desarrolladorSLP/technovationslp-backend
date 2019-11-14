@@ -2,7 +2,7 @@ package org.desarrolladorslp.technovation.services.impl;
 
 import org.desarrolladorslp.technovation.dto.AssignTeckersDTO;
 import org.desarrolladorslp.technovation.dto.TeckerDTO;
-import org.desarrolladorslp.technovation.exception.UserDoesNotHaveRequieredRole;
+import org.desarrolladorslp.technovation.exception.UserDoesNotHaveRequiredRole;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.repository.MentorRepository;
 import org.desarrolladorslp.technovation.repository.UserRepository;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -44,8 +43,8 @@ public class MentorServiceImpl implements MentorService {
                     assignToMentor(mentorId, teckersToAssign.getAssign());
                     unassignFromMentor(mentorId, teckersToAssign.getUnassign());
                 }, () -> {
-                    logger.warn("User is not a mentor " + mentorId);
-                    throw new UserDoesNotHaveRequieredRole("User: " + mentorId + " is not a MENTOR");
+                    logger.warn("User is not a mentor {}", mentorId);
+                    throw new UserDoesNotHaveRequiredRole("User: " + mentorId + " is not a MENTOR");
                 }
         );
 
