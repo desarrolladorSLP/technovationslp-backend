@@ -5,18 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MentorDTO {
-
-    private UUID mentorId;
-
-    private String name;
+public class UserPictureDTO {
 
     private String pictureUrl;
-
 }

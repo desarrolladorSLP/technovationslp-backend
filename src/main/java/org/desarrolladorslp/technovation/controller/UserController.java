@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.config.auth.TokenInfoService;
 import org.desarrolladorslp.technovation.dto.UserDTO;
+import org.desarrolladorslp.technovation.dto.UserPictureDTO;
 import org.desarrolladorslp.technovation.dto.UsersByRoleDTO;
 import org.desarrolladorslp.technovation.models.Role;
 import org.desarrolladorslp.technovation.models.User;
@@ -14,12 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -89,6 +85,12 @@ public class UserController {
     @GetMapping("/role/{roleName}")
     public ResponseEntity<List<UsersByRoleDTO>> getUsersByRole(@PathVariable String roleName) {
         return new ResponseEntity<>(userService.getUsersByRole(roleName), HttpStatus.OK);
+    }
+
+    //TODO
+    @PutMapping("picture")
+    public ResponseEntity<HttpStatus> updatePicture(@RequestBody UserPictureDTO picture, Principal principal) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private User convertToEntity(UserDTO userDTO) {
