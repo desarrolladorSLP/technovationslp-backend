@@ -206,6 +206,7 @@ public class DeliverableServiceImpl implements DeliverableService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public DeliverableResourcesDTO getDeliverable(UUID deliverableId) {
         List<ResourceDTO> resourceDTOS = resourceRepository.getResourcesByDeliverable(deliverableId);
         DeliverableResourcesDTO deliverable = deliverableRepository.getDeliverable(deliverableId);
@@ -216,6 +217,7 @@ public class DeliverableServiceImpl implements DeliverableService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<Resource> getResourcesByDeliverable(UUID deliverableId) {
         return deliverableRepository.getResourcesByDeliverable(deliverableId);
     }
@@ -229,10 +231,10 @@ public class DeliverableServiceImpl implements DeliverableService {
                             deliverableRepository.deleteResourceFromDeliverable(deliverableId, resourceId);
                             resourceRepository.deleteResource(resourceId);
                         }, () -> {
-                            throw new DeliverableDoesNotBelongToUser("is not owner of the deliverable");
+                            throw new DeliverableDoesNotBelongToUser(" is not owner of the deliverable");
                         }
                 ), () -> {
-                    throw new UserDoesNotHaveRequiredRole(teckerId + "is not a tecker");
+                    throw new UserDoesNotHaveRequiredRole(teckerId + " is not a tecker");
                 }
         );
     }
