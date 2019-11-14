@@ -1,0 +1,10 @@
+[
+  {
+    "id": "98b0257c-3ba7-43e3-8080-0418b6c2cc01",
+    "name": "ROLE_ADMINISTRATOR"
+  },
+  {
+    "id": "87b0437c-3ba7-43e3-8080-0231b6c2aa01",
+    "roles":"ROLE_ADMINISTRATOR"
+  }
+]
