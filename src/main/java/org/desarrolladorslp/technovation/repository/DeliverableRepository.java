@@ -1,5 +1,7 @@
 package org.desarrolladorslp.technovation.repository;
 
+import org.desarrolladorslp.technovation.dto.DeliverableResourcesDTO;
+import org.desarrolladorslp.technovation.dto.ResourceDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Deliverable;
 import org.desarrolladorslp.technovation.models.Resource;
@@ -32,7 +34,9 @@ public interface DeliverableRepository extends JpaRepository<Deliverable, UUID> 
     List<Resource> getResourcesByDeliverable(UUID deliverableId);
 
     @Modifying
-    @Query(value="DELETE FROM deliverables_resources WHERE resource_id = :resourceId AND deliverable_id = :deliverableId", nativeQuery = true)
+    @Query(value = "DELETE FROM deliverables_resources WHERE resource_id = :resourceId AND deliverable_id = :deliverableId", nativeQuery = true)
     void deleteResourceFromDeliverable(UUID deliverableId, UUID resourceId);
 
+    @Query("SELECT new org.desarrolladorslp.technovation.dto.DeliverableResourcesDTO(d.id, d.dueDate, d.title, d.description,ta.status ) FROM Deliverable d JOIN TeckerAssignment ta ON d.id = ta.deliverableId WHERE d.id = :deliverableId")
+    DeliverableResourcesDTO getDeliverable(UUID deliverableId);
 }

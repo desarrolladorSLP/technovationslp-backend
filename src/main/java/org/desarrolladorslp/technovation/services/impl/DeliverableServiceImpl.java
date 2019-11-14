@@ -3,6 +3,7 @@ package org.desarrolladorslp.technovation.services.impl;
 import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
 import org.desarrolladorslp.technovation.dto.DeliverableResourcesDTO;
+import org.desarrolladorslp.technovation.dto.ResourceDTO;
 import org.desarrolladorslp.technovation.enumerable.StatusType;
 import org.desarrolladorslp.technovation.exception.DeliverableDoesNotBelongToUser;
 import org.desarrolladorslp.technovation.exception.SessionDoesNotBelongToBatch;
@@ -204,10 +205,14 @@ public class DeliverableServiceImpl implements DeliverableService {
             throw new SessionDoesNotBelongToBatch(sessionId + "does not belong to the same batch as deliverable");
     }
 
-
+    @Override
     public DeliverableResourcesDTO getDeliverable(UUID deliverableId) {
+        List<ResourceDTO> resourceDTOS = resourceRepository.getResourcesByDeliverable(deliverableId);
+        DeliverableResourcesDTO deliverable = deliverableRepository.getDeliverable(deliverableId);
 
-        return new DeliverableResourcesDTO();
+        deliverable.setResources(resourceDTOS);
+
+        return deliverable;
     }
 
     @Override
