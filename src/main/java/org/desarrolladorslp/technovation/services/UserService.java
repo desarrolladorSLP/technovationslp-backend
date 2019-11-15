@@ -26,4 +26,6 @@ public interface UserService extends UserDetailsService {
     User save(User user);
 
     List<UsersByRoleDTO> getUsersByRole(String roleName);
+
+    void updateProfilePicture(String pictureUrl, UUID userId);
 }

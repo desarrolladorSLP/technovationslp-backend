@@ -87,10 +87,10 @@ public class UserController {
         return new ResponseEntity<>(userService.getUsersByRole(roleName), HttpStatus.OK);
     }
 
-    //TODO
+
     @PutMapping("picture")
-    public ResponseEntity<HttpStatus> updatePicture(@RequestBody UserPictureDTO picture, Principal principal) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void updatePicture(@RequestBody UserPictureDTO picture, Principal principal) {
+        userService.updateProfilePicture(picture.getPictureUrl(),tokenInfoService.getIdFromPrincipal(principal));
     }
 
     private User convertToEntity(UserDTO userDTO) {
