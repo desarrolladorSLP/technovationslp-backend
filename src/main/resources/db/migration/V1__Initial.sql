@@ -1,88 +1,88 @@
-create TABLE roles
+create table roles
 (
     name        varchar(100) PRIMARY KEY,
     description varchar(2000)
 );
 
-create TABLE users
+create table users
 (
-    id              UUID PRIMARY KEY,
+    id              uuid primary key,
     name            varchar(100)          NOT NULL,
-    preferred_email varchar(200)          NOT NULL,
+    preferred_email varchar(200)          not null,
     phone_number    varchar(100),
-    enabled         boolean DEFAULT false NOT NULL,
-    picture_url     varchar(1024)         NOT NULL,
-    validated       boolean DEFAULT false NOT NULL
+    enabled         boolean default false not null,
+    picture_url     varchar(1024)         not null,
+    validated       boolean default false not null
 );
 
-create TABLE users_roles
+create table users_roles
 (
-    user_id   UUID REFERENCES users,
-    role_name varchar(100) REFERENCES roles,
-    PRIMARY KEY (user_id, role_name)
+    user_id   uuid references users,
+    role_name varchar(100) references roles,
+    primary key (user_id, role_name)
 );
 
-create TABLE firebase_users
+create table firebase_users
 (
-    uid     varchar(200) PRIMARY KEY,
-    user_id UUID REFERENCES users NOT NULL,
+    uid     varchar(200) primary key,
+    user_id uuid references users not null,
     email   varchar(200)
 );
 
-create TABLE oauth_client_details
+create table oauth_client_details
 (
-    client_id               VARCHAR(256) PRIMARY KEY,
-    resource_ids            VARCHAR(256),
-    client_secret           VARCHAR(256),
-    scope                   VARCHAR(256),
-    authorized_grant_types  VARCHAR(256),
-    web_server_redirect_uri VARCHAR(256),
-    authorities             VARCHAR(256),
-    access_token_validity   INTEGER,
-    refresh_token_validity  INTEGER,
-    additional_information  VARCHAR(4096),
-    autoapprove             VARCHAR(256)
+    client_id               varchar(256) primary key,
+    resource_ids            varchar(256),
+    client_secret           varchar(256),
+    scope                   varchar(256),
+    authorized_grant_types  varchar(256),
+    web_server_redirect_uri varchar(256),
+    authorities             varchar(256),
+    access_token_validity   integer,
+    refresh_token_validity  integer,
+    additional_information  varchar(4096),
+    autoapprove             varchar(256)
 );
 
-create TABLE programs
+create table programs
 (
-    id          UUID PRIMARY KEY,
+    id          uuid primary key,
     name        varchar(200) UNIQUE NOT NULL,
-    description varchar(500)        NOT NULL,
-    responsible varchar(2000)       NOT NULL
+    description varchar(500)        not null,
+    responsible varchar(2000)       not null
 );
 
-create TABLE batches
+create table batches
 (
-    id         UUID PRIMARY KEY,
-    program_id UUID REFERENCES programs,
+    id         uuid primary key,
+    program_id uuid references programs,
     name       varchar(200) NOT NULL,
-    start_date DATE         NOT NULL,
-    end_date   DATE         NOT NULL,
+    start_date date         not null,
+    end_date   date         not null,
     notes      varchar(2000),
 
-    CONSTRAINT batch_name_by_program UNIQUE (program_id, name)
+    constraint batch_name_by_program unique (program_id, name)
 );
 
-create TABLE sessions
+create table sessions
 (
-    id         UUID PRIMARY KEY,
-    batch_id   UUID REFERENCES batches,
-    title      varchar(200) NOT NULL,
-    notes      TEXT         NOT NULL,
+    id         uuid primary key,
+    batch_id   uuid references batches,
+    title      varchar(200) not null,
+    notes      text         not null,
     location   varchar(500),
     date       DATE         NOT NULL,
-    start_time TIME WITH TIME ZONE,
-    end_time   TIME WITH TIME ZONE,
+    start_time time with time zone,
+    end_time   time with time zone,
 
-    CONSTRAINT session_title UNIQUE (batch_id, title)
+    constraint session_title unique (batch_id, title)
 );
 
-create TABLE confirm_attendance
+create table confirm_attendance
 (
-    session_id UUID REFERENCES sessions,
-    user_id    UUID REFERENCES users,
-    PRIMARY KEY (session_id, user_id)
+    session_id uuid references sessions,
+    user_id    uuid references users,
+    primary key (session_id, user_id)
 );
 
 insert into roles (name, description)
@@ -115,68 +115,82 @@ insert into oauth_client_details
 values ('ManagementApp', '$2a$10$QyEdcDTyzndP6/3p7IrtWOF.Bg.AgzejotqLgYOjwzU0Ua5szaRDC',
         'read,write', 'firebase', null, null, 5184000, 0, null, true);
 
-create TABLE messages
+create table messages
 (
-    id              UUID PRIMARY KEY,
-    user_sender_id  UUID REFERENCES users,
-    title           varchar(200)             NOT NULL,
-    body            TEXT                     NOT NULL,
-    date_time       timestamp WITH TIME ZONE NOT NULL,
-    high_priority   boolean                  NOT NULL,
-    read            boolean                  NOT NULL,
-    received        boolean                  NOT NULL,
-    confirm_reading boolean                  NOT NULL
+    id              uuid primary key,
+    user_sender_id  uuid references users,
+    title           varchar(200)             not null,
+    body            text                     not null,
+    date_time       timestamp with time zone not null,
+    high_priority   boolean                  not null,
+    read            boolean                  not null,
+    received        boolean                  not null,
+    confirm_reading boolean                  not null
 );
 
-create TABLE messages_by_users
+create table messages_by_users
 (
-    message_id       UUID REFERENCES messages,
-    user_receiver_id UUID REFERENCES users,
-    PRIMARY KEY (message_id, user_receiver_id)
+    message_id       uuid references messages,
+    user_receiver_id uuid references users,
+    primary key (message_id, user_receiver_id)
 );
 
-create TABLE resources
+create table resources
 (
-    id         UUID PRIMARY KEY,
-    url        varchar(200) NOT NULL,
-    mime_type  varchar(200) NOT NULL
+    id         uuid primary key,
+    url        varchar(200) not null,
+    mime_type  varchar(200) not null
 );
 
-CREATE TABLE users_by_batch
+create table users_by_batch
 (
-    batch_id UUID REFERENCES batches,
-    user_id  UUID REFERENCES users,
-    PRIMARY KEY (batch_id, user_id)
+    batch_id uuid references batches,
+    user_id  uuid references users,
+    primary key (batch_id, user_id)
 );
 
-CREATE TABLE teckers_by_parents
+create table teckers_by_parents
 (
-    tecker_id UUID REFERENCES users,
-    parent_id UUID REFERENCES users,
-    PRIMARY KEY (tecker_id, parent_id)
+    tecker_id uuid references users,
+    parent_id uuid references users,
+    primary key (tecker_id, parent_id)
 );
 
-create TABLE messages_resources
+create table messages_resources
 (
-    message_id  UUID REFERENCES messages,
-    resource_id UUID REFERENCES resources,
-    PRIMARY KEY (message_id, resource_id)
+    message_id  uuid references messages,
+    resource_id uuid references resources,
+    primary key (message_id, resource_id)
 );
 
-create TABLE deliverables
+create table deliverables
 (
-    id              UUID PRIMARY KEY,
-    batch_id        UUID REFERENCES batches,
-    due_date        timestamp WITH TIME ZONE NOT NULL,
-    title           varchar(200)             NOT NULL,
-    description     TEXT                     NOT NULL
+    id              uuid primary key,
+    batch_id        uuid references batches,
+    due_date        timestamp with time zone not null,
+    title           varchar(200)             not null,
+    description     text                     not null
 );
 
-CREATE TABLE tecker_by_deliverable
+create table tecker_by_deliverable
 (
-    id              UUID PRIMARY KEY,
-    tecker_id       UUID REFERENCES users,
-    deliverable_id  UUID REFERENCES deliverables,
-    status          VARCHAR(100)                    NOT NULL
+    id              uuid primary key,
+    tecker_id       uuid references users,
+    deliverable_id  uuid references deliverables,
+    status          varchar(100)                    not null
 );
 
+CREATE TABLE deliverables_resources
+(
+    deliverable_id UUID REFERENCES deliverables,
+    resource_id    UUID REFERENCES resources,
+    PRIMARY KEY (deliverable_id, resource_id)
+);
+
+
+create table tecker_by_mentor
+(
+    tecker_id   uuid references users,
+    mentor_id   uuid references users,
+    primary key (tecker_id, mentor_id)
+);

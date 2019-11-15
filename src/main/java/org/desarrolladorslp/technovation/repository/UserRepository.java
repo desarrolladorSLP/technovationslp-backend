@@ -34,4 +34,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT userId FROM UsersByRole WHERE userId = :userId AND roleName IN (:role)")
     Optional<UUID>doesUserHaveRoleTecker(UUID userId, String role);
+
+    @Query("SELECT userId FROM UsersByRole WHERE userId = :userId AND roleName = 'ROLE_MENTOR'")
+    Optional<UUID>doesUserHaveRoleMentor(UUID userId);
 }

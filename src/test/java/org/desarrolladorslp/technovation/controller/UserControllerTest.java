@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import org.desarrolladorslp.technovation.config.controller.LocalDateAdapter;
 import org.desarrolladorslp.technovation.dto.UserDTO;
+import org.desarrolladorslp.technovation.dto.UsersByRoleDTO;
 import org.desarrolladorslp.technovation.models.Role;
 import org.desarrolladorslp.technovation.models.User;
 import org.desarrolladorslp.technovation.services.UserService;
@@ -245,7 +246,6 @@ public class UserControllerTest {
                         .content(request))
                 .andReturn().getResponse();
 
-
         //then
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userService).activate(userCaptor.capture());
@@ -257,5 +257,35 @@ public class UserControllerTest {
         assertThat(userToActivate).isNotNull();
         assertThat(userToActivate.getId()).isNull();
         assertThat(userToActivate.getRoles()).isEqualTo(userDTO.getRoles().stream().map(roleName -> Role.builder().name(roleName).build()).collect(Collectors.toList()));
+    }
+
+    @Test
+    public void whenGetUsersByRole_thenSuccessAnd200Status() throws Exception{
+
+        //given
+        Type usersByRoleListType = new TypeToken<ArrayList<UsersByRoleDTO>>() {
+        }.getType();
+        String request = MessageLoader.loadExampleRequest("requests/user/usersDTO-with-role.json");
+        ArrayList<UsersByRoleDTO>expectedListUsersByRole = gson.fromJson(request, usersByRoleListType);
+        String role = "ROLE_ADMINISTRATOR";
+        when(userService.getUsersByRole(role)).thenReturn(expectedListUsersByRole);
+
+        //when
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.get(BASE_USER_URL + "/role/"+ role)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(request))
+                .andReturn().getResponse();
+
+        //then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        verify(userService).getUsersByRole(role);
+        verifyNoMoreInteractions(userService);
+
+        String responseBody = response.getContentAsString();
+        List<UsersByRoleDTO> receivedUsersByRoleDTO = gson.fromJson(responseBody, usersByRoleListType);
+        assertThat(receivedUsersByRoleDTO).isEqualTo(expectedListUsersByRole);
+
+
     }
 }
