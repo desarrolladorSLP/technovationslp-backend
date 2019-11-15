@@ -2,6 +2,8 @@ package org.desarrolladorslp.technovation.services.impl;
 
 import org.desarrolladorslp.technovation.Enum.RelationType;
 import org.desarrolladorslp.technovation.dto.DeliverableDTO;
+import org.desarrolladorslp.technovation.dto.DeliverableResourcesDTO;
+import org.desarrolladorslp.technovation.dto.ResourceDTO;
 import org.desarrolladorslp.technovation.enumerable.StatusType;
 import org.desarrolladorslp.technovation.exception.DeliverableDoesNotBelongToUser;
 import org.desarrolladorslp.technovation.exception.SessionDoesNotBelongToBatch;
@@ -204,6 +206,18 @@ public class DeliverableServiceImpl implements DeliverableService {
     }
 
     @Override
+    @Transactional(readOnly=true)
+    public DeliverableResourcesDTO getDeliverable(UUID deliverableId) {
+        List<ResourceDTO> resourceDTOS = resourceRepository.getResourcesByDeliverable(deliverableId);
+        DeliverableResourcesDTO deliverable = deliverableRepository.getDeliverable(deliverableId);
+
+        deliverable.setResources(resourceDTOS);
+
+        return deliverable;
+    }
+
+    @Override
+    @Transactional(readOnly=true)
     public List<Resource> getResourcesByDeliverable(UUID deliverableId) {
         return deliverableRepository.getResourcesByDeliverable(deliverableId);
     }
@@ -217,10 +231,10 @@ public class DeliverableServiceImpl implements DeliverableService {
                             deliverableRepository.deleteResourceFromDeliverable(deliverableId, resourceId);
                             resourceRepository.deleteResource(resourceId);
                         }, () -> {
-                            throw new DeliverableDoesNotBelongToUser("is not owner of the deliverable");
+                            throw new DeliverableDoesNotBelongToUser(" is not owner of the deliverable");
                         }
                 ), () -> {
-                    throw new UserDoesNotHaveRequiredRole(teckerId + "is not a tecker");
+                    throw new UserDoesNotHaveRequiredRole(teckerId + " is not a tecker");
                 }
         );
     }
