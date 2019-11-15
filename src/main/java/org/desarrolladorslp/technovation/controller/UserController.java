@@ -89,11 +89,8 @@ public class UserController {
 
 
     @PutMapping("picture")
-    public ResponseEntity<HttpStatus> updatePicture(@RequestBody UserPictureDTO picture, Principal principal) {
-        User user = userService.findById((tokenInfoService.getIdFromPrincipal(principal)));
-        user.setPictureUrl(picture.getPictureUrl());
-        userService.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void updatePicture(@RequestBody UserPictureDTO picture, Principal principal) {
+        userService.updateProfilePicture(picture.getPictureUrl(),tokenInfoService.getIdFromPrincipal(principal));
     }
 
     private User convertToEntity(UserDTO userDTO) {
