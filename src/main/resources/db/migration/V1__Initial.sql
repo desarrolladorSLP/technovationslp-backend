@@ -172,9 +172,10 @@ create TABLE deliverables
     description     TEXT                     NOT NULL
 );
 
-create TABLE deliverables_by_session(
+create TABLE deliverables_by_session
+(
 
-deliverable_id  UUID references deliverables,
+ deliverable_id  UUID references deliverables,
  session_id     UUID references sessions,
  type           varchar (25)
 
