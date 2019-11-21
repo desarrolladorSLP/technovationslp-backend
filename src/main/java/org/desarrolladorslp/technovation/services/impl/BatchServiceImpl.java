@@ -3,13 +3,15 @@ package org.desarrolladorslp.technovation.services.impl;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.desarrolladorslp.technovation.dto.MentorDTO;
 import org.desarrolladorslp.technovation.dto.RegisterToBatchDTO;
+import org.desarrolladorslp.technovation.dto.TeckerDTO;
 import org.desarrolladorslp.technovation.exception.BatchCannotBeDeletedException;
 import org.desarrolladorslp.technovation.exception.BatchDoesNotExistException;
 import org.desarrolladorslp.technovation.exception.UserAlreadyRegisteredInBatch;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.models.Program;
-import org.hibernate.jdbc.BatchFailedException;
+import org.desarrolladorslp.technovation.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.desarrolladorslp.technovation.repository.BatchRepository;
@@ -142,6 +144,34 @@ public class BatchServiceImpl implements BatchService {
         if (!errorToUnregister.isEmpty())
             logger.warn("error to unregister the users {}", errorToUnregister);
 
+    }
+
+    public List<TeckerDTO> getTeckersByBatch(UUID batchId) {
+        List<User> teckers = batchRepository.getTeckersByBatch(batchId);
+
+        return teckers.stream().map(this::convertToTeckerDTO).collect(Collectors.toList());
+    }
+
+    public List<MentorDTO> getMentorsByBatch(UUID batchId) {
+        List<User> mentors = batchRepository.getMentorsByBatch(batchId);
+
+        return mentors.stream().map(this::convertUserToMentorDTO).collect(Collectors.toList());
+    }
+
+    private TeckerDTO convertToTeckerDTO(User user) {
+        return TeckerDTO.builder()
+                .teckerId(user.getId())
+                .name(user.getName())
+                .pictureUrl(user.getPictureUrl())
+                .build();
+    }
+
+    private MentorDTO convertUserToMentorDTO(User user) {
+        return MentorDTO.builder()
+                .mentorId(user.getId())
+                .name(user.getName())
+                .pictureUrl(user.getPictureUrl())
+                .build();
     }
 
     @Autowired

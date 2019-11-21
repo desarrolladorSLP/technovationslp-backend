@@ -1,5 +1,6 @@
 package org.desarrolladorslp.technovation.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -8,7 +9,9 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.desarrolladorslp.technovation.dto.BatchDTO;
+import org.desarrolladorslp.technovation.dto.MentorDTO;
 import org.desarrolladorslp.technovation.dto.RegisterToBatchDTO;
+import org.desarrolladorslp.technovation.dto.TeckerDTO;
 import org.desarrolladorslp.technovation.models.Batch;
 import org.desarrolladorslp.technovation.services.BatchService;
 import org.modelmapper.ModelMapper;
@@ -94,6 +97,27 @@ public class BatchController {
     @PostMapping("register")
     public void registerToBatch(@RequestBody RegisterToBatchDTO register) {
         batchService.registerMultipleUsersToBatch(register);
+    }
+
+    @GetMapping("/{batchId}/mentors")
+    public ResponseEntity<List<MentorDTO>> getMentorsByBatch(@PathVariable UUID batchId) {
+
+        return new ResponseEntity<>(batchService.getMentorsByBatch(batchId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{batchId}/teckers")
+    public ResponseEntity<List<TeckerDTO>> getTeckersByBatch(@PathVariable UUID batchId) {
+
+        List<TeckerDTO> teckers = new ArrayList<>();
+        teckers.add(TeckerDTO.builder()
+                .teckerId(UUID.randomUUID())
+                .name("Tecker 1")
+                .pictureUrl("/fake-pictures/tecker1.jpg").build());
+        teckers.add(TeckerDTO.builder()
+                .teckerId(UUID.randomUUID())
+                .name("Tecker 2")
+                .pictureUrl("/fake-pictures/Tecker 2.jpg").build());
+        return new ResponseEntity<>(batchService.getTeckersByBatch(batchId), HttpStatus.OK);
     }
 
     @Autowired

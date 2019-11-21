@@ -131,6 +131,14 @@ public class UserServiceImpl implements UserService {
         return users.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public void updateProfilePicture(String pictureUrl, UUID userId){
+        User user = findById(userId);
+        user.setPictureUrl(pictureUrl);
+        save(user);
+    }
+
     @PostConstruct
     public void prepareMappings() {
         modelMapper.addMappings(new PropertyMap<User, UsersByRoleDTO>() {
