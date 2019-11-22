@@ -202,7 +202,7 @@ public class DeliverableServiceImpl implements DeliverableService {
     public void assignDeliverableToSession(UUID deliverableId, UUID sessionId, RelationType type) {
 
         if (deliverableRepository.assignDeliverableToSession(deliverableId, sessionId, type.name()) == 0)
-            throw new SessionDoesNotBelongToBatch(sessionId + "does not belong to the same batch as deliverable");
+            throw new SessionDoesNotBelongToBatch(sessionId + " does not belong to the same batch as deliverable");
     }
 
     @Override

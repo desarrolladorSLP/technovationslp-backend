@@ -172,7 +172,16 @@ create table deliverables
     description     text                     not null
 );
 
-create table tecker_by_deliverable
+create TABLE deliverables_by_session
+(
+
+ deliverable_id  UUID references deliverables,
+ session_id     UUID references sessions,
+ type           varchar (25)
+
+);
+
+CREATE TABLE tecker_by_deliverable
 (
     id              uuid primary key,
     tecker_id       uuid references users,
